@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">MillionPlanets</string>
+    <string name="million_planets">Million Planets</string>
+    <string name="space_mmo">space MMO</string>
+    <string name="start_game">New Game</string>
+    <string name="continue_game">Continue</string>
+    <string name="exit">Exit</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="go_to_space">Go to Space</string>
+    <string name="enter_player_name">Enter your nickname</string>
+    <string name="enter_player_email">Enter your email</string>
+    <string name="male_gender">Male</string>
+    <string name="female_gender">Female</string>
+    <string name="enter_player_password">Enter your password</string>
+
+    <string name="user_coordinates">Coordinates: </string>
+    <string name="user_ship">Ship: </string>
+    <string name="user_hull">Hull: </string>
+    <string name="user_shield">Shield: </string>
+    <string name="user_cargo">Cargo: </string>
+    <string name="user_scanner_capacity">Scanner capacity: </string>
+
+    <string name="scan">Scan</string>
+    <string name="fight">Fight</string>
+    <string name="trade">Trade</string>
+    <string name="jump">Jump</string>
+
+    <string name="undefined">Undefined</string>
+
+
+
+</resources>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "684786543254",
+    "firebase_url": "https://millionplanets-c4294.firebaseio.com",
+    "project_id": "millionplanets-c4294",
+    "storage_bucket": "millionplanets-c4294.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684786543254:android:34d8a1e38aca94e6",
+        "android_client_info": {
+          "package_name": "com.artamonov.millionplanets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684786543254-oai1e5ihn0pficjnrtcdvmc4okptukh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB0wcZuCdo86j4OmlURSna-4bDOw-AOTA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
