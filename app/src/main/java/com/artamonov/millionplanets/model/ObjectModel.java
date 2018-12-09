@@ -3,6 +3,15 @@ package com.artamonov.millionplanets.model;
 public class ObjectModel {
     String type;
     String name;
+    Integer distance;
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
 
     public String getType() {
         return type;

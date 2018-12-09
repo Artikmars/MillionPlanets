@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,11 +42,15 @@ public class NewGameActivity extends AppCompatActivity {
         firebaseUser.updateProfile(profileUpdates);
 
         User user = new User();
-        user.setPosition("43");
+        //  user.setPosition("4;6");
+        user.setX(4);
+        user.setY(6);
+        user.setSumXY(user.getX() + user.getY());
+        // user.setPosition("4;6");
         user.setCargo("0");
         user.setHull("100");
         user.setShip("Fighter");
-        user.setScanner_capacity("5");
+        user.setScanner_capacity(5);
         user.setShield("100");
         firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
                 .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {

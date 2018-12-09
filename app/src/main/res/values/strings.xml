@@ -8,6 +8,7 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="go_to_space">Go to Space</string>
+    <string name="back_to_menu">Back to Menu</string>
     <string name="enter_player_name">Enter your nickname</string>
     <string name="enter_player_email">Enter your email</string>
     <string name="male_gender">Male</string>
@@ -25,9 +26,11 @@
     <string name="fight">Fight</string>
     <string name="trade">Trade</string>
     <string name="jump">Jump</string>
+    <string name="sos">Sos</string>
+    <string name="inventory">Inventory</string>
 
     <string name="undefined">Undefined</string>
-
+    <string name="current_coordinate">X: %1d Y: %2d</string>
 
 
 </resources>

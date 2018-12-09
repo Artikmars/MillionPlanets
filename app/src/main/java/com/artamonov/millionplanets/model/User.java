@@ -2,11 +2,39 @@ package com.artamonov.millionplanets.model;
 
 public class User {
     private String position;
+    private Integer x;
+    private Integer y;
+
+    private Integer sumXY;
     private String ship;
     private String hull;
     private String shield;
     private String cargo;
-    private String scanner_capacity;
+    private Integer scanner_capacity;
+
+    public Integer getSumXY() {
+        return sumXY;
+    }
+
+    public void setSumXY(Integer sumXY) {
+        this.sumXY = sumXY;
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
 
     public String getPosition() {
         return position;
@@ -48,11 +76,12 @@ public class User {
         this.cargo = cargo;
     }
 
-    public String getScanner_capacity() {
+    public Integer getScanner_capacity() {
         return scanner_capacity;
     }
 
-    public void setScanner_capacity(String scanner_capacity) {
+    public void setScanner_capacity(Integer scanner_capacity) {
         this.scanner_capacity = scanner_capacity;
     }
+
 }
