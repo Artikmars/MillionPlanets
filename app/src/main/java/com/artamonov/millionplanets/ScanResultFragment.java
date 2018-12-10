@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -98,8 +97,8 @@ public class ScanResultFragment extends Fragment {
                         objectModelList.add(objectModel);
                     }
                     //    Log.i("myLogs", "objectList: " + objectModelList.get(0).getName());
-                    ScanResultAdapter scanResultAdapter = new ScanResultAdapter(getActivity(), objectModelList);
-                    rvScanResult.setAdapter(scanResultAdapter);
+                    //ScanResultAdapter scanResultAdapter = new ScanResultAdapter(objectModelList, ge);
+                    //  rvScanResult.setAdapter(scanResultAdapter);
                 }
             }
         });
@@ -122,4 +121,5 @@ public class ScanResultFragment extends Fragment {
 
     public void onGoBackToMainOptions(View view) {
     }
+
 }

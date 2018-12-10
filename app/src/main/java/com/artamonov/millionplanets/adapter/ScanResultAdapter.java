@@ -1,6 +1,5 @@
 package com.artamonov.millionplanets.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +15,16 @@ import java.util.List;
 
 public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.ViewHolder> {
 
-    //  private static ItemClickListener listener;
+    private static ItemClickListener listener;
     private List<ObjectModel> objectList;
 
-    public ScanResultAdapter(Context context, List<ObjectModel> objectList) {
+    public ScanResultAdapter(List<ObjectModel> objectList, ItemClickListener itemClickListener) {
         this.objectList = objectList;
-        // listener = itemClickListener;
+        listener = itemClickListener;
+    }
+
+    public ScanResultAdapter(List<ObjectModel> objectList) {
+        this.objectList = objectList;
     }
 
     @NonNull
@@ -53,6 +56,7 @@ public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.Vi
 
         }
 
+
     }
 
 
@@ -79,7 +83,7 @@ public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.Vi
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            // listener.onItemClick(position);
+            listener.onItemClick(position);
 
         }
     }

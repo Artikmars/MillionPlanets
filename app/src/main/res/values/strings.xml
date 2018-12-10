@@ -28,9 +28,11 @@
     <string name="jump">Jump</string>
     <string name="sos">Sos</string>
     <string name="inventory">Inventory</string>
+    <string name="mark">Mark</string>
 
     <string name="undefined">Undefined</string>
     <string name="current_coordinate">X: %1d Y: %2d</string>
+    <string name="title_activity_move">MoveActivity</string>
 
 
 </resources>

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ScanResultActivity">
+    tools:context=".MoveActivity">
 
     <TextView
-        android:id="@+id/scan_ship_label"
+        android:id="@+id/move_ship_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,10 +18,10 @@
         android:text="@string/user_ship"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_coordinates" />
+        app:layout_constraintTop_toBottomOf="@+id/move_coordinates" />
 
     <TextView
-        android:id="@+id/scan_hull_label"
+        android:id="@+id/move_hull_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,10 +31,10 @@
         android:text="@string/user_hull"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_ship_label" />
+        app:layout_constraintTop_toBottomOf="@+id/move_ship_label" />
 
     <TextView
-        android:id="@+id/scan_shield_label"
+        android:id="@+id/move_shield_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,10 +44,10 @@
         android:text="@string/user_shield"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_hull_label" />
+        app:layout_constraintTop_toBottomOf="@+id/move_hull_label" />
 
     <TextView
-        android:id="@+id/scan_cargo_label"
+        android:id="@+id/move_cargo_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,10 +57,10 @@
         android:text="@string/user_cargo"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_shield_label" />
+        app:layout_constraintTop_toBottomOf="@+id/move_shield_label" />
 
     <TextView
-        android:id="@+id/scan_scanner_capacity_label"
+        android:id="@+id/move_scanner_capacity_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,10 +70,10 @@
         android:text="@string/user_scanner_capacity"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_cargo_label" />
+        app:layout_constraintTop_toBottomOf="@+id/move_cargo_label" />
 
     <TextView
-        android:id="@+id/scan_coordinates"
+        android:id="@+id/move_coordinates"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,11 +81,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_coordinates_label"
+        app:layout_constraintStart_toEndOf="@+id/move_coordinates_label"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/scan_ship"
+        android:id="@+id/move_ship"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,11 +93,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_ship_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_coordinates_label" />
+        app:layout_constraintStart_toEndOf="@+id/move_ship_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_coordinates_label" />
 
     <TextView
-        android:id="@+id/scan_hull"
+        android:id="@+id/move_hull"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,11 +105,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_hull_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_ship" />
+        app:layout_constraintStart_toEndOf="@+id/move_hull_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_ship" />
 
     <TextView
-        android:id="@+id/scan_shield"
+        android:id="@+id/move_shield"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,11 +117,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_shield_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_hull" />
+        app:layout_constraintStart_toEndOf="@+id/move_shield_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_hull" />
 
     <TextView
-        android:id="@+id/scan_coordinates_label"
+        android:id="@+id/move_coordinates_label"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/scan_cargo"
+        android:id="@+id/move_cargo"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,11 +142,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_cargo_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_shield" />
+        app:layout_constraintStart_toEndOf="@+id/move_cargo_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_shield" />
 
     <TextView
-        android:id="@+id/scan_scanner_capacity"
+        android:id="@+id/move_scanner_capacity"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -154,25 +154,24 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_cargo" />
+        app:layout_constraintStart_toEndOf="@+id/move_scanner_capacity_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_cargo" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/scan_result_list"
+        android:id="@+id/move_scan_result_list"
         android:layout_width="wrap_content"
-        android:layout_height="206dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="100dp"
         android:transitionName="simple_activity_transition"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanner_capacity_label"
+        app:layout_constraintTop_toBottomOf="@+id/move_scanner_capacity_label"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -182,13 +181,43 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:onClick="onGoBackToMainOptions"
         android:text="@string/back_to_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scan_result_list" />
+        app:layout_constraintTop_toBottomOf="@+id/move_scan_result_list" />
+
+    <Button
+        android:id="@+id/move_jump"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/jump"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/move_scan_result_list" />
+
+    <Button
+        android:id="@+id/move_mark"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/mark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/move_jump" />
 
 </android.support.constraint.ConstraintLayout>

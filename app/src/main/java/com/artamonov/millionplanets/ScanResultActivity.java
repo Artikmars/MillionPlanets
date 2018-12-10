@@ -1,9 +1,12 @@
 package com.artamonov.millionplanets;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScanResultActivity extends AppCompatActivity {
+public class ScanResultActivity extends AppCompatActivity implements ScanResultAdapter.ItemClickListener {
 
     FirebaseFirestore firebaseFirestore;
     FirebaseUser firebaseUser;
@@ -38,6 +41,15 @@ public class ScanResultActivity extends AppCompatActivity {
     private TextView tvShield;
     private TextView tvCargo;
     private TextView tv_ScannerCapacity;
+    private Integer x;
+    private Integer y;
+    private Integer sumxy;
+    private String cargo;
+    private String hull;
+    private String shield;
+    private String ship;
+    private String position;
+    private Integer scanner_capacity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,15 +66,15 @@ public class ScanResultActivity extends AppCompatActivity {
         tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity);
 
         Intent intent = getIntent();
-        Integer scanner_capacity = intent.getIntExtra("scanner_capacity", 0);
-        final Integer x = intent.getIntExtra("x", 0);
-        Integer y = intent.getIntExtra("y", 0);
-        final Integer sumxy = intent.getIntExtra("sumXY", 0);
-        String cargo = intent.getStringExtra("cargo");
-        String hull = intent.getStringExtra("hull");
-        String shield = intent.getStringExtra("shield");
-        String ship = intent.getStringExtra("ship");
-        String position = intent.getStringExtra("position");
+        scanner_capacity = intent.getIntExtra("scanner_capacity", 0);
+        x = intent.getIntExtra("x", 0);
+        y = intent.getIntExtra("y", 0);
+        sumxy = intent.getIntExtra("sumXY", 0);
+        cargo = intent.getStringExtra("cargo");
+        hull = intent.getStringExtra("hull");
+        shield = intent.getStringExtra("shield");
+        ship = intent.getStringExtra("ship");
+        position = intent.getStringExtra("position");
 
 
         // tvPosition.setText(userList.getPosition());
@@ -103,7 +115,7 @@ public class ScanResultActivity extends AppCompatActivity {
                         objectModelList.add(objectModel);
                     }
 
-                    ScanResultAdapter scanResultAdapter = new ScanResultAdapter(ScanResultActivity.this, objectModelList);
+                    ScanResultAdapter scanResultAdapter = new ScanResultAdapter(objectModelList, ScanResultActivity.this);
                     rvScanResult.setAdapter(scanResultAdapter);
                 }
             }
@@ -114,5 +126,39 @@ public class ScanResultActivity extends AppCompatActivity {
 
     public void onGoBackToMainOptions(View view) {
         finish();
+    }
+
+    @Override
+    public void onItemClick(int pos) {
+
+        Intent intent = new Intent(this, MoveActivity.class);
+        intent.putExtra("x", x);
+        intent.putExtra("y", y);
+        intent.putExtra("sumXY", sumxy);
+        intent.putExtra("hull", hull);
+        intent.putExtra("cargo", cargo);
+        intent.putExtra("scanner_capacity", scanner_capacity);
+        intent.putExtra("shield", shield);
+        intent.putExtra("ship", ship);
+        intent.putExtra("position", position);
+        // Show only the recycler view item which was clicked
+        ObjectModel objectModel = objectModelList.get(pos);
+        intent.putExtra("objectType", objectModel.getType());
+        intent.putExtra("objectName", objectModel.getName());
+        intent.putExtra("objectDistance", objectModel.getDistance());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(ScanResultActivity.this,
+                            rvScanResult,
+                            ViewCompat.getTransitionName(rvScanResult));
+
+            //  startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
+
+
     }
 }
