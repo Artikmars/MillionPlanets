@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +19,7 @@ public class NewGameActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     String username;
     private FirebaseUser firebaseUser;
+
 
 
     @Override
@@ -52,11 +52,11 @@ public class NewGameActivity extends AppCompatActivity {
         user.setShip("Fighter");
         user.setScanner_capacity(5);
         user.setShield("100");
+        user.setFuel("20");
         firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
                 .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(), "Added new data", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
             }
         });

@@ -9,12 +9,11 @@
 
     <TextView
         android:id="@+id/scan_ship_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="@string/user_ship"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,12 +21,12 @@
 
     <TextView
         android:id="@+id/scan_hull_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="@string/user_hull"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,12 +34,12 @@
 
     <TextView
         android:id="@+id/scan_shield_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="@string/user_shield"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +47,12 @@
 
     <TextView
         android:id="@+id/scan_cargo_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="@string/user_cargo"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +60,12 @@
 
     <TextView
         android:id="@+id/scan_scanner_capacity_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="@string/user_scanner_capacity"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,59 +73,54 @@
 
     <TextView
         android:id="@+id/scan_coordinates"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_coordinates_label"
+        app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/scan_ship"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_ship_label"
-        app:layout_constraintTop_toBottomOf="@+id/scan_coordinates_label" />
+        app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
+        app:layout_constraintTop_toBottomOf="@+id/scan_coordinates" />
 
     <TextView
         android:id="@+id/scan_hull"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_hull_label"
+        app:layout_constraintStart_toStartOf="@+id/scan_scanner_capacity"
         app:layout_constraintTop_toBottomOf="@+id/scan_ship" />
 
     <TextView
         android:id="@+id/scan_shield"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_shield_label"
+        app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
         app:layout_constraintTop_toBottomOf="@+id/scan_hull" />
 
     <TextView
         android:id="@+id/scan_coordinates_label"
-        style="@style/Button"
+        style="@style/UserInfoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/user_coordinates"
         android:textColor="@color/colorAccent"
@@ -135,24 +129,22 @@
 
     <TextView
         android:id="@+id/scan_cargo"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scan_cargo_label"
+        app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
         app:layout_constraintTop_toBottomOf="@+id/scan_shield" />
 
     <TextView
         android:id="@+id/scan_scanner_capacity"
-        style="@style/Button"
+        style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/undefined"
         app:layout_constraintStart_toEndOf="@+id/scan_scanner_capacity_label"
         app:layout_constraintTop_toBottomOf="@+id/scan_cargo" />
@@ -161,28 +153,27 @@
         android:id="@+id/scan_result_list"
         android:layout_width="wrap_content"
         android:layout_height="206dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="100dp"
         android:transitionName="simple_activity_transition"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanner_capacity_label"
+        app:layout_constraintTop_toBottomOf="@+id/scan_scanner_capacity_label"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/back_to_menu"
         style="@style/Button"
-        android:layout_width="wrap_content"
+        android:layout_width="168dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:onClick="onGoBackToMainOptions"

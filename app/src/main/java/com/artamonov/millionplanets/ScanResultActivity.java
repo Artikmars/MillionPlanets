@@ -27,6 +27,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ScanResultActivity extends AppCompatActivity implements ScanResultAdapter.ItemClickListener {
@@ -41,6 +43,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
     private TextView tvShield;
     private TextView tvCargo;
     private TextView tv_ScannerCapacity;
+    private TextView tvFuel;
     private Integer x;
     private Integer y;
     private Integer sumxy;
@@ -49,6 +52,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
     private String shield;
     private String ship;
     private String position;
+    private String fuel;
     private Integer scanner_capacity;
 
     @Override
@@ -64,6 +68,8 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
         tvShield = findViewById(R.id.scan_shield);
         tvCargo = findViewById(R.id.scan_cargo);
         tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity);
+        tvFuel = findViewById(R.id.scan_scanner_capacity);
+
 
         Intent intent = getIntent();
         scanner_capacity = intent.getIntExtra("scanner_capacity", 0);
@@ -114,6 +120,14 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
                         }
                         objectModelList.add(objectModel);
                     }
+
+
+                    Collections.sort(objectModelList, new Comparator<ObjectModel>() {
+                        @Override
+                        public int compare(ObjectModel objectModel, ObjectModel t1) {
+                            return (objectModel.getDistance() - t1.getDistance());
+                        }
+                    });
 
                     ScanResultAdapter scanResultAdapter = new ScanResultAdapter(objectModelList, ScanResultActivity.this);
                     rvScanResult.setAdapter(scanResultAdapter);

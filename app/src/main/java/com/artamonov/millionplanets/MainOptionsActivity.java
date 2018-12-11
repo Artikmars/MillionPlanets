@@ -1,11 +1,13 @@
 package com.artamonov.millionplanets;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +32,9 @@ public class MainOptionsActivity extends AppCompatActivity {
     private TextView tvShield;
     private TextView tvCargo;
     private TextView tv_ScannerCapacity;
+    ProgressDialog progressDialog;
+    private TextView tvFuel;
+    private View parentLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,9 +47,21 @@ public class MainOptionsActivity extends AppCompatActivity {
         tvShield = findViewById(R.id.shield);
         tvCargo = findViewById(R.id.cargo);
         tv_ScannerCapacity = findViewById(R.id.scanner_capacity);
+        tvFuel = findViewById(R.id.fuel);
+
+        progressDialog = new ProgressDialog(this);
+        // progressDialog.setMessage("Loading Data . . .");
+        // progressDialog.setTitle("In Progress");
+        progressDialog.setCancelable(false);
+        // progressDialog.setMax(100);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, "Welcome on board, " + firebaseUser.getDisplayName() + "!",
+                Snackbar.LENGTH_LONG).show();
 
         DocumentReference user = firebaseFirestore.collection("UserData").document(firebaseUser.getEmail());
         user.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -60,6 +77,7 @@ public class MainOptionsActivity extends AppCompatActivity {
                     userList.setSumXY((doc.getLong("sumXY").intValue()));
                     userList.setHull(doc.getString("hull"));
                     userList.setCargo(doc.getString("cargo"));
+                    userList.setFuel(doc.getString("fuel"));
                     userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
                     userList.setShield(doc.getString("shield"));
 
@@ -73,6 +91,9 @@ public class MainOptionsActivity extends AppCompatActivity {
                     tvShield.setText(userList.getShield());
                     tvCargo.setText(userList.getCargo());
                     tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
+                    tvFuel.setText(userList.getFuel());
+
+                    progressDialog.dismiss();
                 }
             }
         });
@@ -90,6 +111,7 @@ public class MainOptionsActivity extends AppCompatActivity {
         intent.putExtra("shield", userList.getShield());
         intent.putExtra("ship", userList.getShip());
         intent.putExtra("position", userList.getPosition());
+        intent.putExtra("fuel", userList.getFuel());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         }

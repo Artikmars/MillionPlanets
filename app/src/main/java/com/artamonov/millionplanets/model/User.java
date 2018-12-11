@@ -12,6 +12,16 @@ public class User {
     private String cargo;
     private Integer scanner_capacity;
 
+    private String fuel;
+
+    public String getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(String fuel) {
+        this.fuel = fuel;
+    }
+
     public Integer getSumXY() {
         return sumXY;
     }

@@ -2,6 +2,7 @@ package com.artamonov.millionplanets;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,10 @@ import android.widget.TextView;
 
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +22,8 @@ import java.util.List;
 public class MoveActivity extends AppCompatActivity {
 
     RecyclerView rvScanResult;
+    FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
     private TextView tvPosition;
     private TextView tvShip;
     private TextView tvHull;
@@ -35,12 +42,18 @@ public class MoveActivity extends AppCompatActivity {
     private String objectName;
     private String objectType;
     private int objectDistance;
+    private FirebaseUser firebaseUser;
+    private View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.move);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
+        parentLayout = findViewById(android.R.id.content);
         tvPosition = findViewById(R.id.move_coordinates);
         tvShip = findViewById(R.id.move_ship);
         tvHull = findViewById(R.id.move_hull);
@@ -91,4 +104,26 @@ public class MoveActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onJump(View view) {
+
+
+        //User user = new User();
+        //  user.setScanner_capacity(scanner_capacity + 1);
+        scanner_capacity = scanner_capacity + 1;
+
+        if (scanner_capacity <= 10) {
+            firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
+                    .update("scanner_capacity", scanner_capacity).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    tv_ScannerCapacity.setText(String.valueOf(scanner_capacity + 1));
+                    Snackbar.make(parentLayout, getResources().getString(R.string.egg),
+                            Snackbar.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            Snackbar.make(parentLayout, getResources().getString(R.string.run_out_of_eggs),
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

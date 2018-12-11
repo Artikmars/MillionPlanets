@@ -35,13 +35,7 @@
             android:parentActivityName=".MainOptionsActivity" />
         <activity
             android:name=".MoveActivity"
-            android:label="@string/title_activity_move"
-            android:parentActivityName=".ScanResultActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.artamonov.millionplanets.ScanResultActivity" />
-        </activity>
+            android:parentActivityName=".ScanResultActivity" />
     </application>
 
 </manifest>

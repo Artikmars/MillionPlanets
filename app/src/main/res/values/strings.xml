@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MillionPlanets</string>
+    <string name="app_name">Million Planets</string>
     <string name="million_planets">Million Planets</string>
     <string name="space_mmo">space MMO</string>
     <string name="start_game">New Game</string>
@@ -21,6 +21,7 @@
     <string name="user_shield">Shield: </string>
     <string name="user_cargo">Cargo: </string>
     <string name="user_scanner_capacity">Scanner capacity: </string>
+    <string name="user_fuel">Fuel: </string>
 
     <string name="scan">Scan</string>
     <string name="fight">Fight</string>
@@ -30,8 +31,11 @@
     <string name="inventory">Inventory</string>
     <string name="mark">Mark</string>
 
+    <string name="egg">GREAT! +1 for Scanner Capacity</string>
+    <string name="run_out_of_eggs">You are pretty enough!!</string>
+
     <string name="undefined">Undefined</string>
-    <string name="current_coordinate">X: %1d Y: %2d</string>
+    <string name="current_coordinate">X:%1d Y:%2d</string>
     <string name="title_activity_move">MoveActivity</string>
 
 
