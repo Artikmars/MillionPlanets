@@ -183,6 +183,7 @@
     <Button
         android:id="@+id/move_jump"
         android:layout_width="0dp"
+        style="@style/Button"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"

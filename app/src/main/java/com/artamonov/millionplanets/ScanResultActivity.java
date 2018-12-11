@@ -93,6 +93,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Log.i("myTags", firebaseUser.getDisplayName());
 
         CollectionReference objectRef = firebaseFirestore.collection("GeoData");
         //Query query = objectRef.whereLessThan("x", x + scanner_capacity).whereGreaterThan("x", x - scanner_capacity)
@@ -121,6 +122,12 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
                         objectModelList.add(objectModel);
                     }
 
+                    //Excluding the user itself in the search
+                    for (int i = 0; i < objectModelList.size(); i++) {
+                        if (objectModelList.get(i).getName().equals(firebaseUser.getDisplayName())) {
+                            objectModelList.remove(i);
+                        }
+                    }
 
                     Collections.sort(objectModelList, new Comparator<ObjectModel>() {
                         @Override

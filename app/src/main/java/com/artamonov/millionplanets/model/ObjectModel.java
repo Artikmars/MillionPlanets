@@ -1,9 +1,36 @@
 package com.artamonov.millionplanets.model;
 
 public class ObjectModel {
-    String type;
-    String name;
-    Integer distance;
+    Integer sumXY;
+    private String type;
+    private String name;
+    private Integer distance;
+    private Integer x;
+    private Integer y;
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+    public Integer getSumXY() {
+        return sumXY;
+    }
+
+    public void setSumXY(Integer sumXY) {
+        this.sumXY = sumXY;
+    }
 
     public Integer getDistance() {
         return distance;

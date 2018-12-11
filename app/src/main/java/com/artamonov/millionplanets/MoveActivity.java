@@ -2,7 +2,6 @@ package com.artamonov.millionplanets;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -107,9 +105,8 @@ public class MoveActivity extends AppCompatActivity {
     public void onJump(View view) {
 
 
-        //User user = new User();
-        //  user.setScanner_capacity(scanner_capacity + 1);
-        scanner_capacity = scanner_capacity + 1;
+        // Egg
+        /*scanner_capacity = scanner_capacity + 1;
 
         if (scanner_capacity <= 10) {
             firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
@@ -125,5 +122,6 @@ public class MoveActivity extends AppCompatActivity {
             Snackbar.make(parentLayout, getResources().getString(R.string.run_out_of_eggs),
                     Snackbar.LENGTH_LONG).show();
         }
+    */
     }
 }

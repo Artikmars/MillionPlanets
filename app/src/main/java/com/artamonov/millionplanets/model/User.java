@@ -12,6 +12,16 @@ public class User {
     private String cargo;
     private Integer scanner_capacity;
 
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     private String fuel;
 
     public String getFuel() {
