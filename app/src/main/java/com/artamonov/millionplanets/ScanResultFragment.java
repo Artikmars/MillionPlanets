@@ -2,10 +2,6 @@ package com.artamonov.millionplanets;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +22,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 public class ScanResultFragment extends Fragment {
 
-    FirebaseFirestore firebaseFirestore;
-    FirebaseUser firebaseUser;
-    List<ObjectModel> objectModelList;
-    RecyclerView rvScanResult;
-    Button btnGoToMainOptions;
+    private List<ObjectModel> objectModelList;
+    private RecyclerView rvScanResult;
+    private Button btnGoToMainOptions;
     private Integer distance = 0;
     private Integer x = 0;
     private Integer y = 0;
@@ -67,8 +66,8 @@ public class ScanResultFragment extends Fragment {
         Log.i("myLogs", "onCreateView");
         rvScanResult = view.findViewById(R.id.scan_result_list);
         rvScanResult.setLayoutManager(new LinearLayoutManager(getActivity()));
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Log.i("myLogs", "firebaseUser: " + firebaseUser.getEmail());
         CollectionReference objectRef = firebaseFirestore.collection("GeoData");
         //Query query = objectRef.whereLessThan("x", x + distance).whereGreaterThan("x", x - distance)
