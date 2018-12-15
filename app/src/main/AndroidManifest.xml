@@ -36,6 +36,7 @@
         <activity
             android:name=".MoveActivity"
             android:parentActivityName=".ScanResultActivity" />
+        <activity android:name=".GateActivity"></activity>
     </application>
 
 </manifest>

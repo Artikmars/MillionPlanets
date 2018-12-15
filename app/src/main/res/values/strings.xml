@@ -17,19 +17,27 @@
 
     <string name="user_coordinates">Coordinates: </string>
     <string name="user_ship">Ship: </string>
-    <string name="user_hull">Hull: </string>
+    <string name="user_hp">Hp: </string>
     <string name="user_shield">Shield: </string>
     <string name="user_cargo">Cargo: </string>
-    <string name="user_scanner_capacity">Scanner capacity: </string>
+    <string name="user_scanner_capacity">Scanner: </string>
     <string name="user_fuel">Fuel: </string>
 
     <string name="scan">Scan</string>
     <string name="fight">Fight</string>
     <string name="trade">Trade</string>
     <string name="jump">Jump</string>
+    <string name="land">Land</string>
+    <string name="get_fuel">Get Fuel</string>
+    <string name="mine">Mine</string>
     <string name="sos">Sos</string>
     <string name="inventory">Inventory</string>
     <string name="mark">Mark</string>
+    <string name="call_tanker">Call</string>
+
+    <string name="user_type">User</string>
+    <string name="planet_type">Planet</string>
+    <string name="fuel_type">Fuel</string>
 
     <string name="egg">GREAT! +1 for Scanner Capacity</string>
     <string name="run_out_of_eggs">You are pretty enough!!</string>

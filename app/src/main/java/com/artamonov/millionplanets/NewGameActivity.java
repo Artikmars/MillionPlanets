@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,19 +38,21 @@ public class NewGameActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         user = new User();
-        //  user.setPosition("4;6");
-        user.setX(4);
+        user.setX(5);
         user.setY(6);
-        user.setSumXY(user.getX() + user.getY());
-        user.setCargo("0");
-        user.setHull("100");
+        user.setCargo(5);
+        user.setHp(100);
         user.setShip("Fighter");
-        user.setScanner_capacity(5);
-        user.setShield("100");
-        user.setFuel("20");
+        user.setMoney(1000);
+        user.setScanner_capacity(10);
+        user.setShield(100);
+        user.setFuel(20);
         user.setNickname(username);
+        user.setEmail(firebaseUser.getEmail());
+        user.setType("user");
+        user.setSumXY(11);
         // Log.i("myTags", "nickname: " + firebaseUser.getDisplayName());
-        firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
+        firebaseFirestore.collection("Objects").document(username)
                 .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -61,7 +62,7 @@ public class NewGameActivity extends AppCompatActivity {
                 firebaseUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        setGeoData();
+                        startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
                     }
                 });
 
@@ -69,7 +70,7 @@ public class NewGameActivity extends AppCompatActivity {
         });
     }
 
-    private void setGeoData() {
+   /* private void setGeoData() {
         ObjectModel objectModel = new ObjectModel();
         objectModel.setX(user.getX());
         objectModel.setY(user.getY());
@@ -83,6 +84,6 @@ public class NewGameActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
             }
         });
-    }
+    }*/
 
 }

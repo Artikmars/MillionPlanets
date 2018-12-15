@@ -1,18 +1,80 @@
 package com.artamonov.millionplanets.model;
 
 public class User {
-    private String position;
-    private Integer x;
-    private Integer y;
+    private int x;
+    private int y;
 
-    private Integer sumXY;
+    private int sumXY;
     private String ship;
-    private String hull;
-    private String shield;
-    private String cargo;
-    private Integer scanner_capacity;
-
+    private int hp;
+    private int shield;
+    private int cargo;
+    private int scanner_capacity;
+    private int money;
+    private String email;
     private String nickname;
+    private int fuel;
+    private String type;
+    private String moveToObjectName;
+    private int moveToObjectDistance;
+    private String moveToObjectType;
+
+    public User(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public User() {
+
+    }
+
+    public String getMoveToObjectName() {
+        return moveToObjectName;
+    }
+
+    public void setMoveToObjectName(String moveToObjectName) {
+        this.moveToObjectName = moveToObjectName;
+    }
+
+    public int getMoveToObjectDistance() {
+        return moveToObjectDistance;
+    }
+
+    public void setMoveToObjectDistance(int moveToObjectDistance) {
+        this.moveToObjectDistance = moveToObjectDistance;
+    }
+
+    public String getMoveToObjectType() {
+        return moveToObjectType;
+    }
+
+    public void setMoveToObjectType(String moveToObjectType) {
+        this.moveToObjectType = moveToObjectType;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getNickname() {
         return nickname;
@@ -22,46 +84,36 @@ public class User {
         this.nickname = nickname;
     }
 
-    private String fuel;
-
-    public String getFuel() {
+    public int getFuel() {
         return fuel;
     }
 
-    public void setFuel(String fuel) {
+    public void setFuel(int fuel) {
         this.fuel = fuel;
     }
 
-    public Integer getSumXY() {
+    public int getSumXY() {
         return sumXY;
     }
 
-    public void setSumXY(Integer sumXY) {
+    public void setSumXY(int sumXY) {
         this.sumXY = sumXY;
     }
 
-    public Integer getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(int y) {
         this.y = y;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public String getShip() {
@@ -72,35 +124,35 @@ public class User {
         this.ship = ship;
     }
 
-    public String getHull() {
-        return hull;
+    public int getHp() {
+        return hp;
     }
 
-    public void setHull(String hull) {
-        this.hull = hull;
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
-    public String getShield() {
+    public int getShield() {
         return shield;
     }
 
-    public void setShield(String shield) {
+    public void setShield(int shield) {
         this.shield = shield;
     }
 
-    public String getCargo() {
+    public int getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(int cargo) {
         this.cargo = cargo;
     }
 
-    public Integer getScanner_capacity() {
+    public int getScanner_capacity() {
         return scanner_capacity;
     }
 
-    public void setScanner_capacity(Integer scanner_capacity) {
+    public void setScanner_capacity(int scanner_capacity) {
         this.scanner_capacity = scanner_capacity;
     }
 

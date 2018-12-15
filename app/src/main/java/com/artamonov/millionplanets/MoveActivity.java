@@ -2,46 +2,64 @@ package com.artamonov.millionplanets;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
+import com.artamonov.millionplanets.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MoveActivity extends AppCompatActivity {
 
+    private static final String TAG = "myLogs";
     RecyclerView rvScanResult;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+    User userList = new User();
     private TextView tvPosition;
     private TextView tvShip;
-    private TextView tvHull;
+    private TextView tvHp;
     private TextView tvShield;
     private TextView tvCargo;
+    private TextView tvFuel;
     private TextView tv_ScannerCapacity;
-    private Integer x;
-    private Integer y;
-    private Integer sumxy;
-    private String cargo;
-    private String hull;
-    private String shield;
-    private String ship;
-    private String position;
-    private Integer scanner_capacity;
-    private String objectName;
-    private String objectType;
-    private int objectDistance;
     private FirebaseUser firebaseUser;
     private View parentLayout;
+    private ObjectModel objectModel;
+    private DocumentReference documentReference;
+    //   private ProgressDialog progressDialog;
+    View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getApplicationContext(), "Please, wait 10 seconds", Toast.LENGTH_LONG).show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    documentReference.update("fuel", 20);
+                }
+            }, 10000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,47 +72,65 @@ public class MoveActivity extends AppCompatActivity {
         parentLayout = findViewById(android.R.id.content);
         tvPosition = findViewById(R.id.move_coordinates);
         tvShip = findViewById(R.id.move_ship);
-        tvHull = findViewById(R.id.move_hull);
+        tvHp = findViewById(R.id.move_hp);
         tvShield = findViewById(R.id.move_shield);
         tvCargo = findViewById(R.id.move_cargo);
+        tvFuel = findViewById(R.id.move_fuel);
         tv_ScannerCapacity = findViewById(R.id.move_scanner_capacity);
         rvScanResult = findViewById(R.id.move_scan_result_list);
         rvScanResult.setLayoutManager(new LinearLayoutManager(this));
 
 
         Intent intent = getIntent();
-        scanner_capacity = intent.getIntExtra("scanner_capacity", 0);
-        x = intent.getIntExtra("x", 0);
-        y = intent.getIntExtra("y", 0);
-        sumxy = intent.getIntExtra("sumXY", 0);
-        cargo = intent.getStringExtra("cargo");
-        hull = intent.getStringExtra("hull");
-        shield = intent.getStringExtra("shield");
-        ship = intent.getStringExtra("ship");
-        position = intent.getStringExtra("position");
-        objectName = intent.getStringExtra("objectName");
-        objectType = intent.getStringExtra("objectType");
-        objectDistance = intent.getIntExtra("objectDistance", 0);
-
-
-        tvPosition.setText(position);
-        tvShip.setText(ship);
-        tvHull.setText(hull);
-        tvShield.setText(shield);
-        tvCargo.setText(cargo);
-        tv_ScannerCapacity.setText(String.valueOf(scanner_capacity));
-
-
         List<ObjectModel> objectModelList = new ArrayList<>();
-        ObjectModel objectModel = new ObjectModel();
-        objectModel.setType(objectType);
-        objectModel.setName(objectName);
-        objectModel.setDistance(objectDistance);
+        objectModel = new ObjectModel();
+        objectModel.setType(intent.getStringExtra("objectType"));
+        objectModel.setName(intent.getStringExtra("objectName"));
+        objectModel.setDistance(intent.getIntExtra("objectDistance", 0));
+        objectModel.setX(intent.getIntExtra("objectX", 0));
+        objectModel.setY(intent.getIntExtra("objectY", 0));
         objectModelList.add(objectModel);
 
         ScanResultAdapter scanResultAdapter = new ScanResultAdapter(objectModelList);
         rvScanResult.setAdapter(scanResultAdapter);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        documentReference = firebaseFirestore.collection("Objects")
+                .document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (doc.exists()) {
+                    userList.setShip(doc.getString("ship"));
+                    userList.setX((doc.getLong("x").intValue()));
+                    userList.setY((doc.getLong("y").intValue()));
+                    userList.setSumXY((doc.getLong("sumXY").intValue()));
+                    userList.setHp(doc.getLong("hp").intValue());
+                    userList.setCargo(doc.getLong("cargo").intValue());
+                    userList.setFuel(doc.getLong("fuel").intValue());
+                    userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
+                    userList.setShield(doc.getLong("shield").intValue());
+                    userList.setMoney(doc.getLong("money").intValue());
+                    userList.setMoveToObjectName(doc.getString("moveToObjectName"));
+                    userList.setMoveToObjectDistance(doc.getLong("moveToObjectDistance").intValue());
+
+
+                    tvPosition.setText(String.format(getResources().getString(R.string.current_coordinate),
+                            userList.getX(), userList.getY()));
+                    tvShip.setText(userList.getShip());
+                    tvHp.setText(Integer.toString(userList.getHp()));
+                    tvShield.setText(Integer.toString(userList.getShield()));
+                    tvCargo.setText(Integer.toString(userList.getCargo()));
+                    tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
+                    tvFuel.setText(Integer.toString(userList.getFuel()));
+                }
+            }
+
+        });
 
     }
 
@@ -104,24 +140,40 @@ public class MoveActivity extends AppCompatActivity {
 
     public void onJump(View view) {
 
-
-        // Egg
-        /*scanner_capacity = scanner_capacity + 1;
-
-        if (scanner_capacity <= 10) {
-            firebaseFirestore.collection("UserData").document(firebaseUser.getEmail())
-                    .update("scanner_capacity", scanner_capacity).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    tv_ScannerCapacity.setText(String.valueOf(scanner_capacity + 1));
-                    Snackbar.make(parentLayout, getResources().getString(R.string.egg),
-                            Snackbar.LENGTH_LONG).show();
-                }
-            });
-        } else {
-            Snackbar.make(parentLayout, getResources().getString(R.string.run_out_of_eggs),
-                    Snackbar.LENGTH_LONG).show();
+        parentLayout = findViewById(android.R.id.content);
+        Log.i("myLogs", "onItemClick: userList.getFuel()" + userList.getFuel() + ", objectModelList.get(pos).getDistance(): "
+                + userList.getMoveToObjectDistance());
+        if (userList.getFuel() - userList.getMoveToObjectDistance() < 0) {
+            Snackbar.make(parentLayout, "You are run out of fuel! Please, call the tanker. ",
+                    Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show();
+            return;
         }
-    */
+        documentReference.update("fuel", userList.getFuel() - userList.getMoveToObjectDistance());
+
+
+        final DocumentReference docRefForMovedObject = firebaseFirestore.collection("Objects")
+                .document(userList.getMoveToObjectName());
+        docRefForMovedObject.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                int x = documentSnapshot.getLong("x").intValue();
+                int y = documentSnapshot.getLong("y").intValue();
+                Map<String, Object> movedPosition = new HashMap<>();
+                movedPosition.put("x", x);
+                movedPosition.put("y", y);
+                documentReference.update(movedPosition);
+                startActivity(new Intent(getApplicationContext(), GateActivity.class));
+            }
+        });
+
+
+        // Intent intent = new Intent(this, GateActivity.class);
+        // intent.putExtra("objectType", objectModel.getType());
+        // Log.i(TAG, "onJump x : " + objectModel.getX());
+        // Log.i(TAG, "onJump: y : " + objectModel.getY());
+        // intent.putExtra("objectX", objectModel.getX());
+        //  intent.putExtra("objectY", objectModel.getY());
+        //   startActivity(intent);
+
     }
 }

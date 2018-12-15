@@ -15,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/cargo" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/shield" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/fuel" />
 
     <TextView
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:text="@string/user_hull"
+        android:text="@string/user_hp"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ship_label" />
@@ -134,7 +134,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -145,18 +145,18 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/coordinates_label" />
 
     <TextView
-        android:id="@+id/hull"
+        android:id="@+id/hp"
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/ship" />
 
     <TextView
@@ -167,8 +167,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/scanner_capacity_label"
-        app:layout_constraintTop_toBottomOf="@+id/hull" />
+        app:layout_constraintStart_toEndOf="@+id/coordinates_label"
+        app:layout_constraintTop_toBottomOf="@+id/hp" />
 
 
     <Button
