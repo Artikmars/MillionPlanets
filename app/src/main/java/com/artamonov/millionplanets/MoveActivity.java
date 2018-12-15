@@ -148,7 +148,6 @@ public class MoveActivity extends AppCompatActivity {
                     Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show();
             return;
         }
-        documentReference.update("fuel", userList.getFuel() - userList.getMoveToObjectDistance());
 
 
         final DocumentReference docRefForMovedObject = firebaseFirestore.collection("Objects")
@@ -161,6 +160,8 @@ public class MoveActivity extends AppCompatActivity {
                 Map<String, Object> movedPosition = new HashMap<>();
                 movedPosition.put("x", x);
                 movedPosition.put("y", y);
+                movedPosition.put("fuel", userList.getFuel() - userList.getMoveToObjectDistance());
+                movedPosition.put("sumXY", x + y);
                 documentReference.update(movedPosition);
                 startActivity(new Intent(getApplicationContext(), GateActivity.class));
             }

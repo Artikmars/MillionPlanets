@@ -57,6 +57,58 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
     @Override
     protected void onStart() {
         super.onStart();
+        documentReference = firebaseFirestore.collection("Objects")
+                .document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (doc.exists()) {
+                    userList.setShip(doc.getString("ship"));
+                    userList.setX((doc.getLong("x").intValue()));
+                    userList.setY((doc.getLong("y").intValue()));
+                    userList.setSumXY((doc.getLong("sumXY").intValue()));
+                    userList.setHp(doc.getLong("hp").intValue());
+                    userList.setCargo(doc.getLong("cargo").intValue());
+                    userList.setFuel(doc.getLong("fuel").intValue());
+                    userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
+                    userList.setShield(doc.getLong("shield").intValue());
+                    userList.setMoney(doc.getLong("money").intValue());
+                    tvPosition.setText(String.format(getResources().getString(R.string.current_coordinate),
+                            userList.getX(), userList.getY()));
+                    tvShip.setText(userList.getShip());
+                    tvHp.setText(Integer.toString(userList.getHp()));
+                    tvShield.setText(Integer.toString(userList.getShield()));
+                    tvCargo.setText(Integer.toString(userList.getCargo()));
+                    tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
+                    tvFuel.setText(Integer.toString(userList.getFuel()));
+
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.scan_result);
+        rvScanResult = findViewById(R.id.scan_result_list);
+        rvScanResult.setLayoutManager(new LinearLayoutManager(this));
+
+
+      /*  progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();*/
+
+        tvPosition = findViewById(R.id.scan_coordinates);
+        tvShip = findViewById(R.id.scan_ship);
+        tvHp = findViewById(R.id.scan_hp);
+        tvShield = findViewById(R.id.scan_shield);
+        tvCargo = findViewById(R.id.scan_cargo);
+        tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity);
+        tvFuel = findViewById(R.id.scan_fuel);
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         documentReference = firebaseFirestore.collection("Objects")
                 .document(firebaseUser.getDisplayName());
@@ -138,30 +190,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
 
         });
 
-    }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_result);
-        rvScanResult = findViewById(R.id.scan_result_list);
-        rvScanResult.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-
-      /*  progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();*/
-
-        tvPosition = findViewById(R.id.scan_coordinates);
-        tvShip = findViewById(R.id.scan_ship);
-        tvHp = findViewById(R.id.scan_hp);
-        tvShield = findViewById(R.id.scan_shield);
-        tvCargo = findViewById(R.id.scan_cargo);
-        tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity);
-        tvFuel = findViewById(R.id.scan_fuel);
     }
 
    /* View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
