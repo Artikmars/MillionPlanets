@@ -49,16 +49,17 @@ public class MoveActivity extends AppCompatActivity {
     private ObjectModel objectModel;
     private DocumentReference documentReference;
     //   private ProgressDialog progressDialog;
+
     View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Toast.makeText(getApplicationContext(), "Please, wait 10 seconds", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please, wait 60 seconds", Toast.LENGTH_LONG).show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
                     documentReference.update("fuel", 20);
                 }
-            }, 10000);
+            }, 60000);
         }
     };
 
