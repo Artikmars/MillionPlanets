@@ -7,6 +7,33 @@ public class ObjectModel {
     private Integer distance;
     private Integer x;
     private Integer y;
+    private String planetClass;
+    private String planetSectors;
+    private String planetSize;
+
+    public String getPlanetClass() {
+        return planetClass;
+    }
+
+    public void setPlanetClass(String planetClass) {
+        this.planetClass = planetClass;
+    }
+
+    public String getPlanetSectors() {
+        return planetSectors;
+    }
+
+    public void setPlanetSectors(String planetSectors) {
+        this.planetSectors = planetSectors;
+    }
+
+    public String getPlanetSize() {
+        return planetSize;
+    }
+
+    public void setPlanetSize(String planetSize) {
+        this.planetSize = planetSize;
+    }
 
     public Integer getX() {
         return x;

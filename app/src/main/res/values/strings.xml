@@ -39,6 +39,14 @@
     <string name="planet_type">Planet</string>
     <string name="fuel_type">Fuel</string>
 
+    //Planet
+    <string name="planet_class">Class: </string>
+    <string name="planet_size">Size: </string>
+    <string name="planet_sectors">Sectors: </string>
+    <string name="planet_market">Market </string>
+    <string name="planet_sectors_button">Sectors </string>
+    <string name="planet_take_off">Take Off </string>
+
     <string name="egg">GREAT! +1 for Scanner Capacity</string>
     <string name="run_out_of_eggs">You are pretty enough!!</string>
 
