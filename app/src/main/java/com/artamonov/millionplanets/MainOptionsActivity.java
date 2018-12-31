@@ -34,6 +34,7 @@ public class MainOptionsActivity extends AppCompatActivity {
     private TextView tvCargo;
     private TextView tv_ScannerCapacity;
     private TextView tvFuel;
+    private TextView tvMoney;
     private View parentLayout;
     private DocumentReference documentReference;
 
@@ -49,6 +50,7 @@ public class MainOptionsActivity extends AppCompatActivity {
         tvCargo = findViewById(R.id.cargo);
         tv_ScannerCapacity = findViewById(R.id.scanner_capacity);
         tvFuel = findViewById(R.id.fuel);
+        tvMoney = findViewById(R.id.money);
 
      /*  progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -124,6 +126,7 @@ public class MainOptionsActivity extends AppCompatActivity {
                     userList.setMoney(doc.getLong("money").intValue());
                     userList.setMoveToObjectName(doc.getString("moveToObjectName"));
                     userList.setMoveToObjectType(doc.getString("moveToObjectType"));
+                    userList.setMoney(doc.getLong("money").intValue());
 
                     tvPosition.setText(String.format(getResources().getString(R.string.current_coordinate),
                             userList.getX(), userList.getY()));
@@ -133,6 +136,7 @@ public class MainOptionsActivity extends AppCompatActivity {
                     tvCargo.setText(Integer.toString(userList.getCargo()));
                     tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
+                    tvMoney.setText(Integer.toString(userList.getMoney()));
 
                     progressDialog.dismiss();
                 }

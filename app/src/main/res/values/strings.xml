@@ -22,6 +22,7 @@
     <string name="user_cargo">Cargo: </string>
     <string name="user_scanner_capacity">Scanner: </string>
     <string name="user_fuel">Fuel: </string>
+    <string name="user_money">Money: </string>
 
     <string name="scan">Scan</string>
     <string name="fight">Fight</string>
@@ -47,12 +48,26 @@
     <string name="planet_sectors_button">Sectors </string>
     <string name="planet_take_off">Take Off </string>
 
+    //Market
+    <string name="market_you">You</string>
+    <string name="market_resource">Resource</string>
+    <string name="market_price">Price</string>
+    <string name="market_qnt">Qnt</string>
+
     <string name="egg">GREAT! +1 for Scanner Capacity</string>
     <string name="run_out_of_eggs">You are pretty enough!!</string>
 
     <string name="undefined">Undefined</string>
     <string name="current_coordinate">X:%1d Y:%2d</string>
     <string name="title_activity_move">MoveActivity</string>
+    <string name="title_activity_market">MarketActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="first_tab">You</string>
+    <string name="second_tab">Planet</string>
 
 
 </resources>

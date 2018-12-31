@@ -11,6 +11,7 @@ public class User {
     private int cargo;
     private int scanner_capacity;
     private int money;
+    private int resource_iron;
     private String email;
     private String nickname;
     private int fuel;
@@ -18,14 +19,20 @@ public class User {
     private String moveToObjectName;
     private int moveToObjectDistance;
     private String moveToObjectType;
-
     public User(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
     public User() {
 
+    }
+
+    public int getResource_iron() {
+        return resource_iron;
+    }
+
+    public void setResource_iron(int resource_iron) {
+        this.resource_iron = resource_iron;
     }
 
     public String getMoveToObjectName() {

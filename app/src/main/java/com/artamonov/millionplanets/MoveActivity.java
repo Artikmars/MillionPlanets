@@ -43,6 +43,7 @@ public class MoveActivity extends AppCompatActivity {
     private TextView tvShield;
     private TextView tvCargo;
     private TextView tvFuel;
+    private TextView tvMoney;
     private TextView tv_ScannerCapacity;
     private FirebaseUser firebaseUser;
     private View parentLayout;
@@ -78,6 +79,7 @@ public class MoveActivity extends AppCompatActivity {
         tvShield = findViewById(R.id.move_shield);
         tvCargo = findViewById(R.id.move_cargo);
         tvFuel = findViewById(R.id.move_fuel);
+        tvMoney = findViewById(R.id.move_money);
         tv_ScannerCapacity = findViewById(R.id.move_scanner_capacity);
         rvScanResult = findViewById(R.id.move_scan_result_list);
         rvScanResult.setLayoutManager(new LinearLayoutManager(this));
@@ -129,6 +131,7 @@ public class MoveActivity extends AppCompatActivity {
                     tvCargo.setText(Integer.toString(userList.getCargo()));
                     tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
+                    tvMoney.setText(Integer.toString(userList.getMoney()));
                 }
             }
 

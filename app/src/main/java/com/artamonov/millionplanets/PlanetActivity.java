@@ -1,5 +1,8 @@
 package com.artamonov.millionplanets;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ public class PlanetActivity extends AppCompatActivity {
     private TextView tvSize;
     private TextView tvSectors;
     private TextView tvFuel;
+
 
     @Override
     protected void onStart() {
@@ -94,5 +98,12 @@ public class PlanetActivity extends AppCompatActivity {
 
 
     public void onGoToMarket(View view) {
+        Intent intent = new Intent(this, MarketActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
+        //  startActivity(new Intent(this, MarketActivity.class));
     }
 }

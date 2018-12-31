@@ -177,7 +177,7 @@
         android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="100dp"
@@ -185,7 +185,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gate_scanner_capacity_label"
+        app:layout_constraintTop_toBottomOf="@+id/gate_money"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -235,5 +235,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gate_action" />
+
+    <TextView
+        android:id="@+id/gate_money_label"
+        style="@style/UserInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/user_money"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gate_scanner_capacity_label" />
+
+    <TextView
+        android:id="@+id/gate_money"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/undefined"
+        app:layout_constraintStart_toEndOf="@+id/gate_coordinates_label"
+        app:layout_constraintTop_toBottomOf="@+id/gate_scanner_capacity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

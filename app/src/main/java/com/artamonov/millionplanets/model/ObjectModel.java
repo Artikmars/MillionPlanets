@@ -10,6 +10,33 @@ public class ObjectModel {
     private String planetClass;
     private String planetSectors;
     private String planetSize;
+    private String resourceName;
+    private int price_buy_iron;
+    private int price_sell_iron;
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public int getPrice_buy_iron() {
+        return price_buy_iron;
+    }
+
+    public void setPrice_buy_iron(int price_buy_iron) {
+        this.price_buy_iron = price_buy_iron;
+    }
+
+    public int getPrice_sell_iron() {
+        return price_sell_iron;
+    }
+
+    public void setPrice_sell_iron(int price_sell_iron) {
+        this.price_sell_iron = price_sell_iron;
+    }
 
     public String getPlanetClass() {
         return planetClass;

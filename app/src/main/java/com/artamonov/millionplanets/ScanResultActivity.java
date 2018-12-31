@@ -52,6 +52,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
     private TextView tvCargo;
     private TextView tv_ScannerCapacity;
     private TextView tvFuel;
+    private TextView tvMoney;
     private DocumentReference documentReference;
     private View parentLayout;
 
@@ -109,6 +110,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
         tvCargo = findViewById(R.id.scan_cargo);
         tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity);
         tvFuel = findViewById(R.id.scan_fuel);
+        tvMoney = findViewById(R.id.scan_money);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         documentReference = firebaseFirestore.collection("Objects")
@@ -135,6 +137,7 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
                     tvCargo.setText(Integer.toString(userList.getCargo()));
                     tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
+                    tvMoney.setText(Integer.toString(userList.getMoney()));
 
 
                     CollectionReference objectRef = firebaseFirestore.collection("Objects");
