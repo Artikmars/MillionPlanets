@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "684786543254-m61oml31h06arvqqour7mhh7mkivrj3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.artamonov.millionplanets",
+            "certificate_hash": "1efa5c479206dfe8637907cb41ad2780ae7debe9"
+          }
+        },
+        {
           "client_id": "684786543254-oai1e5ihn0pficjnrtcdvmc4okptukh7.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684786543254-oai1e5ihn0pficjnrtcdvmc4okptukh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

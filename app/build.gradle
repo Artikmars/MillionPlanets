@@ -7,8 +7,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 7
-        versionName "0.13"
+        versionCode 8
+        versionName "0.14"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,18 +22,19 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-database:16.0.5'
-    implementation 'com.google.firebase:firebase-firestore:17.1.4'
+    implementation 'com.google.firebase:firebase-firestore:17.1.5'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
 apply plugin: 'com.google.gms.google-services'
