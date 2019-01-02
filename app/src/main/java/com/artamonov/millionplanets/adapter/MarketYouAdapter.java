@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
@@ -21,16 +22,17 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
 
     //private static ItemClickListener listener;
     private static DialogListener dialogListener;
-    private List<User> userList;
+    private static List<User> userList;
     private List<ObjectModel> objectModelList;
-    private Context context;
+    private static Context context;
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    public MarketYouAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
+    public MarketYouAdapter(List<User> userList, List<ObjectModel> objectModelList, Context context, DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;
+        this.context = context;
         // this.isPlanetTab = isPlanetTab;
 
     }
@@ -79,13 +81,17 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
         Log.i("myTags", "onBindViewHolder pos: " + position);
         User user = userList.get(position);
         ObjectModel objectModel = objectModelList.get(position);
+        Log.i("myTags", "onBindViewHolder res name: " + objectModel.getResourceName());
+        holder.resourceName.setText(objectModel.getResourceName());
+        Log.i("myTags", "onBindViewHolder price buy : " + objectModel.getPrice_buy_iron());
+
+        holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_buy_iron()));
         if (user.getResource_iron() == 0) {
-            return;
+            holder.resourceAmount.setText("0");
+        } else {
+            holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
         }
 
-        holder.resourceName.setText(objectModel.getResourceName());
-        holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
-        holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_buy_iron()));
     }
 
 
@@ -117,6 +123,10 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
 
         @Override
         public void onClick(View view) {
+            if (userList.get(getAdapterPosition()).getResource_iron() == 0) {
+                Toast.makeText(context, "No resources to sell", Toast.LENGTH_SHORT).show();
+                return;
+            }
             dialogListener.onDialogCreate();
 
         }

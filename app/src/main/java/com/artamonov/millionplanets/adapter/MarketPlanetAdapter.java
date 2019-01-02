@@ -53,9 +53,6 @@ public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapte
         Log.i("myTags", "onBindViewHolder pos: " + position);
         User user = userList.get(position);
         ObjectModel objectModel = objectModelList.get(position);
-        if (user.getResource_iron() == 0) {
-            return;
-        }
         holder.resourceName.setText(objectModel.getResourceName());
         holder.resourceAmount.setText(Integer.toString(objectModel.getIronAmount()));
         holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_sell_iron()));

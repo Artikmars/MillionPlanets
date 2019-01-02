@@ -67,7 +67,6 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-
             firebaseFirestore = FirebaseFirestore.getInstance();
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             documentReferenceInventory = firebaseFirestore.collection("Inventory")
@@ -83,25 +82,24 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
                     ObjectModel objectModel = new ObjectModel();
                     for (Map.Entry<String, Object> entry : documentSnapshot.entrySet()) {
                         objectModel.setResourceName(entry.getKey());
-                        Log.i("myTags", "apply: objectModel.setResourceName(entry.getKey());: " +
+                        Log.i("myTags", "apply in Planet: objectModel.setResourceName(entry.getKey());: " +
                                 objectModel.getResourceName());
                     }
                     DocumentSnapshot documentSnapshot2 = transaction.get(documentReferenceInventory);
                     User user = new User();
                     user.setResource_iron(documentSnapshot2.getLong("Iron").intValue());
-
-                    Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
+                    Log.i("myTags", "apply in Planet: user.getIron: " + user.getResource_iron());
                     DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
                     user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
-                    Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
+                    Log.i("myTags", "apply in Planet: user.getName: " + user.getMoveToObjectName());
                     DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                             .document(user.getMoveToObjectName());
                     DocumentSnapshot documentSnapshot3 = transaction.get(documentReferencePlanetMarket);
                     objectModel.setPrice_buy_iron(documentSnapshot3.getLong("price_buy_iron").intValue());
                     objectModel.setPrice_sell_iron(documentSnapshot3.getLong("price_sell_iron").intValue());
                     objectModel.setIronAmount(documentSnapshot3.getLong("iron").intValue());
-                    Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
-                    Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
+                    Log.i("myTags", "apply in Planet: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
+                    Log.i("myTags", "apply in Planet: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
                     userList = new ArrayList<>();
                     userList.add(user);
                     objectModelList = new ArrayList<>();
@@ -134,6 +132,7 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
 
     private void setAdapter() {
         MarketPlanetAdapter marketPlanetAdapter = new MarketPlanetAdapter(userList, objectModelList, this);
+        marketPlanetAdapter.notifyDataSetChanged();
         rvMarketYou.setAdapter(marketPlanetAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());
@@ -154,4 +153,5 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
         MarketPlanetDialog marketPlanetDialog = new MarketPlanetDialog();
         marketPlanetDialog.show(getFragmentManager(), "text");
     }
+
 }

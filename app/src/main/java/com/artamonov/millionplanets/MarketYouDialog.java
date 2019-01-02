@@ -129,13 +129,24 @@ public class MarketYouDialog extends AppCompatDialogFragment {
                                     transaction.update(documentReferenceInventory, "Iron", 0);
                                     transaction.update(documentReferenceUser, "money", user.getMoney() +
                                             user.getResource_iron() * objectModel.getPrice_buy_iron());
+                                    Log.i("myTags", "apply: new iron amount on planet: " + (objectModel.getIronAmount() + user.getResource_iron()));
                                     transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() + user.getResource_iron());
+                                   /* Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                            " Current money: " + (user.getMoney() +
+                                                    user.getResource_iron() * objectModel.getPrice_buy_iron()), Snackbar.LENGTH_LONG).show();*/
+                                    //  Toast.makeText(getActivity(), "Current money: " + (user.getMoney() +
+                                    //        user.getResource_iron() * objectModel.getPrice_buy_iron()), Toast.LENGTH_SHORT).show();
                                     dismiss();
                                 } else {
                                     transaction.update(documentReferenceInventory, "Iron", user.getResource_iron() - selectedValue);
                                     transaction.update(documentReferenceUser, "money", user.getMoney() +
                                             selectedValue * objectModel.getPrice_buy_iron());
                                     transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() + selectedValue);
+                                   /* Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                           " Current money: " + (user.getMoney() +
+                                           user.getResource_iron() * objectModel.getPrice_buy_iron()), Snackbar.LENGTH_LONG).show();*/
+                                    // Toast.makeText(getActivity(), "Current money: " + (user.getMoney() +
+                                    //          user.getResource_iron() * objectModel.getPrice_buy_iron()), Toast.LENGTH_SHORT).show();
                                     dismiss();
                                 }
                                 return null;

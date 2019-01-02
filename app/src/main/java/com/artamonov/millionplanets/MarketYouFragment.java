@@ -89,26 +89,24 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
                     DocumentSnapshot documentSnapshotInventory = transaction.get(documentReferenceInventory);
                     User user = new User();
                     user.setResource_iron(documentSnapshotInventory.getLong("Iron").intValue());
-                    if (user.getResource_iron() != 0) {
-                        Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
-                        DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
-                        user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
-                        Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
-                        DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
-                                .document(user.getMoveToObjectName());
-                        DocumentSnapshot documentSnapshot2 = transaction.get(documentReferencePlanetMarket);
-                        objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
-                        objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
-                        Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
-                        Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
-                        userList = new ArrayList<>();
-                        userList.add(user);
-                        objectModelList = new ArrayList<>();
-                        objectModelList.add(objectModel);
-                        transaction.update(documentReferenceInventory, "Iron", user.getResource_iron());
-                        transaction.update(documentReferenceUser, "moveToObjectName", user.getMoveToObjectName());
-                        transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
-                    }
+                    Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
+                    DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
+                    user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
+                    Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
+                    DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
+                            .document(user.getMoveToObjectName());
+                    DocumentSnapshot documentSnapshot2 = transaction.get(documentReferencePlanetMarket);
+                    objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
+                    objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
+                    Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
+                    Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
+                    userList = new ArrayList<>();
+                    userList.add(user);
+                    objectModelList = new ArrayList<>();
+                    objectModelList.add(objectModel);
+                    transaction.update(documentReferenceInventory, "Iron", user.getResource_iron());
+                    transaction.update(documentReferenceUser, "moveToObjectName", user.getMoveToObjectName());
+                    transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
                     return null;
                 }
             }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -133,7 +131,8 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     }
 
     private void setAdapter() {
-        MarketYouAdapter marketYouAdapter = new MarketYouAdapter(userList, objectModelList, this);
+        MarketYouAdapter marketYouAdapter = new MarketYouAdapter(userList, objectModelList, getActivity(), this);
+        marketYouAdapter.notifyDataSetChanged();
         rvMarketYou.setAdapter(marketYouAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());

@@ -9,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
-import com.artamonov.millionplanets.adapter.MarketYouAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,18 +31,11 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
     private FirebaseUser firebaseUser;
     private DocumentReference documentReferenceUser;
     private DocumentReference documentReferenceInventory;
-    private MarketYouAdapter.DialogListener dialogListener;
     private boolean isPlanetTab;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        try {
-            dialogListener = (MarketYouAdapter.DialogListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement DialogListener");
-        }
-
     }
 
     @NonNull
@@ -114,17 +105,19 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                     transaction.update(documentReferenceInventory, "Iron", user.getResource_iron() + selectedValue);
                                     Log.i("myTags", "Planet Dialog - apply: new iron amount: " + user.getResource_iron() + selectedValue);
                                     transaction.update(documentReferenceUser, "money", user.getMoney() -
-                                            user.getResource_iron() * objectModel.getPrice_sell_iron());
+                                            selectedValue * objectModel.getPrice_sell_iron());
                                     Log.i("myTags", "Planet Dialog - apply: new money amount: " + (user.getMoney() -
                                             user.getResource_iron() * objectModel.getPrice_sell_iron()));
 
                                     transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() - selectedValue);
                                     dismiss();
                                 } else {
-                                    transaction.update(documentReferenceInventory, "Iron", user.getResource_iron());
-                                    transaction.update(documentReferenceUser, "money", user.getMoney());
-                                    transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
-                                    Toast.makeText(getContext(), "You don't have enough money!", Toast.LENGTH_LONG).show();
+                                    int resourceAmountToSell = user.getMoney() / objectModel.getPrice_sell_iron();
+                                    transaction.update(documentReferenceInventory, "Iron", user.getResource_iron() + resourceAmountToSell);
+                                    transaction.update(documentReferenceUser, "money", user.getMoney() - resourceAmountToSell * objectModel.getPrice_sell_iron());
+                                    transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() - resourceAmountToSell);
+                                    //  Toast.makeText(getActivity(), "You don't have enough money!", Toast.LENGTH_LONG).show();
+                                    Log.i("myTags", "Planet Dialog - apply: NOT ENOUGH MONEY: ");
                                     dismiss();
                                 }
                                 return null;
