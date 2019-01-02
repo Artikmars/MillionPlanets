@@ -10,7 +10,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +25,8 @@ public class NewGameActivity extends AppCompatActivity {
     EditText etNickname;
     FirebaseFirestore firebaseFirestore;
     String username;
+    private DocumentReference documentReferenceInventory;
+    private DocumentReference documentReferenceObjects;
     private FirebaseUser firebaseUser;
     private User user;
 
@@ -37,7 +45,10 @@ public class NewGameActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         username = etNickname.getText().toString();
         firebaseUser = firebaseAuth.getCurrentUser();
-
+        documentReferenceInventory = firebaseFirestore.collection("Inventory")
+                .document(username);
+        documentReferenceObjects = firebaseFirestore.collection("Objects")
+                .document(username);
         user = new User();
         user.setX(5);
         user.setY(6);
@@ -53,7 +64,7 @@ public class NewGameActivity extends AppCompatActivity {
         user.setType("user");
         user.setSumXY(11);
         // Log.i("myTags", "nickname: " + firebaseUser.getDisplayName());
-        firebaseFirestore.collection("Objects").document(username)
+      /*  firebaseFirestore.collection("Objects").document(username)
                 .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -69,7 +80,28 @@ public class NewGameActivity extends AppCompatActivity {
 
             }
         });
-    }
+*/
+
+        firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
+
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                transaction.set(documentReferenceObjects, user);
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(username)
+                        .build();
+                firebaseUser.updateProfile(profileUpdates);
+                Map<String, Object> ironData = new HashMap<>();
+                ironData.put("Iron", 0);
+                transaction.set(documentReferenceInventory, ironData);
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
+            }
+        });
 
    /* private void setGeoData() {
         ObjectModel objectModel = new ObjectModel();
@@ -87,4 +119,5 @@ public class NewGameActivity extends AppCompatActivity {
         });
     }*/
 
+    }
 }

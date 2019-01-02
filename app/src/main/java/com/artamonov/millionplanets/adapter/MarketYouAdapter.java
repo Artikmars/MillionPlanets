@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder> {
+public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.ViewHolder> {
 
     //private static ItemClickListener listener;
     private static DialogListener dialogListener;
@@ -27,15 +27,15 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    public MarketAdapter(List<User> userList, List<ObjectModel> objectModelList, boolean isPlanetTab, DialogListener listener) {
+    public MarketYouAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;
-        this.isPlanetTab = isPlanetTab;
+        // this.isPlanetTab = isPlanetTab;
 
     }
 
-    public MarketAdapter(List<User> userList, Context context, MarketAdapter.DialogListener listener) {
+    public MarketYouAdapter(List<User> userList, Context context, MarketYouAdapter.DialogListener listener) {
         this.userList = userList;
         this.context = context;
         dialogListener = listener;
@@ -44,7 +44,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder
 
     @NonNull
     @Override
-    public MarketAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MarketYouAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.market_you_items, parent, false);
         Log.i("myTags", "onCreateViewHolder " + userList.get(0).getResource_iron());
         //   final MarketYouAdapter.ViewHolder viewHolder = new MarketYouAdapter.ViewHolder(view);
@@ -71,28 +71,21 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder
         //   Button btnNumberPickerConfirm = view.findViewById(R.id.btnNumberPickerConfirm);
 
 
-        return new MarketAdapter.ViewHolder(view);
+        return new MarketYouAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MarketAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MarketYouAdapter.ViewHolder holder, int position) {
         Log.i("myTags", "onBindViewHolder pos: " + position);
         User user = userList.get(position);
         ObjectModel objectModel = objectModelList.get(position);
         if (user.getResource_iron() == 0) {
             return;
         }
-        if (!isPlanetTab) {
-            Log.i("myTags", "onBindViewHolder objectModel.getResourceName(): " + objectModel.getResourceName());
-            holder.resourceName.setText(objectModel.getResourceName());
-            holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
-            holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_buy_iron()));
-        } else {
-            holder.resourceName.setText(objectModel.getResourceName());
-            holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
-            holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_sell_iron()));
-        }
 
+        holder.resourceName.setText(objectModel.getResourceName());
+        holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
+        holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_buy_iron()));
     }
 
 
@@ -103,13 +96,8 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder
     }
 
 
-    /*public interface ItemClickListener {
-        void onItemClick(int position);
-    }*/
-
     public interface DialogListener {
         void onDialogCreate();
-        //  void onDialogSubmit();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -129,7 +117,6 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            //int position = getAdapterPosition();
             dialogListener.onDialogCreate();
 
         }

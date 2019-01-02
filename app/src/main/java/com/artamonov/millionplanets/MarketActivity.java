@@ -2,8 +2,8 @@ package com.artamonov.millionplanets;
 
 import android.os.Bundle;
 
-import com.artamonov.millionplanets.adapter.MarketAdapter;
 import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
+import com.artamonov.millionplanets.adapter.MarketYouAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-public class MarketActivity extends AppCompatActivity implements MarketAdapter.DialogListener {
+public class MarketActivity extends AppCompatActivity implements MarketYouAdapter.DialogListener {
 
     /**
      * The {@link PagerAdapter} that will provide

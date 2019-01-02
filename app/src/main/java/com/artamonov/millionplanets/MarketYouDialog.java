@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
-import com.artamonov.millionplanets.adapter.MarketAdapter;
+import com.artamonov.millionplanets.adapter.MarketYouAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,14 +36,14 @@ public class MarketYouDialog extends AppCompatDialogFragment {
     private DocumentReference documentReference;
     private DocumentReference documentReferenceUser;
     private DocumentReference documentReferenceInventory;
-    private MarketAdapter.DialogListener dialogListener;
+    private MarketYouAdapter.DialogListener dialogListener;
     private boolean isPlanetTab;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            dialogListener = (MarketAdapter.DialogListener) context;
+            dialogListener = (MarketYouAdapter.DialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement DialogListener");
         }
@@ -120,6 +120,7 @@ public class MarketYouDialog extends AppCompatDialogFragment {
                                 ObjectModel objectModel = new ObjectModel();
                                 objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
                                 objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
+                                objectModel.setIronAmount(documentSnapshot2.getLong("iron").intValue());
                                 Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
                                 Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
 
@@ -128,13 +129,13 @@ public class MarketYouDialog extends AppCompatDialogFragment {
                                     transaction.update(documentReferenceInventory, "Iron", 0);
                                     transaction.update(documentReferenceUser, "money", user.getMoney() +
                                             user.getResource_iron() * objectModel.getPrice_buy_iron());
-                                    transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
+                                    transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() + user.getResource_iron());
                                     dismiss();
                                 } else {
                                     transaction.update(documentReferenceInventory, "Iron", user.getResource_iron() - selectedValue);
                                     transaction.update(documentReferenceUser, "money", user.getMoney() +
                                             selectedValue * objectModel.getPrice_buy_iron());
-                                    transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
+                                    transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() + selectedValue);
                                     dismiss();
                                 }
                                 return null;

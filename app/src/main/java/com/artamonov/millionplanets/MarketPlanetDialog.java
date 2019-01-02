@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
-import com.artamonov.millionplanets.adapter.MarketAdapter;
+import com.artamonov.millionplanets.adapter.MarketYouAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,14 +33,14 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
     private FirebaseUser firebaseUser;
     private DocumentReference documentReferenceUser;
     private DocumentReference documentReferenceInventory;
-    private MarketAdapter.DialogListener dialogListener;
+    private MarketYouAdapter.DialogListener dialogListener;
     private boolean isPlanetTab;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            dialogListener = (MarketAdapter.DialogListener) context;
+            dialogListener = (MarketYouAdapter.DialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement DialogListener");
         }
@@ -102,6 +102,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                 ObjectModel objectModel = new ObjectModel();
                                 objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
                                 objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
+                                objectModel.setIronAmount(documentSnapshot2.getLong("iron").intValue());
                                 Log.i("myTags", "Planet Dialog - apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
 
                                 int selectedValue = numberPicker.getValue();
@@ -117,7 +118,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                     Log.i("myTags", "Planet Dialog - apply: new money amount: " + (user.getMoney() -
                                             user.getResource_iron() * objectModel.getPrice_sell_iron()));
 
-                                    transaction.update(documentReferencePlanetMarket, "price_buy_iron", objectModel.getPrice_buy_iron());
+                                    transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount() - selectedValue);
                                     dismiss();
                                 } else {
                                     transaction.update(documentReferenceInventory, "Iron", user.getResource_iron());

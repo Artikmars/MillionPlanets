@@ -14,6 +14,16 @@ public class ObjectModel {
     private int price_buy_iron;
     private int price_sell_iron;
 
+    private int ironAmount;
+
+    public int getIronAmount() {
+        return ironAmount;
+    }
+
+    public void setIronAmount(int ironAmount) {
+        this.ironAmount = ironAmount;
+    }
+
     public String getResourceName() {
         return resourceName;
     }

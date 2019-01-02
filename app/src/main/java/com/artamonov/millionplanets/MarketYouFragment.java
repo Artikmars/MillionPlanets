@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.artamonov.millionplanets.adapter.MarketAdapter;
 import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
+import com.artamonov.millionplanets.adapter.MarketYouAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MarketYouFragment extends Fragment implements MarketAdapter.DialogListener {
+public class MarketYouFragment extends Fragment implements MarketYouAdapter.DialogListener {
 
     RecyclerView rvScanResult;
     FirebaseFirestore firebaseFirestore;
@@ -133,7 +133,7 @@ public class MarketYouFragment extends Fragment implements MarketAdapter.DialogL
     }
 
     private void setAdapter() {
-        MarketAdapter marketYouAdapter = new MarketAdapter(userList, objectModelList, false, this);
+        MarketYouAdapter marketYouAdapter = new MarketYouAdapter(userList, objectModelList, this);
         rvMarketYou.setAdapter(marketYouAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());

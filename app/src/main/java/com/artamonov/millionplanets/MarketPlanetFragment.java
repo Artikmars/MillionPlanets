@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.artamonov.millionplanets.adapter.MarketAdapter;
 import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
+import com.artamonov.millionplanets.adapter.MarketPlanetAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MarketPlanetFragment extends Fragment implements MarketAdapter.DialogListener {
+public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapter.DialogListener {
 
     RecyclerView rvScanResult;
     FirebaseFirestore firebaseFirestore;
@@ -99,6 +99,7 @@ public class MarketPlanetFragment extends Fragment implements MarketAdapter.Dial
                     DocumentSnapshot documentSnapshot3 = transaction.get(documentReferencePlanetMarket);
                     objectModel.setPrice_buy_iron(documentSnapshot3.getLong("price_buy_iron").intValue());
                     objectModel.setPrice_sell_iron(documentSnapshot3.getLong("price_sell_iron").intValue());
+                    objectModel.setIronAmount(documentSnapshot3.getLong("iron").intValue());
                     Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
                     Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
                     userList = new ArrayList<>();
@@ -132,7 +133,7 @@ public class MarketPlanetFragment extends Fragment implements MarketAdapter.Dial
     }
 
     private void setAdapter() {
-        MarketAdapter marketPlanetAdapter = new MarketAdapter(userList, objectModelList, true, this);
+        MarketPlanetAdapter marketPlanetAdapter = new MarketPlanetAdapter(userList, objectModelList, this);
         rvMarketYou.setAdapter(marketPlanetAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());
