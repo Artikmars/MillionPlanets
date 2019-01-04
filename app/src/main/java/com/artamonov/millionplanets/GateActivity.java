@@ -169,38 +169,67 @@ public class GateActivity extends AppCompatActivity {
             Toast.makeText(this, "Fail :( Try again. Total: " + userList.getResource_iron(), Toast.LENGTH_LONG).show();
         }
         if (random > 30 && random <= 40) {
-            Toast.makeText(this, "You got 1 iron. Total: " + (userList.getResource_iron() + 1), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 1);
+            if (userList.getResource_iron() + 1 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 1 iron. Total: " + (userList.getResource_iron() + 1), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 1);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
+
         }
         if (random > 40 && random <= 60) {
-            Toast.makeText(this, "You got 2 iron. Total: " + (userList.getResource_iron() + 2), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 2);
+            if (userList.getResource_iron() + 2 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 2 iron. Total: " + (userList.getResource_iron() + 2), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 2);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
 
         }
         if (random > 60 && random <= 80) {
-            Toast.makeText(this, "You got 3 iron. Total: " + (userList.getResource_iron() + 3), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 3);
+
+            if (userList.getResource_iron() + 3 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 3 iron. Total: " + (userList.getResource_iron() + 3), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 3);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
 
         }
         if (random > 80 && random <= 90) {
-            Toast.makeText(this, "You got 5 iron. Total: " + (userList.getResource_iron() + 5), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 5);
+            if (userList.getResource_iron() + 5 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 5 iron. Total: " + (userList.getResource_iron() + 5), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 5);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
 
         }
         if (random > 90 && random <= 95) {
-            Toast.makeText(this, "You got 10 iron. Total: " + (userList.getResource_iron() + 10), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 10);
+            if (userList.getResource_iron() + 10 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 10 iron. Total: " + (userList.getResource_iron() + 10), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 10);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
 
         }
         if (random > 95 && random <= 97.5) {
-            Toast.makeText(this, "You got 50 iron. Total: " + (userList.getResource_iron() + 50), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 50);
+            if (userList.getResource_iron() + 50 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 50 iron. Total: " + (userList.getResource_iron() + 50), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 50);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
 
         }
         if (random > 97.5 && random <= 100) {
-            Toast.makeText(this, "You got 100 iron. Total: " + (userList.getResource_iron() + 100), Toast.LENGTH_LONG).show();
-            documentReferenceResources.update("Iron", userList.getResource_iron() + 100);
-
+            if (userList.getResource_iron() + 100 <= userList.getCargo()) {
+                Toast.makeText(this, "You got 100 iron. Total: " + (userList.getResource_iron() + 100), Toast.LENGTH_LONG).show();
+                documentReferenceResources.update("Iron", userList.getResource_iron() + 100);
+            } else {
+                Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show();
+            }
         }
 
 

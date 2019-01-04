@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
     //private static ItemClickListener listener;
     private static DialogListener dialogListener;
     private static List<User> userList;
-    private List<ObjectModel> objectModelList;
     private static Context context;
+    private List<ObjectModel> objectModelList;
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
@@ -125,7 +125,9 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
         @Override
         public void onClick(View view) {
             if (userList.get(getAdapterPosition()).getResource_iron() == 0) {
-                Toast.makeText(context, "No resources to sell", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view,
+                        "No resources to sell", Snackbar.LENGTH_LONG)
+                        .show();
                 return;
             }
             dialogListener.onDialogCreate();

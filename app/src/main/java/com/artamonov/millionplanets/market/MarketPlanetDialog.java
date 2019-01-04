@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
@@ -87,6 +88,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                 DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
                                 user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
                                 user.setMoney(documentSnapshot1.getLong("money").intValue());
+                                user.setCargo(documentSnapshot1.getLong("cargo").intValue());
                                 Log.i("myTags", "Planet Dialog - apply: current money: " + user.getMoney());
                                 DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                                         .document(user.getMoveToObjectName());
@@ -100,6 +102,15 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                 int selectedValue = numberPicker.getValue();
                                 Log.i("myTags", "Planet Dialog - apply: selectedValue: " + selectedValue);
                                 Log.i("myTags", "Planet Dialog - apply: selectedValue * price for 1: " + selectedValue * objectModel.getPrice_sell_iron());
+
+                                if (user.getResource_iron() + selectedValue > user.getCargo()) {
+                                    Toast.makeText(getActivity(), "Your cargo is full!", Toast.LENGTH_SHORT).show();
+                                    Log.i("myTags", "Your cargo is full!");
+                                    transaction.update(documentReferenceInventory, "Iron", user.getResource_iron());
+                                    transaction.update(documentReferenceUser, "money", user.getMoney());
+                                    transaction.update(documentReferencePlanetMarket, "iron", objectModel.getIronAmount());
+                                    return null;
+                                }
 
                                 if (user.getMoney() - selectedValue * objectModel.getPrice_sell_iron() > 0) {
                                     Log.i("myTags", "Planet Dialog - apply: We have ENOUGH Money ");
