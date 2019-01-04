@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets.adapter;
+package com.artamonov.millionplanets.sectors;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapter.ViewHolder> {
+public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdapter.ViewHolder> {
 
     //private static ItemClickListener listener;
     private static DialogListener dialogListener;
@@ -27,14 +27,14 @@ public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapte
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    public MarketPlanetAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
+    public SectorsPlanetAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;
         //   this.isPlanetTab = isPlanetTab;
     }
 
-    public MarketPlanetAdapter(List<User> userList, Context context, MarketPlanetAdapter.DialogListener listener) {
+    public SectorsPlanetAdapter(List<User> userList, Context context, SectorsPlanetAdapter.DialogListener listener) {
         this.userList = userList;
         this.context = context;
         dialogListener = listener;
@@ -43,20 +43,18 @@ public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapte
 
     @NonNull
     @Override
-    public MarketPlanetAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.market_you_items, parent, false);
-        return new MarketPlanetAdapter.ViewHolder(view);
+    public SectorsPlanetAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sectors_you_items, parent, false);
+        return new SectorsPlanetAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MarketPlanetAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SectorsPlanetAdapter.ViewHolder holder, int position) {
         Log.i("myTags", "onBindViewHolder pos: " + position);
         User user = userList.get(position);
         ObjectModel objectModel = objectModelList.get(position);
-        holder.resourceName.setText(objectModel.getResourceName());
-        holder.resourceAmount.setText(Integer.toString(objectModel.getIronAmount()));
-        holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_sell_iron()));
-
+        holder.sectorsAmount.setText(Integer.toString(objectModel.getPlanetSectors()));
+        holder.sectorsPrice.setText(Integer.toString(objectModel.getPlanetSectorsPrice()));
 
     }
 
@@ -78,18 +76,16 @@ public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView resourceAmount;
-        private final TextView resourceName;
-        private final TextView resourcePrice;
+        private final TextView sectorsAmount;
+        private final TextView sectorsPrice;
         //  private final ConstraintLayout constraintLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
-            resourceName = itemView.findViewById(R.id.resource_name);
-            resourceAmount = itemView.findViewById(R.id.resource_amount);
-            resourcePrice = itemView.findViewById(R.id.resource_price);
+            sectorsAmount = itemView.findViewById(R.id.sectors_resource_amount);
+            sectorsPrice = itemView.findViewById(R.id.sectors_resource_price);
             //  constraintLayout = itemView.findViewById(R.id.dialog_market_you_layout);
-            itemView.setOnClickListener(this);
+            // itemView.setOnClickListener(this);
         }
 
         @Override

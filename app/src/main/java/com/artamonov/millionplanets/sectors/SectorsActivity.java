@@ -1,9 +1,9 @@
-package com.artamonov.millionplanets;
+package com.artamonov.millionplanets.sectors;
 
 import android.os.Bundle;
+import android.view.View;
 
-import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
-import com.artamonov.millionplanets.adapter.MarketYouAdapter;
+import com.artamonov.millionplanets.R;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-public class MarketActivity extends AppCompatActivity implements MarketYouAdapter.DialogListener {
+public class SectorsActivity extends AppCompatActivity {
 
     /**
      * The {@link PagerAdapter} that will provide
@@ -22,7 +22,7 @@ public class MarketActivity extends AppCompatActivity implements MarketYouAdapte
      * may be best to switch to a
      * androidx.fragment.app.FragmentStatePagerAdapter.
      */
-    private MarketPagerAdapter mSectionsPagerAdapter;
+    private SectorsPagerAdapter mSectionsPagerAdapter;
 
 
     /**
@@ -34,20 +34,20 @@ public class MarketActivity extends AppCompatActivity implements MarketYouAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.market);
+        setContentView(R.layout.sectors);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new MarketPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectorsPagerAdapter(getSupportFragmentManager());
         mSectionsPagerAdapter.setPageTitles(getResources().getString(R.string.first_tab));
         mSectionsPagerAdapter.setPageTitles(getResources().getString(R.string.second_tab));
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
+        mViewPager = findViewById(R.id.sectors_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.sectors_tabs);
 
         tabLayout.setupWithViewPager(mViewPager);
         // mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -56,10 +56,7 @@ public class MarketActivity extends AppCompatActivity implements MarketYouAdapte
 
     }
 
-    @Override
-    public void onDialogCreate() {
-      /*  MarketYouDialog marketYouDialog = new MarketYouDialog();
-        marketYouDialog.show(getSupportFragmentManager(), "text");*/
-    }
+    public void onSectionsAction(View view) {
 
+    }
 }

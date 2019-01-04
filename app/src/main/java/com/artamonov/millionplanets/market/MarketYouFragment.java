@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets;
+package com.artamonov.millionplanets.market;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
-import com.artamonov.millionplanets.adapter.MarketPlanetAdapter;
+import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,7 +21,6 @@ import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapter.DialogListener {
+public class MarketYouFragment extends Fragment implements MarketYouAdapter.DialogListener {
 
     RecyclerView rvScanResult;
     FirebaseFirestore firebaseFirestore;
@@ -53,11 +51,11 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
     private DocumentReference documentReferenceInventory;
     private RecyclerView rvMarketYou;
 
-    public MarketPlanetFragment() {
+    public MarketYouFragment() {
     }
 
-    public static MarketPlanetFragment newInstance() {
-        MarketPlanetFragment fragment = new MarketPlanetFragment();
+    public static MarketYouFragment newInstance() {
+        MarketYouFragment fragment = new MarketYouFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -67,6 +65,7 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
+
             firebaseFirestore = FirebaseFirestore.getInstance();
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             documentReferenceInventory = firebaseFirestore.collection("Inventory")
@@ -78,28 +77,28 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
 
                 @Override
                 public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                    Map<String, Object> documentSnapshot = transaction.get(documentReferenceInventory).getData();
+                   /* Map<String, Object> documentSnapshot = transaction.get(documentReferenceInventory).getData();
                     ObjectModel objectModel = new ObjectModel();
                     for (Map.Entry<String, Object> entry : documentSnapshot.entrySet()) {
                         objectModel.setResourceName(entry.getKey());
-                        Log.i("myTags", "apply in Planet: objectModel.setResourceName(entry.getKey());: " +
+                        Log.i("myTags", "apply: objectModel.setResourceName(entry.getKey());: " +
                                 objectModel.getResourceName());
-                    }
-                    DocumentSnapshot documentSnapshot2 = transaction.get(documentReferenceInventory);
+                    }*/
+                    ObjectModel objectModel = new ObjectModel();
+                    DocumentSnapshot documentSnapshotInventory = transaction.get(documentReferenceInventory);
                     User user = new User();
-                    user.setResource_iron(documentSnapshot2.getLong("Iron").intValue());
-                    Log.i("myTags", "apply in Planet: user.getIron: " + user.getResource_iron());
+                    user.setResource_iron(documentSnapshotInventory.getLong("Iron").intValue());
+                    Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
                     DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
                     user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
-                    Log.i("myTags", "apply in Planet: user.getName: " + user.getMoveToObjectName());
+                    Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
                     DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                             .document(user.getMoveToObjectName());
-                    DocumentSnapshot documentSnapshot3 = transaction.get(documentReferencePlanetMarket);
-                    objectModel.setPrice_buy_iron(documentSnapshot3.getLong("price_buy_iron").intValue());
-                    objectModel.setPrice_sell_iron(documentSnapshot3.getLong("price_sell_iron").intValue());
-                    objectModel.setIronAmount(documentSnapshot3.getLong("iron").intValue());
-                    Log.i("myTags", "apply in Planet: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
-                    Log.i("myTags", "apply in Planet: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
+                    DocumentSnapshot documentSnapshot2 = transaction.get(documentReferencePlanetMarket);
+                    objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
+                    objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
+                    Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
+                    Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
                     userList = new ArrayList<>();
                     userList.add(user);
                     objectModelList = new ArrayList<>();
@@ -131,9 +130,9 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
     }
 
     private void setAdapter() {
-        MarketPlanetAdapter marketPlanetAdapter = new MarketPlanetAdapter(userList, objectModelList, this);
-        marketPlanetAdapter.notifyDataSetChanged();
-        rvMarketYou.setAdapter(marketPlanetAdapter);
+        MarketYouAdapter marketYouAdapter = new MarketYouAdapter(userList, objectModelList, getActivity(), this);
+        marketYouAdapter.notifyDataSetChanged();
+        rvMarketYou.setAdapter(marketYouAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());
 
@@ -150,8 +149,7 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
 
     @Override
     public void onDialogCreate() {
-        MarketPlanetDialog marketPlanetDialog = new MarketPlanetDialog();
-        marketPlanetDialog.show(getFragmentManager(), "text");
+        MarketYouDialog marketYouDialog = new MarketYouDialog();
+        marketYouDialog.show(getFragmentManager(), "text");
     }
-
 }

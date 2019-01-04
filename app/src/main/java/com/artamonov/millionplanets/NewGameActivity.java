@@ -93,6 +93,9 @@ public class NewGameActivity extends AppCompatActivity {
                 firebaseUser.updateProfile(profileUpdates);
                 Map<String, Object> ironData = new HashMap<>();
                 ironData.put("Iron", 0);
+                ironData.put("Mercaster", 0);
+                ironData.put("Leabia", 0);
+                ironData.put("Cracaphill", 0);
                 transaction.set(documentReferenceInventory, ironData);
                 return null;
             }

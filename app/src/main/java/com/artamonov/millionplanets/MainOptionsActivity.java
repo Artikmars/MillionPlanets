@@ -126,7 +126,6 @@ public class MainOptionsActivity extends AppCompatActivity {
                     userList.setMoney(doc.getLong("money").intValue());
                     userList.setMoveToObjectName(doc.getString("moveToObjectName"));
                     userList.setMoveToObjectType(doc.getString("moveToObjectType"));
-                    userList.setMoney(doc.getLong("money").intValue());
 
                     tvPosition.setText(String.format(getResources().getString(R.string.current_coordinate),
                             userList.getX(), userList.getY()));

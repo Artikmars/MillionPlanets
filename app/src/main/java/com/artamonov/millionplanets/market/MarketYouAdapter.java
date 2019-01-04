@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets.adapter;
+package com.artamonov.millionplanets.market;
 
 import android.content.Context;
 import android.util.Log;
@@ -49,7 +49,7 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
     public MarketYouAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.market_you_items, parent, false);
         Log.i("myTags", "onCreateViewHolder " + userList.get(0).getResource_iron());
-        //   final MarketYouAdapter.ViewHolder viewHolder = new MarketYouAdapter.ViewHolder(view);
+        //   final SectorsYouAdapter.ViewHolder viewHolder = new SectorsYouAdapter.ViewHolder(view);
 
       /*  viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +81,9 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
         Log.i("myTags", "onBindViewHolder pos: " + position);
         User user = userList.get(position);
         ObjectModel objectModel = objectModelList.get(position);
-        Log.i("myTags", "onBindViewHolder res name: " + objectModel.getResourceName());
-        holder.resourceName.setText(objectModel.getResourceName());
+        // Log.i("myTags", "onBindViewHolder res name: " + objectModel.getResourceName());
+        //holder.resourceName.setText(objectModel.getResourceName());
+        holder.resourceName.setText("Iron");
         Log.i("myTags", "onBindViewHolder price buy : " + objectModel.getPrice_buy_iron());
 
         holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_buy_iron()));

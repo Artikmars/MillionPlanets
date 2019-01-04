@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets;
+package com.artamonov.millionplanets.market;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
-import com.artamonov.millionplanets.adapter.MarketYouAdapter;
+import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.firebase.auth.FirebaseAuth;

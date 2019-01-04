@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets;
+package com.artamonov.millionplanets.market;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.artamonov.millionplanets.adapter.MarketPagerAdapter;
-import com.artamonov.millionplanets.adapter.MarketYouAdapter;
+import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MarketYouFragment extends Fragment implements MarketYouAdapter.DialogListener {
+public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapter.DialogListener {
 
     RecyclerView rvScanResult;
     FirebaseFirestore firebaseFirestore;
@@ -53,11 +52,11 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     private DocumentReference documentReferenceInventory;
     private RecyclerView rvMarketYou;
 
-    public MarketYouFragment() {
+    public MarketPlanetFragment() {
     }
 
-    public static MarketYouFragment newInstance() {
-        MarketYouFragment fragment = new MarketYouFragment();
+    public static MarketPlanetFragment newInstance() {
+        MarketPlanetFragment fragment = new MarketPlanetFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -67,7 +66,6 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-
             firebaseFirestore = FirebaseFirestore.getInstance();
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             documentReferenceInventory = firebaseFirestore.collection("Inventory")
@@ -83,23 +81,24 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
                     ObjectModel objectModel = new ObjectModel();
                     for (Map.Entry<String, Object> entry : documentSnapshot.entrySet()) {
                         objectModel.setResourceName(entry.getKey());
-                        Log.i("myTags", "apply: objectModel.setResourceName(entry.getKey());: " +
+                        Log.i("myTags", "apply in Planet: objectModel.setResourceName(entry.getKey());: " +
                                 objectModel.getResourceName());
                     }
-                    DocumentSnapshot documentSnapshotInventory = transaction.get(documentReferenceInventory);
+                    DocumentSnapshot documentSnapshot2 = transaction.get(documentReferenceInventory);
                     User user = new User();
-                    user.setResource_iron(documentSnapshotInventory.getLong("Iron").intValue());
-                    Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
+                    user.setResource_iron(documentSnapshot2.getLong("Iron").intValue());
+                    Log.i("myTags", "apply in Planet: user.getIron: " + user.getResource_iron());
                     DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
                     user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
-                    Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
+                    Log.i("myTags", "apply in Planet: user.getName: " + user.getMoveToObjectName());
                     DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                             .document(user.getMoveToObjectName());
-                    DocumentSnapshot documentSnapshot2 = transaction.get(documentReferencePlanetMarket);
-                    objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
-                    objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
-                    Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
-                    Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
+                    DocumentSnapshot documentSnapshot3 = transaction.get(documentReferencePlanetMarket);
+                    objectModel.setPrice_buy_iron(documentSnapshot3.getLong("price_buy_iron").intValue());
+                    objectModel.setPrice_sell_iron(documentSnapshot3.getLong("price_sell_iron").intValue());
+                    objectModel.setIronAmount(documentSnapshot3.getLong("iron").intValue());
+                    Log.i("myTags", "apply in Planet: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
+                    Log.i("myTags", "apply in Planet: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
                     userList = new ArrayList<>();
                     userList.add(user);
                     objectModelList = new ArrayList<>();
@@ -131,9 +130,9 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     }
 
     private void setAdapter() {
-        MarketYouAdapter marketYouAdapter = new MarketYouAdapter(userList, objectModelList, getActivity(), this);
-        marketYouAdapter.notifyDataSetChanged();
-        rvMarketYou.setAdapter(marketYouAdapter);
+        MarketPlanetAdapter marketPlanetAdapter = new MarketPlanetAdapter(userList, objectModelList, this);
+        marketPlanetAdapter.notifyDataSetChanged();
+        rvMarketYou.setAdapter(marketPlanetAdapter);
         rvMarketYou.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("myTags", "userList size: " + userList.size());
 
@@ -150,7 +149,8 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
 
     @Override
     public void onDialogCreate() {
-        MarketYouDialog marketYouDialog = new MarketYouDialog();
-        marketYouDialog.show(getFragmentManager(), "text");
+        MarketPlanetDialog marketPlanetDialog = new MarketPlanetDialog();
+        marketPlanetDialog.show(getFragmentManager(), "text");
     }
+
 }

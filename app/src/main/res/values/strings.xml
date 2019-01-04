@@ -54,13 +54,18 @@
     <string name="market_price">Price</string>
     <string name="market_qnt">Qnt</string>
 
+    //Sectors
+    <string name="sectors">Sectors</string>
+    <string name="sectors_action_get">Get</string>
+    <string name="sectors_action_sell">Sell</string>
+
     <string name="egg">GREAT! +1 for Scanner Capacity</string>
     <string name="run_out_of_eggs">You are pretty enough!!</string>
 
     <string name="undefined">Undefined</string>
     <string name="current_coordinate">X:%1d Y:%2d</string>
     <string name="title_activity_move">MoveActivity</string>
-    <string name="title_activity_market">MarketActivity</string>
+    <string name="title_activity_market">Market</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>

@@ -12,6 +12,7 @@ public class User {
     private int scanner_capacity;
     private int money;
     private int resource_iron;
+    private int sectors;
     private String email;
     private String nickname;
     private int fuel;
@@ -25,6 +26,14 @@ public class User {
     }
     public User() {
 
+    }
+
+    public int getSectors() {
+        return sectors;
+    }
+
+    public void setSectors(int sectors) {
+        this.sectors = sectors;
     }
 
     public int getResource_iron() {

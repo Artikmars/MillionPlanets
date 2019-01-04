@@ -8,16 +8,24 @@ public class ObjectModel {
     private Integer x;
     private Integer y;
     private String planetClass;
-    private String planetSectors;
+    private int planetSectors;
+    private int planetSectorsPrice;
+    private int ironAmount;
+
+    public int getPlanetSectorsPrice() {
+        return planetSectorsPrice;
+    }
     private String planetSize;
     private String resourceName;
     private int price_buy_iron;
     private int price_sell_iron;
 
-    private int ironAmount;
-
     public int getIronAmount() {
         return ironAmount;
+    }
+
+    public void setPlanetSectorsPrice(int planetSectorsPrice) {
+        this.planetSectorsPrice = planetSectorsPrice;
     }
 
     public void setIronAmount(int ironAmount) {
@@ -56,11 +64,11 @@ public class ObjectModel {
         this.planetClass = planetClass;
     }
 
-    public String getPlanetSectors() {
+    public int getPlanetSectors() {
         return planetSectors;
     }
 
-    public void setPlanetSectors(String planetSectors) {
+    public void setPlanetSectors(int planetSectors) {
         this.planetSectors = planetSectors;
     }
 

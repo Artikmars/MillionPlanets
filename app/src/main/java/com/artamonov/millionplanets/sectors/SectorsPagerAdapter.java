@@ -1,7 +1,4 @@
-package com.artamonov.millionplanets.adapter;
-
-import com.artamonov.millionplanets.MarketPlanetFragment;
-import com.artamonov.millionplanets.MarketYouFragment;
+package com.artamonov.millionplanets.sectors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class MarketPagerAdapter extends FragmentPagerAdapter {
+public class SectorsPagerAdapter extends FragmentPagerAdapter {
 
     private List<String> fragmentTitlesList = new ArrayList<>();
 
-    public MarketPagerAdapter(@NonNull FragmentManager fm) {
+    public SectorsPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
@@ -31,11 +28,11 @@ public class MarketPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return MarketYouFragment.newInstance();
+                return SectorsYouFragment.newInstance();
             case 1:
-                return MarketPlanetFragment.newInstance();
+                return SectorsPlanetFragment.newInstance();
             default:
-                return MarketYouFragment.newInstance();
+                return SectorsYouFragment.newInstance();
         }
     }
 

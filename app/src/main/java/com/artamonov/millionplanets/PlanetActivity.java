@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.artamonov.millionplanets.market.MarketActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.sectors.SectorsActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,9 +58,9 @@ public class PlanetActivity extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             objectModelList.setPlanetClass(documentSnapshot.getString("class"));
                             objectModelList.setPlanetSize(documentSnapshot.getString("size"));
-                            objectModelList.setPlanetSectors(documentSnapshot.getString("sectors"));
+                            objectModelList.setPlanetSectors(documentSnapshot.getLong("sectors").intValue());
                             tvClass.setText(objectModelList.getPlanetClass());
-                            tvSectors.setText(objectModelList.getPlanetSectors());
+                            tvSectors.setText(Integer.toString(objectModelList.getPlanetSectors()));
                             tvSize.setText(objectModelList.getPlanetSize());
                         }
                     });
@@ -104,6 +106,14 @@ public class PlanetActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
-        //  startActivity(new Intent(this, MarketActivity.class));
+    }
+
+    public void onGoToSectors(View view) {
+        Intent intent = new Intent(this, SectorsActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 }
