@@ -11,11 +11,21 @@ public class ObjectModel {
     private int planetSectors;
     private int planetSectorsPrice;
     private int ironAmount;
+    private int debrisIronAmount;
 
     public int getPlanetSectorsPrice() {
         return planetSectorsPrice;
     }
     private String planetSize;
+
+    public int getDebrisIronAmount() {
+        return debrisIronAmount;
+    }
+
+    public void setDebrisIronAmount(int debrisIronAmount) {
+        this.debrisIronAmount = debrisIronAmount;
+    }
+
     private String resourceName;
     private int price_buy_iron;
     private int price_sell_iron;

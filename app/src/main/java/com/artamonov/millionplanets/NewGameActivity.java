@@ -52,7 +52,7 @@ public class NewGameActivity extends AppCompatActivity {
         user = new User();
         user.setX(5);
         user.setY(6);
-        user.setCargo(5);
+        user.setCargo(200);
         user.setHp(100);
         user.setShip("Fighter");
         user.setMoney(1000);

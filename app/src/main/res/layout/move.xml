@@ -256,4 +256,16 @@
         app:layout_constraintStart_toEndOf="@+id/move_coordinates_label"
         app:layout_constraintTop_toBottomOf="@+id/move_scanner_capacity" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:max="100"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back_to_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

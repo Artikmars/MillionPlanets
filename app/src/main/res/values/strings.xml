@@ -58,6 +58,11 @@
     <string name="sectors">Sectors</string>
     <string name="sectors_action_get">Get</string>
     <string name="sectors_action_sell">Sell</string>
+    <string name="sectors_action_one_sector">1 sector</string>
+    <string name="sectors_action_two_sectors">2 sectors</string>
+
+    //Mine
+    <string name="mine_stop">Stop</string>
 
     <string name="egg">GREAT! +1 for Scanner Capacity</string>
     <string name="run_out_of_eggs">You are pretty enough!!</string>
@@ -71,8 +76,8 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="first_tab">You</string>
-    <string name="second_tab">Planet</string>
+    <string name="first_tab">Sell</string>
+    <string name="second_tab">Buy</string>
 
 
 </resources>

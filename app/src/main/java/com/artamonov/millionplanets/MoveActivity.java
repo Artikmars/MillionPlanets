@@ -1,10 +1,13 @@
 package com.artamonov.millionplanets;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,19 +53,73 @@ public class MoveActivity extends AppCompatActivity {
     private ObjectModel objectModel;
     private DocumentReference documentReference;
     //   private ProgressDialog progressDialog;
-
+    private ProgressBar progressBar;
     View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Toast.makeText(getApplicationContext(), "Please, wait 60 seconds", Toast.LENGTH_LONG).show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    documentReference.update("fuel", 20);
+            Toast.makeText(getApplicationContext(), "Please, wait 10 seconds", Toast.LENGTH_LONG).show();
+            ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+            animation.setDuration(10000);
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
                 }
-            }, 60000);
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    Integer fuelToFill = 20 - userList.getFuel();
+                    Integer price = fuelToFill * 1000;
+                    if (userList.getMoney() >= price) {
+                        documentReference.update("fuel", 20);
+                        documentReference.update("money", userList.getMoney() - price);
+                        progressBar.setProgress(100);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+            animation.start();
+
+            /*  final CountDownTimer mCountDownTimer;
+            count = 0;
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setProgress(count);
+            mCountDownTimer = new CountDownTimer(10000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Log.v("Log_tag", "Tick of Progress" + count + millisUntilFinished);
+                    count++;
+                    progressBar.setProgress(count * 100 / (10000 / 1000));
+                }
+
+                @Override
+                public void onFinish() {
+                    Integer fuelToFill = 20 - userList.getFuel();
+                    Integer price = fuelToFill * 1000;
+                    if (userList.getMoney() >= price) {
+                        documentReference.update("fuel", 20);
+                        documentReference.update("money", userList.getMoney() - price);
+                    }
+                    count++;
+                    progressBar.setProgress(100);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    cancel();
+                }
+            };
+            mCountDownTimer.start();*/
         }
     };
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +139,7 @@ public class MoveActivity extends AppCompatActivity {
         tvMoney = findViewById(R.id.move_money);
         tv_ScannerCapacity = findViewById(R.id.move_scanner_capacity);
         rvScanResult = findViewById(R.id.move_scan_result_list);
+        progressBar = findViewById(R.id.progressBar);
         rvScanResult.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -148,8 +206,13 @@ public class MoveActivity extends AppCompatActivity {
         parentLayout = findViewById(android.R.id.content);
         Log.i("myLogs", "onItemClick: userList.getFuel()" + userList.getFuel() + ", objectModelList.get(pos).getDistance(): "
                 + userList.getMoveToObjectDistance());
-        if (userList.getFuel() - userList.getMoveToObjectDistance() < 0) {
+        if (userList.getFuel() == 0) {
             Snackbar.make(parentLayout, "You are run out of fuel! Please, call the tanker. ",
+                    Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show();
+            return;
+        }
+        if (userList.getFuel() - userList.getMoveToObjectDistance() < 0) {
+            Snackbar.make(parentLayout, "Not enough fuel to get to the destination. Please, call the tanker.",
                     Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show();
             return;
         }

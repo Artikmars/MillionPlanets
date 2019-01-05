@@ -1,5 +1,6 @@
 package com.artamonov.millionplanets;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -230,30 +231,47 @@ public class ScanResultActivity extends AppCompatActivity implements ScanResultA
         //  moveToObject.put("fuel", userList.getFuel() - objectModelList.get(pos).getDistance());
         documentReference.update(moveToObject);
 
-        Intent intent = new Intent(this, MoveActivity.class);
-
-        // Show only the recycler view item which was clicked
-        ObjectModel objectModel = objectModelList.get(pos);
-        intent.putExtra("objectType", objectModel.getType());
-        intent.putExtra("objectName", objectModel.getName());
-        intent.putExtra("objectDistance", objectModel.getDistance());
-        intent.putExtra("objectX", objectModel.getX());
-        intent.putExtra("objectY", objectModel.getY());
-        Log.i("myLogs", "onItemClick in ScanResult: x: " + objectModel.getX());
-        Log.i("myLogs", "onItemClick in ScanResult: y: " + objectModel.getY());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(ScanResultActivity.this,
-                            rvScanResult,
-                            ViewCompat.getTransitionName(rvScanResult));
-
-            //  startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            startActivity(intent, options.toBundle());
+        if (objectModelList.get(pos).getDistance() == 0) {
+            switch (objectModelList.get(pos).getType()) {
+                case "planet":
+                    Intent intent = new Intent(this, PlanetActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
+                    break;
+                default:
+                    Intent intent2 = new Intent(this, GateActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent2, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                    } else {
+                        startActivity(intent2);
+                    }
+                    break;
+            }
         } else {
-            startActivity(intent);
+            Intent intent = new Intent(this, MoveActivity.class);
+            // Show only the recycler view item which was clicked
+            ObjectModel objectModel = objectModelList.get(pos);
+            intent.putExtra("objectType", objectModel.getType());
+            intent.putExtra("objectName", objectModel.getName());
+            intent.putExtra("objectDistance", objectModel.getDistance());
+            intent.putExtra("objectX", objectModel.getX());
+            intent.putExtra("objectY", objectModel.getY());
+            Log.i("myLogs", "onItemClick in ScanResult: x: " + objectModel.getX());
+            Log.i("myLogs", "onItemClick in ScanResult: y: " + objectModel.getY());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(ScanResultActivity.this,
+                                rvScanResult,
+                                ViewCompat.getTransitionName(rvScanResult));
+                startActivity(intent, options.toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
-
-
     }
+
 }

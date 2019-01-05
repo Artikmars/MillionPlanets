@@ -34,6 +34,7 @@ public class PlanetActivity extends AppCompatActivity {
     private TextView tvSize;
     private TextView tvSectors;
     private TextView tvFuel;
+    private TextView tvMoney;
 
 
     @Override
@@ -48,6 +49,7 @@ public class PlanetActivity extends AppCompatActivity {
             public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
                 if (doc.exists()) {
                     userList.setFuel(doc.getLong("fuel").intValue());
+                    userList.setMoney(doc.getLong("money").intValue());
                     userList.setMoveToObjectName(doc.getString("moveToObjectName"));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
 
@@ -62,6 +64,7 @@ public class PlanetActivity extends AppCompatActivity {
                             tvClass.setText(objectModelList.getPlanetClass());
                             tvSectors.setText(Integer.toString(objectModelList.getPlanetSectors()));
                             tvSize.setText(objectModelList.getPlanetSize());
+                            tvMoney.setText(Integer.toString(userList.getMoney()));
                         }
                     });
 
@@ -86,12 +89,18 @@ public class PlanetActivity extends AppCompatActivity {
         tvSize = findViewById(R.id.planet_size);
         tvSectors = findViewById(R.id.planet_sectors);
         tvFuel = findViewById(R.id.planet_user_fuel);
+        tvMoney = findViewById(R.id.planet_money);
 
 
     }
 
     public void onGetFuel(View view) {
-        documentReference.update("fuel", 20);
+        Integer fuelToFill = 20 - userList.getFuel();
+        Integer price = fuelToFill * 1000;
+        if (userList.getMoney() >= price) {
+            documentReference.update("fuel", 20);
+            documentReference.update("money", userList.getMoney() - price);
+        }
     }
 
     public void onTakeOff(View view) {

@@ -110,7 +110,7 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                 @Override
                 public void onSuccess(Void aVoid) {
                     setAdapter();
-                    if (userList.get(0).getSectors() != 0) {
+                    if (userList.get(0).getSectors() == 2) {
                         setButtonEnabled(false);
                     } else {
                         setButtonEnabled(true);
@@ -152,12 +152,20 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (userList.get(0).getMoney() < 2 * objectModelList.get(0).getPlanetSectorsPrice()) {
                     Snackbar.make(getActivity().findViewById(android.R.id.content),
                             "You don't have enough money to buy 2 sectors! Come again", Snackbar.LENGTH_LONG)
                             .show();
                     return;
                 }
+
+                if (userList.get(0).getSectors() == 0) {
+                    SectorsPlanetDialog sectorsPlanetDialog = new SectorsPlanetDialog();
+                    sectorsPlanetDialog.show(getFragmentManager(), "text");
+                    return;
+                }
+
                 firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
                     @Nullable
                     @Override
@@ -165,17 +173,18 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
 
                         DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                                 .document(userList.get(0).getMoveToObjectName());
-                        transaction.update(documentReferenceInventory, userList.get(0).getMoveToObjectName(), 2);
-                        transaction.update(documentReferenceUser, "money", userList.get(0).getMoney() - 2 * objectModelList.get(0).getPlanetSectorsPrice());
+                        transaction.update(documentReferenceInventory, userList.get(0).getMoveToObjectName(),
+                                userList.get(0).getSectors() + 1);
+                        transaction.update(documentReferenceUser, "money", userList.get(0).getMoney() - objectModelList.get(0).getPlanetSectorsPrice());
                         transaction.update(documentReferencePlanetMarket, "sectors",
-                                objectModelList.get(0).getPlanetSectors() - 2);
+                                objectModelList.get(0).getPlanetSectors() - 1);
                         return null;
                     }
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                "Congratulations! You bought 2 sectors! Come later to farm!", Snackbar.LENGTH_LONG)
+                                "Congratulations! You bought 1 sector! Come later to farm!", Snackbar.LENGTH_LONG)
                                 .show();
                         btnAction.setEnabled(false);
                         btnAction.setBackgroundColor(getResources().getColor(R.color.grey));

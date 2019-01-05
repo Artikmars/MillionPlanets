@@ -153,6 +153,12 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (userList.get(0).getSectors() == 2) {
+                    SectorsYouDialog sectorsYouDialog = new SectorsYouDialog();
+                    sectorsYouDialog.show(getFragmentManager(), "text");
+                    return;
+                }
                 firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
                     @Nullable
                     @Override
@@ -162,16 +168,16 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
                                 .document(userList.get(0).getMoveToObjectName());
                         transaction.update(documentReferenceInventory, userList.get(0).getMoveToObjectName(), 0);
                         transaction.update(documentReferenceUser, "money",
-                                userList.get(0).getMoney() + objectModelList.get(0).getPlanetSectorsPrice());
+                                userList.get(0).getMoney() + objectModelList.get(0).getPlanetSectorsPrice() / 2);
                         transaction.update(documentReferencePlanetMarket, "sectors",
-                                objectModelList.get(0).getPlanetSectors() + 2);
+                                objectModelList.get(0).getPlanetSectors() + 1);
                         return null;
                     }
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                "You have sold 2 sectors", Snackbar.LENGTH_LONG)
+                                "You have sold 1 sector", Snackbar.LENGTH_LONG)
                                 .show();
                         btnAction.setEnabled(false);
                         btnAction.setBackgroundColor(getResources().getColor(R.color.grey));
