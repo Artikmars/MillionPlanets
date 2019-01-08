@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,6 +36,9 @@ public class PlanetActivity extends AppCompatActivity {
     private TextView tvSectors;
     private TextView tvFuel;
     private TextView tvMoney;
+    private TextView btnGetFuel;
+    private TextView btnMarket;
+    private TextView btnSectors;
 
 
     @Override
@@ -65,7 +69,39 @@ public class PlanetActivity extends AppCompatActivity {
                             tvSectors.setText(Integer.toString(objectModelList.getPlanetSectors()));
                             tvSize.setText(objectModelList.getPlanetSize());
                             tvMoney.setText(Integer.toString(userList.getMoney()));
+
+                            setObjectsAccessLevel();
                         }
+
+                        private void setObjectsAccessLevel() {
+
+                            double accessLevel = (double) objectModelList.getPlanetSectors() / 6;
+
+                            if (accessLevel < 0.25) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors: < 0.25 - " + accessLevel);
+                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.grey));
+                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
+                                btnGetFuel.setEnabled(false);
+                                btnMarket.setEnabled(false);
+                            }
+                            if (accessLevel >= 0.25 && accessLevel < 0.5) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors: 0.25-0.5 - " + accessLevel);
+                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
+                                btnMarket.setEnabled(false);
+                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                btnGetFuel.setEnabled(true);
+                            }
+                            if (accessLevel >= 0.5 && accessLevel < 0.75){
+                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + accessLevel);
+                            }
+
+                          /*  if (objectModelList.getPlanetSectors() / 6 < 0.75) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors: " + objectModelList.getPlanetSectors());
+                            }*/
+
+
+                        }
+
                     });
 
                 }
@@ -90,6 +126,9 @@ public class PlanetActivity extends AppCompatActivity {
         tvSectors = findViewById(R.id.planet_sectors);
         tvFuel = findViewById(R.id.planet_user_fuel);
         tvMoney = findViewById(R.id.planet_money);
+        btnGetFuel = findViewById(R.id.planet_get_fuel);
+        btnMarket = findViewById(R.id.planet_market);
+        btnSectors = findViewById(R.id.planet_sectors_button);
 
 
     }
