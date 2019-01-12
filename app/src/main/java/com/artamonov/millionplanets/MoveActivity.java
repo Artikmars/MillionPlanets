@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.utils.Utils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,15 +70,14 @@ public class MoveActivity extends AppCompatActivity {
 
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    Integer fuelToFill = 20 - userList.getFuel();
+                    Integer fuelToFill = Utils.getShipFuelInfo(userList.getShip()) - userList.getFuel();
                     Integer price = fuelToFill * 1000;
                     if (userList.getMoney() >= price) {
-                        documentReference.update("fuel", 20);
+                        documentReference.update("fuel", Utils.getShipFuelInfo(userList.getShip()));
                         documentReference.update("money", userList.getMoney() - price);
                         progressBar.setProgress(100);
                         progressBar.setVisibility(View.INVISIBLE);
                     }
-
                 }
 
                 @Override
@@ -198,7 +198,7 @@ public class MoveActivity extends AppCompatActivity {
     }
 
     public void onGoBackToMainOptions(View view) {
-        finish();
+        startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
     }
 
     public void onJump(View view) {

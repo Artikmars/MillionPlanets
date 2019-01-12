@@ -1,4 +1,4 @@
-package utils;
+package com.artamonov.millionplanets.utils;
 
 import java.util.Random;
 

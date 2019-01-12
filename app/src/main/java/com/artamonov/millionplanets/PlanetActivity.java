@@ -12,6 +12,8 @@ import com.artamonov.millionplanets.market.MarketActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.artamonov.millionplanets.sectors.SectorsActivity;
+import com.artamonov.millionplanets.shipyard.ShipyardActivity;
+import com.artamonov.millionplanets.utils.Utils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +41,7 @@ public class PlanetActivity extends AppCompatActivity {
     private TextView btnGetFuel;
     private TextView btnMarket;
     private TextView btnSectors;
+    private TextView btnShipyard;
 
 
     @Override
@@ -55,6 +58,7 @@ public class PlanetActivity extends AppCompatActivity {
                     userList.setFuel(doc.getLong("fuel").intValue());
                     userList.setMoney(doc.getLong("money").intValue());
                     userList.setMoveToObjectName(doc.getString("moveToObjectName"));
+                    userList.setShip(doc.getString("ship"));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
 
                     planetDocumentReference = firebaseFirestore.collection("Objects")
@@ -75,24 +79,44 @@ public class PlanetActivity extends AppCompatActivity {
 
                         private void setObjectsAccessLevel() {
 
-                            double accessLevel = (double) objectModelList.getPlanetSectors() / 6;
+                            double occupationLevel = (double) (6 - objectModelList.getPlanetSectors()) / 6;
 
-                            if (accessLevel < 0.25) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors: < 0.25 - " + accessLevel);
+                            if (occupationLevel < 0.25) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors: < 0.25 - " + occupationLevel);
                                 btnGetFuel.setBackgroundColor(getResources().getColor(R.color.grey));
-                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
                                 btnGetFuel.setEnabled(false);
+                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
                                 btnMarket.setEnabled(false);
+                                btnShipyard.setEnabled(false);
+                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
+
                             }
-                            if (accessLevel >= 0.25 && accessLevel < 0.5) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors: 0.25-0.5 - " + accessLevel);
+                            if (occupationLevel >= 0.25 && occupationLevel < 0.5) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors: 0.25-0.5 - " + occupationLevel);
                                 btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
                                 btnMarket.setEnabled(false);
                                 btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                                 btnGetFuel.setEnabled(true);
+                                btnShipyard.setEnabled(false);
+                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
                             }
-                            if (accessLevel >= 0.5 && accessLevel < 0.75){
-                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + accessLevel);
+                            if (occupationLevel >= 0.5 && occupationLevel < 0.75) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + occupationLevel);
+                                btnMarket.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                btnMarket.setEnabled(true);
+                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                btnGetFuel.setEnabled(true);
+                                btnShipyard.setEnabled(false);
+                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
+                            }
+                            if (occupationLevel >= 0.75) {
+                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + occupationLevel);
+                                btnMarket.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                btnMarket.setEnabled(true);
+                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                btnGetFuel.setEnabled(true);
+                                btnShipyard.setEnabled(true);
+                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
 
                           /*  if (objectModelList.getPlanetSectors() / 6 < 0.75) {
@@ -122,28 +146,29 @@ public class PlanetActivity extends AppCompatActivity {
                 .document(firebaseUser.getDisplayName());
 
         tvClass = findViewById(R.id.planet_class);
-        tvSize = findViewById(R.id.planet_size);
+        tvSize = findViewById(R.id.shipyard_hp);
         tvSectors = findViewById(R.id.planet_sectors);
-        tvFuel = findViewById(R.id.planet_user_fuel);
+        tvFuel = findViewById(R.id.planet_fuel);
         tvMoney = findViewById(R.id.planet_money);
         btnGetFuel = findViewById(R.id.planet_get_fuel);
         btnMarket = findViewById(R.id.planet_market);
-        btnSectors = findViewById(R.id.planet_sectors_button);
+        btnSectors = findViewById(R.id.planet_btn_sectors);
+        btnShipyard = findViewById(R.id.planet_shipyard);
 
 
     }
 
     public void onGetFuel(View view) {
-        Integer fuelToFill = 20 - userList.getFuel();
+        Integer fuelToFill = Utils.getShipFuelInfo(userList.getShip()) - userList.getFuel();
         Integer price = fuelToFill * 1000;
         if (userList.getMoney() >= price) {
-            documentReference.update("fuel", 20);
+            documentReference.update("fuel", Utils.getShipFuelInfo(userList.getShip()));
             documentReference.update("money", userList.getMoney() - price);
         }
     }
 
     public void onTakeOff(View view) {
-        finish();
+        startActivity(new Intent(this, MainOptionsActivity.class));
     }
 
 
@@ -163,5 +188,15 @@ public class PlanetActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
+    }
+
+    public void onGoToShipyard(View view) {
+        Intent intent = new Intent(this, ShipyardActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
+
     }
 }

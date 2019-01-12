@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.utils.RandomUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +34,6 @@ import javax.annotation.Nullable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import utils.RandomUtils;
 
 public class GateActivity extends AppCompatActivity {
 
@@ -174,7 +174,7 @@ public class GateActivity extends AppCompatActivity {
     }
 
     public void onGoBackToMainOptions(View view) {
-        finish();
+        startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
     }
 
     private void mineIron() {

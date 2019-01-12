@@ -98,6 +98,8 @@ public class SectorsPlanetDialog extends AppCompatDialogFragment {
                                 ObjectModel objectModel = new ObjectModel();
                                 objectModel.setPlanetSectorsPrice(documentSnapshotPlanet.getLong("sectors_price").intValue());
                                 objectModel.setPlanetSectors(documentSnapshotPlanet.getLong("sectors").intValue());
+
+
                                 transaction.update(documentReferenceInventory, user.getMoveToObjectName(), selectedValue);
 
                                 transaction.update(documentReferenceUser, "money",

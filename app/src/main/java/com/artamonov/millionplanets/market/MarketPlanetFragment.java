@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.artamonov.millionplanets.R;
@@ -144,6 +145,9 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_you, container, false);
         rvMarketYou = view.findViewById(R.id.rvMarketYou);
+        Button btnAction = view.findViewById(R.id.market_action_btn);
+        btnAction.setText(getResources().getString(R.string.sectors_action_sell));
+        btnAction.setVisibility(View.INVISIBLE);
         return view;
     }
 

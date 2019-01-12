@@ -27,7 +27,7 @@ public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdap
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    public SectorsPlanetAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
+    SectorsPlanetAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;

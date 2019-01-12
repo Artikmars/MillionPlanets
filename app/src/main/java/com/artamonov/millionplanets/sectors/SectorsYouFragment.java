@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.market.MarketYouDialog;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -192,7 +191,6 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
 
     @Override
     public void onDialogCreate() {
-        MarketYouDialog marketYouDialog = new MarketYouDialog();
-        marketYouDialog.show(getFragmentManager(), "text");
+
     }
 }

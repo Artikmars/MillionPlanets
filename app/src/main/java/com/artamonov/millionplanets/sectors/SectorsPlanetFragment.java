@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.market.MarketPlanetDialog;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -110,7 +109,7 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                 @Override
                 public void onSuccess(Void aVoid) {
                     setAdapter();
-                    if (userList.get(0).getSectors() == 2) {
+                    if (userList.get(0).getSectors() == 2 || objectModelList.get(0).getPlanetSectors() == 0) {
                         setButtonEnabled(false);
                     } else {
                         setButtonEnabled(true);
@@ -199,8 +198,7 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
 
     @Override
     public void onDialogCreate() {
-        MarketPlanetDialog marketPlanetDialog = new MarketPlanetDialog();
-        marketPlanetDialog.show(getFragmentManager(), "text");
+
     }
 
 }

@@ -52,12 +52,13 @@ public class NewGameActivity extends AppCompatActivity {
         user = new User();
         user.setX(5);
         user.setY(6);
-        user.setCargo(200);
-        user.setHp(100);
+        user.setCargo(10);
+        user.setHp(50);
         user.setShip("Fighter");
         user.setMoney(1000);
-        user.setScanner_capacity(10);
+        user.setScanner_capacity(15);
         user.setShield(100);
+        user.setJump(10);
         user.setFuel(20);
         user.setNickname(username);
         user.setEmail(firebaseUser.getEmail());

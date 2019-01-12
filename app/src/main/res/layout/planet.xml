@@ -7,8 +7,25 @@
     android:background="@color/colorPrimary"
     tools:context=".PlanetActivity">
 
+    <Button
+        android:id="@+id/planet_shipyard"
+        style="@style/Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:onClick="onGoToShipyard"
+        android:text="@string/planet_shipyard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planet_get_fuel" />
+
     <TextView
-        android:id="@+id/planet_user_fuel"
+        android:id="@+id/planet_fuel"
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/planet_sectors" />
 
     <TextView
-        android:id="@+id/planet_user_fuel_label"
+        android:id="@+id/planet_fuel_label"
         style="@style/UserInfoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/planet_sectors_label" />
 
     <TextView
-        android:id="@+id/planet_size_label"
+        android:id="@+id/planet_hp_label"
         style="@style/UserInfoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +67,7 @@
         android:text="@string/planet_sectors"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planet_size_label" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_hp_label" />
 
     <TextView
         android:id="@+id/planet_class"
@@ -65,7 +82,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/planet_size"
+        android:id="@+id/shipyard_hp"
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +101,7 @@
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
         app:layout_constraintStart_toEndOf="@+id/planet_sectors_label"
-        app:layout_constraintTop_toBottomOf="@+id/planet_size" />
+        app:layout_constraintTop_toBottomOf="@+id/shipyard_hp" />
 
     <TextView
         android:id="@+id/planet_class_label"
@@ -113,7 +130,7 @@
         android:text="@string/get_fuel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planet_sectors_button" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_btn_sectors" />
 
     <Button
         android:id="@+id/planet_take_off"
@@ -130,7 +147,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planet_get_fuel" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_shipyard" />
 
     <Button
         android:id="@+id/planet_market"
@@ -147,10 +164,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planet_user_fuel" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_fuel" />
 
     <Button
-        android:id="@+id/planet_sectors_button"
+        android:id="@+id/planet_btn_sectors"
         style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -175,7 +192,7 @@
         android:layout_marginLeft="32dp"
         android:text="@string/user_money"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planet_user_fuel_label" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_fuel_label" />
 
     <TextView
         android:id="@+id/planet_money"
@@ -186,6 +203,6 @@
         android:layout_marginLeft="8dp"
         android:text="@string/undefined"
         app:layout_constraintStart_toEndOf="@+id/planet_sectors_label"
-        app:layout_constraintTop_toBottomOf="@+id/planet_user_fuel" />
+        app:layout_constraintTop_toBottomOf="@+id/planet_fuel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

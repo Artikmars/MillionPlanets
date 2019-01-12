@@ -10,6 +10,42 @@ public class User {
     private int shield;
     private int cargo;
     private int scanner_capacity;
+    private int jump;
+    private int shipPrice;
+    private String shipClass;
+    private int weaponSlots;
+
+    public int getJump() {
+        return jump;
+    }
+
+    public void setJump(int jump) {
+        this.jump = jump;
+    }
+
+    public int getShipPrice() {
+        return shipPrice;
+    }
+
+    public void setShipPrice(int shipPrice) {
+        this.shipPrice = shipPrice;
+    }
+
+    public int getWeaponSlots() {
+        return weaponSlots;
+    }
+
+    public void setWeaponSlots(int weaponSlots) {
+        this.weaponSlots = weaponSlots;
+    }
+
+    public String getShipClass() {
+        return shipClass;
+    }
+
+    public void setShipClass(String shipClass) {
+        this.shipClass = shipClass;
+    }
     private int money;
     private int resource_iron;
     private int sectors;

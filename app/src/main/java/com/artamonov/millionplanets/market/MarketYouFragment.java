@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.artamonov.millionplanets.R;
@@ -47,9 +48,11 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     private TextView tv_ScannerCapacity;
     private FirebaseUser firebaseUser;
     private View parentLayout;
-    private ObjectModel objectModel;
     private DocumentReference documentReferenceInventory;
     private RecyclerView rvMarketYou;
+    private DocumentReference documentReferenceUser;
+    private DocumentReference documentReferencePlanetMarket;
+    private ObjectModel objectModel;
 
     public MarketYouFragment() {
     }
@@ -70,7 +73,7 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             documentReferenceInventory = firebaseFirestore.collection("Inventory")
                     .document(firebaseUser.getDisplayName());
-            final DocumentReference documentReferenceUser = firebaseFirestore.collection("Objects")
+            documentReferenceUser = firebaseFirestore.collection("Objects")
                     .document(firebaseUser.getDisplayName());
 
             firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
@@ -84,19 +87,21 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
                         Log.i("myTags", "apply: objectModel.setResourceName(entry.getKey());: " +
                                 objectModel.getResourceName());
                     }*/
-                    ObjectModel objectModel = new ObjectModel();
+                    objectModel = new ObjectModel();
                     DocumentSnapshot documentSnapshotInventory = transaction.get(documentReferenceInventory);
                     User user = new User();
                     user.setResource_iron(documentSnapshotInventory.getLong("Iron").intValue());
                     Log.i("myTags", "apply: user.getIron: " + user.getResource_iron());
                     DocumentSnapshot documentSnapshot1 = transaction.get(documentReferenceUser);
                     user.setMoveToObjectName(documentSnapshot1.getString("moveToObjectName"));
+                    user.setMoney(documentSnapshot1.getLong("money").intValue());
                     Log.i("myTags", "apply: user.getName: " + user.getMoveToObjectName());
-                    DocumentReference documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
+                    documentReferencePlanetMarket = firebaseFirestore.collection("Objects")
                             .document(user.getMoveToObjectName());
                     DocumentSnapshot documentSnapshot2 = transaction.get(documentReferencePlanetMarket);
                     objectModel.setPrice_buy_iron(documentSnapshot2.getLong("price_buy_iron").intValue());
                     objectModel.setPrice_sell_iron(documentSnapshot2.getLong("price_sell_iron").intValue());
+                    objectModel.setIronAmount(documentSnapshot2.getLong("iron").intValue());
                     Log.i("myTags", "apply: setPrice_buy_iron: " + objectModel.getPrice_buy_iron());
                     Log.i("myTags", "apply: setPrice_sell_iron: " + objectModel.getPrice_sell_iron());
                     userList = new ArrayList<>();
@@ -144,6 +149,28 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_you, container, false);
         rvMarketYou = view.findViewById(R.id.rvMarketYou);
+        Button btnAction = view.findViewById(R.id.market_action_btn);
+        btnAction.setVisibility(View.VISIBLE);
+        btnAction.setText(getResources().getString(R.string.sectors_action_sell));
+        btnAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
+                    @Nullable
+                    @Override
+                    public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                        transaction.update(documentReferenceInventory, "Iron", 0);
+                        transaction.update(documentReferenceUser, "money",
+                                userList.get(0).getMoney() + userList.get(0).getResource_iron() *
+                                        objectModel.getPrice_buy_iron());
+                        transaction.update(documentReferencePlanetMarket, "iron",
+                                objectModel.getIronAmount() + userList.get(0).getResource_iron());
+                        return null;
+                    }
+                });
+
+            }
+        });
         return view;
     }
 

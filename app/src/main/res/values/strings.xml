@@ -40,6 +40,9 @@
     <string name="planet_type">Planet</string>
     <string name="fuel_type">Fuel</string>
 
+    <string name="user_cash">Cash: </string>
+    <string name="user_bank">Bank: </string>
+
     //Planet
     <string name="planet_class">Class: </string>
     <string name="planet_size">Size: </string>
@@ -47,6 +50,17 @@
     <string name="planet_market">Market </string>
     <string name="planet_sectors_button">Sectors </string>
     <string name="planet_take_off">Take Off </string>
+    <string name="planet_shipyard">Shipyard</string>
+
+    //Shipyard
+    <string name="shipyard_weapon_slots">Weapon Slots: </string>
+    <string name="shipyard_cost">Cost: </string>
+    <string name="shipyard_your_ship">Your Ship: </string>
+    <string name="shipyard_caution">Your ship will be sold at half price.</string>
+    <string name="shipyard_jump">Jump: </string>
+    <string name="shipyard_buy">Buy</string>
+    <string name="shipyard_ships">Ships</string>
+
 
     //Market
     <string name="market_you">You</string>
