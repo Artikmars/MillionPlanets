@@ -199,4 +199,7 @@ public class PlanetActivity extends AppCompatActivity {
         }
 
     }
+
+    public void onGoToModules(View view) {
+    }
 }

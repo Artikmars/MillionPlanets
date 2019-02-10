@@ -51,6 +51,7 @@
     <string name="planet_sectors_button">Sectors </string>
     <string name="planet_take_off">Take Off </string>
     <string name="planet_shipyard">Shipyard</string>
+    <string name="planet_modules">Modules</string>
 
     //Shipyard
     <string name="shipyard_weapon_slots">Weapon Slots: </string>
