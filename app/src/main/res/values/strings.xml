@@ -94,5 +94,28 @@
     <string name="first_tab">Sell</string>
     <string name="second_tab">Buy</string>
 
+    //Modules
+    <string name="modules_list_header">Modules</string>
+    <string name="modules_list_weapons">Weapons</string>
+    <string name="modules_list_shields">Shields</string>
+    <string name="modules_list_drives">Drives</string>
+    <string name="modules_list_scanners">Scanners</string>
+    <string name="modules_list_special">Special</string>
+
+    //ModulesList
+    <string name="modules_list_light_laser">Light Laser</string>
+    <string name="modules_list_medium_laser">Medium Laser</string>
+    <string name="modules_list_heavy_laser">Heavy Laser</string>
+    <string name="modules_list_military_laser">Military Laser</string>
+    <string name="modules_list_heavy_military_laser">Heavy Military Laser</string>
+
+    //ModulesInfo
+    <string name="modules_info_class">Class: </string>
+    <string name="modules_info_damage_hp">Damage HP: </string>
+    <string name="modules_info_damage_shield">Damage Shield: </string>
+    <string name="modules_info_slot">Slots Required: </string>
+    <string name="modules_info_cost">Cost: </string>
+    <string name="modules_info_you_have">You have: </string>
+
 
 </resources>

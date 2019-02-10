@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".modules.ModulesListActivity"></activity>
+        <activity android:name=".modules.ModulesInfoActivity" />
+        <activity android:name=".modules.ModulesActivity" />
+
         <service android:name="com.google.firebase.messaging.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -61,7 +65,7 @@
             android:value="bbc9e5e6abfd52ec0b50443ba55e59f5c5e3f9f2" />
 
         <activity android:name=".shipyard.ShipyardActivity" />
-        <activity android:name=".shipyard.ShipyardInfoActivity"></activity>
+        <activity android:name=".shipyard.ShipyardInfoActivity" />
     </application>
 
 </manifest>

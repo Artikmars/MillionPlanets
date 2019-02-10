@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.artamonov.millionplanets.market.MarketActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.modules.ModulesListActivity;
 import com.artamonov.millionplanets.sectors.SectorsActivity;
 import com.artamonov.millionplanets.shipyard.ShipyardActivity;
 import com.artamonov.millionplanets.utils.Utils;
@@ -201,5 +202,11 @@ public class PlanetActivity extends AppCompatActivity {
     }
 
     public void onGoToModules(View view) {
+        Intent intent = new Intent(this, ModulesListActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 }
