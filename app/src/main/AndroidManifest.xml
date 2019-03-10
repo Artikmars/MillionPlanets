@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".modules.ModulesListActivity"></activity>
-        <activity android:name=".modules.ModulesInfoActivity" />
-        <activity android:name=".modules.ModulesActivity" />
+        <activity
+            android:name=".modules.ModulesInfoActivity"
+            android:parentActivityName=".modules.ModulesActivity" />
+        <activity
+            android:name=".modules.ModulesActivity"
+            android:parentActivityName=".modules.ModulesListActivity" />
 
         <service android:name="com.google.firebase.messaging.FirebaseMessagingService">
             <intent-filter>

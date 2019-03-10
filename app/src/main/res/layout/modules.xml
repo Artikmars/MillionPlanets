@@ -28,40 +28,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvModules"
         android:layout_width="0dp"
-        android:layout_height="195dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/module_label" />
-
-    <TextView
-        android:id="@+id/module_label"
-        style="@style/UserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="52dp"
-        android:text="@string/shipyard_ships"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modules_user_cash" />
-
-    <TextView
-        android:id="@+id/module_price"
-        style="@style/UserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="@string/market_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modules_user_bank_label" />
+        app:layout_constraintTop_toBottomOf="@+id/modules_price_label" />
 
     <TextView
         android:id="@+id/modules_user_cash_label"
@@ -78,13 +54,13 @@
     <TextView
         android:id="@+id/modules_user_bank_label"
         style="@style/UserTopInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
+        android:layout_width="47dp"
+        android:layout_height="18dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/user_bank"
-        app:layout_constraintStart_toEndOf="@+id/modules_user_cash"
+        app:layout_constraintEnd_toStartOf="@+id/modules_user_bank"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -107,8 +83,30 @@
         android:layout_marginRight="8dp"
         android:text="@string/undefined"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
-        app:layout_constraintStart_toEndOf="@+id/modules_user_bank_label"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/modules_weapons_slots_label"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="72dp"
+        android:text="@string/modules_weapon_slots"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modules_user_cash" />
+
+    <TextView
+        android:id="@+id/modules_price_label"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/market_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modules_user_bank" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

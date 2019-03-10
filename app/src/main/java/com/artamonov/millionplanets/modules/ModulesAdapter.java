@@ -1,60 +1,60 @@
 package com.artamonov.millionplanets.modules;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.model.ObjectModel;
-import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.model.Module;
 
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHolder> {
-
-    //private static ItemClickListener listener;
-    private static DialogListener dialogListener;
     private static ItemClickListener listener;
-    List<User> shipsList;
-    List<User> shipTrader;
-    List<User> shipRS;
-    private List<User> userList;
-    private Map<Integer, Object> shipsMap;
-    private List<ObjectModel> objectModelList;
+    private List<Module> moduleList;
     private Context context;
-    private NumberPicker numberPicker;
-    private boolean isPlanetTab;
+    private int existedItem;
 
-    ModulesAdapter(List<User> shipsList, ItemClickListener itemClickListener) {
+    ModulesAdapter(List<Module> moduleList, int existedItem, Context context, ItemClickListener itemClickListener) {
         listener = itemClickListener;
-        this.shipsList = shipsList;
+        this.context = context;
+        this.moduleList = moduleList;
+        this.existedItem = existedItem;
     }
 
     @NonNull
     @Override
     public ModulesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shipyard_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.modules_items, parent, false);
         return new ModulesAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
-        Log.i("myTags", "onBindViewHolder pos: " + position);
-        holder.shipyardName.setText(shipsList.get(position).getShip());
-        holder.shipyardPrice.setText(Integer.toString(shipsList.get(position).getShipPrice()));
+        if (position == 3 || position == 4) {
+            holder.modulesPrice.setEnabled(false);
+            holder.modulesName.setEnabled(false);
+            holder.modulesPrice.setBackgroundColor(context.getResources().getColor(R.color.grey));
+            holder.modulesName.setBackgroundColor(context.getResources().getColor(R.color.grey));
+        }
+        holder.modulesName.setText(moduleList.get(position).getName());
+        holder.modulesPrice.setText(Integer.toString(moduleList.get(position).getPrice()));
+
+        if (position == existedItem) {
+            holder.modulesName.setTextColor(context.getResources().getColor(R.color.yellow));
+            holder.modulesPrice.setTextColor(context.getResources().getColor(R.color.yellow));
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return shipsList.size();
+        return moduleList.size();
     }
 
     public interface ItemClickListener {
@@ -67,13 +67,13 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView shipyardName;
-        private final TextView shipyardPrice;
+        private final TextView modulesName;
+        private final TextView modulesPrice;
 
         ViewHolder(View itemView) {
             super(itemView);
-            shipyardName = itemView.findViewById(R.id.shipyard_name);
-            shipyardPrice = itemView.findViewById(R.id.shipyard_price);
+            modulesName = itemView.findViewById(R.id.modules_name);
+            modulesPrice = itemView.findViewById(R.id.modules_price);
             itemView.setOnClickListener(this);
         }
 

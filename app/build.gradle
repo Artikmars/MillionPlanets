@@ -23,7 +23,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 15
-        versionName "0.16.2"
+        versionName "0.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

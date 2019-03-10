@@ -1,11 +1,25 @@
 package com.artamonov.millionplanets.utils;
 
+import com.artamonov.millionplanets.model.Module;
 import com.artamonov.millionplanets.model.User;
 
 public class Utils {
     private static User fighter = new User();
     private static User trader = new User();
     private static User rs = new User();
+
+    public static Module getCurrentModuleInfo(int position) {
+
+        switch (position) {
+            case 0:
+                return new Module("Light Laser", "mk I", 25, 0, 0);
+            case 1:
+                return new Module("Medium Laser", "mk II", 40, 40, 5000);
+            case 2:
+                return new Module("Heavy Laser", "mk III", 60, 60, 10000);
+        }
+        return null;
+    }
 
     public static User getCurrentShipInfo(int position) {
 
@@ -64,4 +78,18 @@ public class Utils {
     }
 
 
+    public static int getWeaponIdByName(String name) {
+        if (name == null) {
+            return -1;
+        }
+        switch (name) {
+            case "Light Laser":
+                return 0;
+            case "Medium Laser":
+                return 1;
+            case "Heavy Laser":
+                return 2;
+        }
+        return -1;
+    }
 }

@@ -5,7 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".shipyard.ShipyardInfoActivity">
+    android:id="@+id/modulesinfo_parentLayout"
+    tools:context=".modules.ModulesInfoActivity">
+
+    <TextView
+        android:id="@+id/modulesinfo_damageShield"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
+        android:text="@string/undefined"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp" />
+
+    <TextView
+        android:id="@+id/modulesinfo_damageShield_label"
+        style="@style/UserInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/modules_info_damage_shield"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp_label" />
 
     <Button
         android:id="@+id/modulesinfo_sell"
@@ -17,7 +43,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="onBuy"
+        android:onClick="onSell"
         android:text="@string/sectors_action_sell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -76,27 +102,15 @@
 
 
     <TextView
-        android:id="@+id/modulesinfo_slot_amount"
-        style="@style/UserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/modulesinfo_slots_label"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_cost" />
-
-    <TextView
         android:id="@+id/modulesinfo_cost"
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/modulesinfo_slots_label"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modulesinfo_class" />
 
     <TextView
@@ -104,62 +118,24 @@
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="76dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/modulesinfo_slots_label"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modulesinfo_header" />
 
     <TextView
         android:id="@+id/modulesinfo_damageHp"
         style="@style/UserInfo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="18dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/modulesinfo_slots_label"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_slot_amount" />
-
-    <TextView
-        android:id="@+id/modulesinfo_you_have"
-        style="@style/UserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/undefined"
-        app:layout_constraintStart_toEndOf="@+id/modulesinfo_slots_label"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp" />
-
-    <TextView
-        android:id="@+id/modulesinfo_you_have_label"
-        style="@style/UserInfoLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/modules_info_you_have"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp_label" />
-
-    <TextView
-        android:id="@+id/modulesinfo_slots_label"
-        style="@style/UserInfoLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/modules_info_slot"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_cost_label" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_cost" />
 
     <TextView
         android:id="@+id/modulesinfo_damageHp_label"
@@ -172,7 +148,7 @@
         android:text="@string/modules_info_damage_hp"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_slots_label" />
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_cost_label" />
 
     <TextView
         android:id="@+id/modulesinfo_cost_label"
@@ -224,7 +200,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="92dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:onClick="onBuy"
@@ -232,7 +208,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_you_have" />
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageShield" />
 
 
     <TextView

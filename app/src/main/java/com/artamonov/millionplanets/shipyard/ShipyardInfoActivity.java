@@ -225,7 +225,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
             @Nullable
             @Override
-            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+            public Void apply(@NonNull Transaction transaction) {
                 Map<String, Object> shipMap = new HashMap<>();
                 shipMap.put("hp", shipToBuy.getHp());
                 shipMap.put("shield", shipToBuy.getShield());
