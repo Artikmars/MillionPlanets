@@ -101,6 +101,10 @@
     <string name="modules_list_drives">Drives</string>
     <string name="modules_list_scanners">Scanners</string>
     <string name="modules_list_special">Special</string>
+    <string name="modules_empty_slots">Empty Slots: </string>
+    <string name="modules_weapon_slots">Weapon</string>
+    <!-- <string name="modules_template_modules_name_slots">%1s (%2d )</string>-->
+
 
     //ModulesList
     <string name="modules_list_light_laser">Light Laser</string>
