@@ -12,11 +12,11 @@ public class Utils {
 
         switch (position) {
             case 0:
-                return new Module("Light Laser", "mk I", 25, 0, 0);
+                return new Module("Light Laser", "mk I", 25, 25, 0);
             case 1:
-                return new Module("Medium Laser", "mk II", 40, 40, 5000);
+                return new Module("Medium Laser", "mk II", 20, 20, 5000);
             case 2:
-                return new Module("Heavy Laser", "mk III", 60, 60, 10000);
+                return new Module("Heavy Laser", "mk III", 30, 30, 10000);
         }
         return null;
     }

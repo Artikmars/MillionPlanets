@@ -172,8 +172,6 @@ public class ModulesInfoActivity extends AppCompatActivity {
     }
 
     public void onSell(View view) {
-
-
         WriteBatch batch = firebaseFirestore.batch();
         Map<String, Object> moduleMap = new HashMap<>();
         moduleMap.put("damageHP", Utils.getCurrentModuleInfo(0).getDamageHP());
