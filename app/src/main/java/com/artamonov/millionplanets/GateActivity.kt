@@ -51,12 +51,13 @@ class GateActivity : AppCompatActivity() {
         firebaseFirestore.runTransaction { transaction ->
             val documentSnapshot = transaction.get(documentReference!!)
             userList.moveToObjectName = documentSnapshot.getString("moveToObjectName")
+            if (userList.moveToObjectName != null) {
             documentReferencePlanet = firebaseFirestore.collection("Objects")
-                    .document(userList.moveToObjectName)
+                    .document(userList.moveToObjectName!!)
             val documentSnapshot2 = transaction.get(documentReferencePlanet!!)
             objectModel.debrisIronAmount = documentSnapshot2.getLong("iron")!!.toInt()
             transaction.update(documentReference!!, "moveToObjectName", userList.moveToObjectName)
-            transaction.update(documentReferencePlanet!!, "iron", objectModel.debrisIronAmount)
+            transaction.update(documentReferencePlanet!!, "iron", objectModel.debrisIronAmount) }
             null
         }
         documentReference!!.addSnapshotListener(this) { doc, e ->

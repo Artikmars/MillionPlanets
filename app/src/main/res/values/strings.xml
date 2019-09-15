@@ -120,6 +120,8 @@
     <string name="modules_info_slot">Slots Required: </string>
     <string name="modules_info_cost">Cost: </string>
     <string name="modules_info_you_have">You have: </string>
+    <string name="run_out_of_fuel">You are run out of fuel! Please, call the tanker.</string>
+    <string name="not_enough_fuel_to_get_to_destination">Not enough fuel to get to the destination. Please, call the tanker.</string>
 
 
 </resources>

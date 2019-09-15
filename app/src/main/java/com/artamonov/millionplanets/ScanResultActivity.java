@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
+import com.artamonov.millionplanets.move.MoveActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
