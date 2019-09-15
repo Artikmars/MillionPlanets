@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.Module;
 import com.artamonov.millionplanets.model.User;
@@ -16,13 +18,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ModulesActivity extends AppCompatActivity implements ModulesAdapter.ItemClickListener {
     FirebaseUser firebaseUser;
@@ -42,8 +39,8 @@ public class ModulesActivity extends AppCompatActivity implements ModulesAdapter
         tvMoney = findViewById(R.id.modules_user_cash);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
 
         rvModules = findViewById(R.id.rvModules);
         rvModules.setLayoutManager(new LinearLayoutManager(this));
@@ -59,37 +56,49 @@ public class ModulesActivity extends AppCompatActivity implements ModulesAdapter
     protected void onStart() {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setMoney(doc.getLong("money").intValue());
-                    tvMoney.setText(Integer.toString(userList.getMoney()));
-                }
-            }
-        });
-        modulesRef = firebaseFirestore.collection("Modules")
-                .document(firebaseUser.getDisplayName());
-        modulesRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    // Weapon which is already installed on a s
-                    existedItem = Utils.getWeaponIdByName(doc.getString("weaponName"));
-                }
-                ModulesAdapter modulesAdapter = new ModulesAdapter(modules, existedItem,
-                        getApplicationContext(), ModulesActivity.this);
-                rvModules.setAdapter(modulesAdapter);
-            }
-        });
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setMoney(doc.getLong("money").intValue());
+                            tvMoney.setText(Integer.toString(userList.getMoney()));
+                        }
+                    }
+                });
+        modulesRef =
+                firebaseFirestore.collection("Modules").document(firebaseUser.getDisplayName());
+        modulesRef.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            // Weapon which is already installed on a s
+                            existedItem = Utils.getWeaponIdByName(doc.getString("weaponName"));
+                        }
+                        ModulesAdapter modulesAdapter =
+                                new ModulesAdapter(
+                                        modules,
+                                        existedItem,
+                                        getApplicationContext(),
+                                        ModulesActivity.this);
+                        rvModules.setAdapter(modulesAdapter);
+                    }
+                });
     }
 
     @Override
     public void onItemClick(int position) {
 
-        //Last two weapon types are currently unavailable
+        // Last two weapon types are currently unavailable
         if (position == 3 || position == 4) {
             return;
         }

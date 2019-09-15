@@ -1,15 +1,12 @@
 package com.artamonov.millionplanets.modules;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.shipyard.ShipyardActivity;
 
 public class ModulesListActivity extends AppCompatActivity {
 

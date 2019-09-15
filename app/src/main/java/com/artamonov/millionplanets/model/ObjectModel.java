@@ -16,6 +16,7 @@ public class ObjectModel {
     public int getPlanetSectorsPrice() {
         return planetSectorsPrice;
     }
+
     private String planetSize;
 
     public int getDebrisIronAmount() {

@@ -7,20 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
-
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class ShipyardAdapter extends RecyclerView.Adapter<ShipyardAdapter.ViewHolder> {
 
-    //private static ItemClickListener listener;
+    // private static ItemClickListener listener;
     private static DialogListener dialogListener;
     private static ItemClickListener listener;
     List<User> shipsList;
@@ -41,7 +38,9 @@ public class ShipyardAdapter extends RecyclerView.Adapter<ShipyardAdapter.ViewHo
     @NonNull
     @Override
     public ShipyardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shipyard_items, parent, false);
+        View view =
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.shipyard_items, parent, false);
         return new ShipyardAdapter.ViewHolder(view);
     }
 
@@ -81,7 +80,6 @@ public class ShipyardAdapter extends RecyclerView.Adapter<ShipyardAdapter.ViewHo
         public void onClick(View view) {
             int position = getAdapterPosition();
             listener.onItemClick(position);
-
         }
     }
 }

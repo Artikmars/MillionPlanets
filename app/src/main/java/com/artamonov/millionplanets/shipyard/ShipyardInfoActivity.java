@@ -6,7 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
@@ -19,24 +22,18 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ShipyardInfoActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     User userList = new User();
     ObjectModel objectModelList = new ObjectModel();
     /*  User figher = new User();
-      User trader = new User();
-      User rs = new User();*/
+    User trader = new User();
+    User rs = new User();*/
     List<User> shipsList = new ArrayList<>();
 
     private DocumentReference documentReference;
@@ -59,11 +56,9 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         Integer position = intent.getIntExtra("position", 0);
         yourShip = intent.getStringExtra("your_ship");
 
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
 
         TextView tvHp = findViewById(R.id.shipyard_hp);
         TextView tvCargo = findViewById(R.id.shipyard_cargo);
@@ -80,7 +75,6 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         tvUserCash = findViewById(R.id.shipyardinfo_user_cash);
         tvUserBank = findViewById(R.id.shipyardinfo_user_bank);
 
-
         shipToBuy = Utils.getCurrentShipInfo(position);
         setOnBuyButtonVisibility(shipToBuy);
         tvHp.setText(String.valueOf(shipToBuy.getHp()));
@@ -93,8 +87,6 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         tv_ScannerCapacity.setText(String.valueOf(shipToBuy.getScanner_capacity()));
         tvShipyardName.setText(shipToBuy.getShip());
         tvClass.setText(shipToBuy.getShipClass());
-
-
     }
 
     private void showDiffStats(User shipToBuy, User userList) {
@@ -180,31 +172,34 @@ public class ShipyardInfoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setHp(doc.getLong("hp").intValue());
-                    userList.setCargo(doc.getLong("cargo").intValue());
-                    userList.setFuel(doc.getLong("fuel").intValue());
-                    userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
-                    userList.setShield(doc.getLong("shield").intValue());
-                    userList.setJump(doc.getLong("jump").intValue());
-                    userList.setShipPrice(doc.getLong("shipPrice").intValue());
-                    userList.setWeaponSlots(doc.getLong("weaponSlots").intValue());
-                    userList.setShip(doc.getString("ship"));
-                    userList.setShipPrice(doc.getLong("shipPrice").intValue());
-                    userList.setMoney(doc.getLong("money").intValue());
-                    tv_YourShip.setText(userList.getShip());
-                    tvUserCash.setText(Integer.toString(userList.getMoney()));
-                    showDiffStats(shipToBuy, userList);
-                }
-            }
-
-        });
-
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setHp(doc.getLong("hp").intValue());
+                            userList.setCargo(doc.getLong("cargo").intValue());
+                            userList.setFuel(doc.getLong("fuel").intValue());
+                            userList.setScanner_capacity(
+                                    doc.getLong("scanner_capacity").intValue());
+                            userList.setShield(doc.getLong("shield").intValue());
+                            userList.setJump(doc.getLong("jump").intValue());
+                            userList.setShipPrice(doc.getLong("shipPrice").intValue());
+                            userList.setWeaponSlots(doc.getLong("weaponSlots").intValue());
+                            userList.setShip(doc.getString("ship"));
+                            userList.setShipPrice(doc.getLong("shipPrice").intValue());
+                            userList.setMoney(doc.getLong("money").intValue());
+                            tv_YourShip.setText(userList.getShip());
+                            tvUserCash.setText(Integer.toString(userList.getMoney()));
+                            showDiffStats(shipToBuy, userList);
+                        }
+                    }
+                });
     }
 
     private void setOnBuyButtonVisibility(User ship) {
@@ -222,26 +217,31 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         }
         btnBuy.setEnabled(false);
         btnBuy.setBackgroundColor(getResources().getColor(R.color.grey));
-        firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
-            @Nullable
-            @Override
-            public Void apply(@NonNull Transaction transaction) {
-                Map<String, Object> shipMap = new HashMap<>();
-                shipMap.put("hp", shipToBuy.getHp());
-                shipMap.put("shield", shipToBuy.getShield());
-                shipMap.put("cargo", shipToBuy.getCargo());
-                shipMap.put("jump", shipToBuy.getJump());
-                shipMap.put("fuel", shipToBuy.getFuel());
-                shipMap.put("scanner_capacity", shipToBuy.getScanner_capacity());
-                shipMap.put("weaponSlots", shipToBuy.getWeaponSlots());
-                shipMap.put("ship", shipToBuy.getShip());
-                shipMap.put("shipClass", shipToBuy.getShipClass());
-                shipMap.put("shipPrice", shipToBuy.getShipPrice());
-                shipMap.put("money", userList.getMoney() - shipToBuy.getShipPrice() + userList.getShipPrice() / 2);
-                transaction.update(documentReference, shipMap);
-                return null;
-            }
-        });
+        firebaseFirestore.runTransaction(
+                new Transaction.Function<Void>() {
+                    @Nullable
+                    @Override
+                    public Void apply(@NonNull Transaction transaction) {
+                        Map<String, Object> shipMap = new HashMap<>();
+                        shipMap.put("hp", shipToBuy.getHp());
+                        shipMap.put("shield", shipToBuy.getShield());
+                        shipMap.put("cargo", shipToBuy.getCargo());
+                        shipMap.put("jump", shipToBuy.getJump());
+                        shipMap.put("fuel", shipToBuy.getFuel());
+                        shipMap.put("scanner_capacity", shipToBuy.getScanner_capacity());
+                        shipMap.put("weaponSlots", shipToBuy.getWeaponSlots());
+                        shipMap.put("ship", shipToBuy.getShip());
+                        shipMap.put("shipClass", shipToBuy.getShipClass());
+                        shipMap.put("shipPrice", shipToBuy.getShipPrice());
+                        shipMap.put(
+                                "money",
+                                userList.getMoney()
+                                        - shipToBuy.getShipPrice()
+                                        + userList.getShipPrice() / 2);
+                        transaction.update(documentReference, shipMap);
+                        return null;
+                    }
+                });
     }
 
     private boolean ifEnoughMoney() {

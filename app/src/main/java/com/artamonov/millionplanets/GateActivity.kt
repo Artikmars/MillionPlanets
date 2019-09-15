@@ -6,23 +6,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.RandomUtils
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Transaction
 
 import java.util.HashMap
 import java.util.Random
@@ -45,12 +37,10 @@ class GateActivity : AppCompatActivity() {
     private var countDownTimer: CountDownTimer? = null
     private var remainedSecs: Long = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gate)
         firebaseUser = FirebaseAuth.getInstance().currentUser
-
     }
 
     override fun onStart() {
@@ -84,8 +74,6 @@ class GateActivity : AppCompatActivity() {
                 userList.money = doc.getLong("money")!!.toInt()
                 userList.moveToObjectType = doc.getString("moveToObjectType")
 
-
-
                 gate_coordinates.setText(String.format(resources.getString(R.string.current_coordinate),
                         userList.x, userList.y))
                 gate_ship.text = userList.ship
@@ -95,7 +83,6 @@ class GateActivity : AppCompatActivity() {
                 gate_scanner_capacity.text = userList.scanner_capacity.toString()
                 gate_fuel.text = userList.fuel.toString()
                 gate_money.text = userList.money.toString()
-
 
                 when (userList.moveToObjectType) {
                     "planet" -> gate_action.text = resources.getString(R.string.land)
@@ -149,7 +136,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 40 && random <= 60) {
             if (userList.resource_iron + 2 <= userList.cargo) {
@@ -158,7 +144,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 60 && random <= 80) {
 
@@ -168,7 +153,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 80 && random <= 90) {
             if (userList.resource_iron + 5 <= userList.cargo) {
@@ -177,7 +161,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 90 && random <= 95) {
             if (userList.resource_iron + 10 <= userList.cargo) {
@@ -186,7 +169,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 95 && random <= 97.5) {
             if (userList.resource_iron + 50 <= userList.cargo) {
@@ -195,7 +177,6 @@ class GateActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
-
         }
         if (random > 97.5 && random <= 100) {
             if (userList.resource_iron + 100 <= userList.cargo) {
@@ -205,8 +186,6 @@ class GateActivity : AppCompatActivity() {
                 Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
             }
         }
-
-
     }
 
     fun onJump(view: View) {
@@ -214,7 +193,7 @@ class GateActivity : AppCompatActivity() {
         if (countDownTimer != null) {
             countDownTimer!!.cancel()
             countDownTimer = null
-            //maxTimeInMilliseconds/1000 indicates how much resources are going to be mined until the cargo is fulled
+            // maxTimeInMilliseconds/1000 indicates how much resources are going to be mined until the cargo is fulled
             documentReferenceInventory!!.update("Iron", userList.resource_iron + maxTimeInMilliseconds / 1000 - remainedSecs)
             documentReferencePlanet!!.update("iron", objectModel.debrisIronAmount - (maxTimeInMilliseconds / 1000 - remainedSecs))
             gate_action.text = resources.getString(R.string.mine)
@@ -260,7 +239,6 @@ class GateActivity : AppCompatActivity() {
                 .set(debris)
     }
 
-
     private fun startTimer(finish: Long, tick: Long, debrisIsOver: Boolean) {
 
         countDownTimer = object : CountDownTimer(finish, tick) {
@@ -268,7 +246,6 @@ class GateActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 remainedSecs = millisUntilFinished / 1000
                 gate_action.text = resources.getString(R.string.mine_stop) + " " + remainedSecs / 60 + ":" + remainedSecs % 60
-
             }
 
             override fun onFinish() {
@@ -291,7 +268,6 @@ class GateActivity : AppCompatActivity() {
                 gate_action.text = resources.getString(R.string.mine)
                 cancel()
                 countDownTimer = null
-
             }
         }.start()
     }
@@ -309,7 +285,6 @@ class GateActivity : AppCompatActivity() {
             createDebris()
         }
         startTimer(maxTimeInMilliseconds, 1000, debrisIsOver)
-
     }
 
     fun onScan(view: View) {

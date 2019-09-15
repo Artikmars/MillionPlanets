@@ -1,40 +1,32 @@
 package com.artamonov.millionplanets.market;
 
 import android.os.Bundle;
-
-import com.artamonov.millionplanets.R;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.artamonov.millionplanets.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class MarketActivity extends AppCompatActivity implements MarketYouAdapter.DialogListener {
 
     /**
-     * The {@link PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
+     * The {@link PagerAdapter} that will provide fragments for each of the sections. We use a
+     * {@link FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory. If
+     * this becomes too memory intensive, it may be best to switch to a
      * androidx.fragment.app.FragmentStatePagerAdapter.
      */
     private MarketPagerAdapter mSectionsPagerAdapter;
 
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+    /** The {@link ViewPager} that will host the section contents. */
     private ViewPager mViewPager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.market);
 
-       /* Toolbar toolbar = findViewById(R.id.toolbar);
+        /* Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -48,16 +40,16 @@ public class MarketActivity extends AppCompatActivity implements MarketYouAdapte
         TabLayout tabLayout = findViewById(R.id.tabs);
 
         tabLayout.setupWithViewPager(mViewPager);
-        // mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        // tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
+        // mViewPager.addOnPageChangeListener(new
+        // TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // tabLayout.addOnTabSelectedListener(new
+        // TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
     }
 
     @Override
     public void onDialogCreate() {
-      /*  MarketYouDialog marketYouDialog = new MarketYouDialog();
+        /*  MarketYouDialog marketYouDialog = new MarketYouDialog();
         marketYouDialog.show(getSupportFragmentManager(), "text");*/
     }
-
 }

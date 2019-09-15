@@ -7,7 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,9 +18,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainOptionsActivity extends AppCompatActivity {
 
@@ -52,7 +50,7 @@ public class MainOptionsActivity extends AppCompatActivity {
         tvFuel = findViewById(R.id.fuel);
         tvMoney = findViewById(R.id.money);
 
-     /*  progressDialog = new ProgressDialog(this);
+        /*  progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();*/
@@ -60,10 +58,13 @@ public class MainOptionsActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, "Welcome on board, " + firebaseUser.getDisplayName() + "!",
-                Snackbar.LENGTH_LONG).show();
+        Snackbar.make(
+                        parentLayout,
+                        "Welcome on board, " + firebaseUser.getDisplayName() + "!",
+                        Snackbar.LENGTH_LONG)
+                .show();
 
-     /*   documentReference = firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        /*   documentReference = firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -108,48 +109,53 @@ public class MainOptionsActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setShip(doc.getString("ship"));
-                    userList.setX((doc.getLong("x").intValue()));
-                    userList.setY((doc.getLong("y").intValue()));
-                    userList.setSumXY((doc.getLong("sumXY").intValue()));
-                    userList.setHp(doc.getLong("hp").intValue());
-                    userList.setCargo(doc.getLong("cargo").intValue());
-                    userList.setFuel(doc.getLong("fuel").intValue());
-                    userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
-                    userList.setShield(doc.getLong("shield").intValue());
-                    userList.setMoney(doc.getLong("money").intValue());
-                    userList.setMoveToObjectName(doc.getString("moveToObjectName"));
-                    userList.setMoveToObjectType(doc.getString("moveToObjectType"));
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setShip(doc.getString("ship"));
+                            userList.setX((doc.getLong("x").intValue()));
+                            userList.setY((doc.getLong("y").intValue()));
+                            userList.setSumXY((doc.getLong("sumXY").intValue()));
+                            userList.setHp(doc.getLong("hp").intValue());
+                            userList.setCargo(doc.getLong("cargo").intValue());
+                            userList.setFuel(doc.getLong("fuel").intValue());
+                            userList.setScanner_capacity(
+                                    doc.getLong("scanner_capacity").intValue());
+                            userList.setShield(doc.getLong("shield").intValue());
+                            userList.setMoney(doc.getLong("money").intValue());
+                            userList.setMoveToObjectName(doc.getString("moveToObjectName"));
+                            userList.setMoveToObjectType(doc.getString("moveToObjectType"));
 
-                    tvPosition.setText(String.format(getResources().getString(R.string.current_coordinate),
-                            userList.getX(), userList.getY()));
-                    tvShip.setText(userList.getShip());
-                    tvHp.setText(Integer.toString(userList.getHp()));
-                    tvShield.setText(Integer.toString(userList.getShield()));
-                    tvCargo.setText(Integer.toString(userList.getCargo()));
-                    tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
-                    tvFuel.setText(Integer.toString(userList.getFuel()));
-                    tvMoney.setText(Integer.toString(userList.getMoney()));
+                            tvPosition.setText(
+                                    String.format(
+                                            getResources().getString(R.string.current_coordinate),
+                                            userList.getX(),
+                                            userList.getY()));
+                            tvShip.setText(userList.getShip());
+                            tvHp.setText(Integer.toString(userList.getHp()));
+                            tvShield.setText(Integer.toString(userList.getShield()));
+                            tvCargo.setText(Integer.toString(userList.getCargo()));
+                            tv_ScannerCapacity.setText(
+                                    Integer.toString(userList.getScanner_capacity()));
+                            tvFuel.setText(Integer.toString(userList.getFuel()));
+                            tvMoney.setText(Integer.toString(userList.getMoney()));
 
-                    progressDialog.dismiss();
-                }
-            }
-
-
-        });
-
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
     }
-
 
     public void onScan(View view) {
         Intent intent = new Intent(this, ScanResultActivity.class);
-      /*  intent.putExtra("x", userList.getX());
+        /*  intent.putExtra("x", userList.getX());
         intent.putExtra("y", userList.getY());
         intent.putExtra("hull", userList.getHp());
         intent.putExtra("cargo", userList.getCargo());
@@ -163,5 +169,4 @@ public class MainOptionsActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }

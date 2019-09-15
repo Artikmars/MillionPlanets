@@ -60,7 +60,6 @@ public class Utils {
                 rs.setShip("Research Spaceship");
                 rs.setShipClass("Interstellar");
                 return rs;
-
         }
         return null;
     }
@@ -76,7 +75,6 @@ public class Utils {
         }
         return 0;
     }
-
 
     public static int getWeaponIdByName(String name) {
         if (name == null) {

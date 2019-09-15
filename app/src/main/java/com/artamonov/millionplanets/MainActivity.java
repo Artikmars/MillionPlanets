@@ -6,18 +6,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import androidx.appcompat.app.AppCompatActivity;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Button btnContinue;
     FirebaseFirestore firebaseFirestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         if (firebaseAuth.getCurrentUser() != null) {
             btnContinue.setVisibility(View.VISIBLE);
         }
-
     }
 
     public void onNewGame(View view) {
@@ -39,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onContinue(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class),
+            startActivity(
+                    new Intent(getApplicationContext(), MainOptionsActivity.class),
                     ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         } else {
             startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
         }
     }
-
 }

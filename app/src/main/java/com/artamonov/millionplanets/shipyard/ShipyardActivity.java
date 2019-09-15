@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
@@ -18,15 +20,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-public class ShipyardActivity extends AppCompatActivity implements ShipyardAdapter.ItemClickListener {
+public class ShipyardActivity extends AppCompatActivity
+        implements ShipyardAdapter.ItemClickListener {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     User userList = new User();
     ObjectModel objectModelList = new ObjectModel();
@@ -55,14 +53,14 @@ public class ShipyardActivity extends AppCompatActivity implements ShipyardAdapt
         setContentView(R.layout.shipyard);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
 
         rvShipyard = findViewById(R.id.rvShipyard);
         rvShipyard.setLayoutManager(new LinearLayoutManager(this));
         tvMoney = findViewById(R.id.shipyard_user_cash);
 
-       /* figher.setHp(50);
+        /* figher.setHp(50);
         figher.setShield(100);
         figher.setCargo(100);
         figher.setJump(10);
@@ -73,7 +71,7 @@ public class ShipyardActivity extends AppCompatActivity implements ShipyardAdapt
         figher.setShip("Fighter");
         shipsList.add(figher);
 
-     /*   trader.setHp(100);
+        /*   trader.setHp(100);
         trader.setShield(50);
         trader.setCargo(150);
         trader.setJump(25);
@@ -84,7 +82,7 @@ public class ShipyardActivity extends AppCompatActivity implements ShipyardAdapt
         trader.setShip("Trader");
         shipsList.add(trader);
 
-    /*    rs.setHp(150);
+        /*    rs.setHp(150);
         rs.setShield(50);
         rs.setCargo(75);
         rs.setJump(75);
@@ -101,40 +99,55 @@ public class ShipyardActivity extends AppCompatActivity implements ShipyardAdapt
         super.onStart();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setShip(doc.getString("ship"));
-                    userList.setMoney(doc.getLong("money").intValue());
-                    tvMoney.setText(Integer.toString(userList.getMoney()));
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setShip(doc.getString("ship"));
+                            userList.setMoney(doc.getLong("money").intValue());
+                            tvMoney.setText(Integer.toString(userList.getMoney()));
 
-                    //For larger amount of spaceships
+                            // For larger amount of spaceships
 
-                   /* Map<Integer, Object> shipsMap = new HashMap<>();
-                    shipsMap.put(1, shipFighter);
-                    shipsMap.put(2, shipTrader);
-                    shipsMap.put(3, shipRS);*/
+                            /* Map<Integer, Object> shipsMap = new HashMap<>();
+                            shipsMap.put(1, shipFighter);
+                            shipsMap.put(2, shipTrader);
+                            shipsMap.put(3, shipRS);*/
 
-                    Log.i("myLogs", " shipsList.get(0).getShip(): " + shipsList.get(0).getShip());
-                    Log.i("myLogs", " Integer.toString(shipsList.get(0).getShipPrice(): " + Integer.toString(shipsList.get(0).getShipPrice()));
-                    Log.i("myLogs", " shipsList.get(1).getShip():" + shipsList.get(1).getShip());
-                    Log.i("myLogs", " Integer.toString(shipsList.get(0).getShipPrice():: " + Integer.toString(shipsList.get(1).getShipPrice()));
-                    Log.i("myLogs", " shipsList.get(2).getShip():: " + shipsList.get(2).getShip());
-                    Log.i("myLogs", " Integer.toString(shipsList.get(0).getShipPrice():: " + Integer.toString(shipsList.get(2).getShipPrice()));
+                            Log.i(
+                                    "myLogs",
+                                    " shipsList.get(0).getShip(): " + shipsList.get(0).getShip());
+                            Log.i(
+                                    "myLogs",
+                                    " Integer.toString(shipsList.get(0).getShipPrice(): "
+                                            + Integer.toString(shipsList.get(0).getShipPrice()));
+                            Log.i(
+                                    "myLogs",
+                                    " shipsList.get(1).getShip():" + shipsList.get(1).getShip());
+                            Log.i(
+                                    "myLogs",
+                                    " Integer.toString(shipsList.get(0).getShipPrice():: "
+                                            + Integer.toString(shipsList.get(1).getShipPrice()));
+                            Log.i(
+                                    "myLogs",
+                                    " shipsList.get(2).getShip():: " + shipsList.get(2).getShip());
+                            Log.i(
+                                    "myLogs",
+                                    " Integer.toString(shipsList.get(0).getShipPrice():: "
+                                            + Integer.toString(shipsList.get(2).getShipPrice()));
 
-                    ShipyardAdapter shipyardAdapter = new ShipyardAdapter(shipsList, ShipyardActivity.this);
-                    rvShipyard.setAdapter(shipyardAdapter);
-
-
-                }
-            }
-
-        });
-
-
+                            ShipyardAdapter shipyardAdapter =
+                                    new ShipyardAdapter(shipsList, ShipyardActivity.this);
+                            rvShipyard.setAdapter(shipyardAdapter);
+                        }
+                    }
+                });
     }
 
     @Override

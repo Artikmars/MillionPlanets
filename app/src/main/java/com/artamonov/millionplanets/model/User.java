@@ -46,6 +46,7 @@ public class User {
     public void setShipClass(String shipClass) {
         this.shipClass = shipClass;
     }
+
     private int money;
     private int resource_iron;
     private int sectors;
@@ -56,13 +57,13 @@ public class User {
     private String moveToObjectName;
     private int moveToObjectDistance;
     private String moveToObjectType;
+
     public User(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public User() {
 
-    }
+    public User() {}
 
     public int getSectors() {
         return sectors;
@@ -207,5 +208,4 @@ public class User {
     public void setScanner_capacity(int scanner_capacity) {
         this.scanner_capacity = scanner_capacity;
     }
-
 }

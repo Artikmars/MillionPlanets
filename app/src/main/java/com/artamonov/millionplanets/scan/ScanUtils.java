@@ -6,6 +6,4 @@ public class ScanUtils {
         int min, max = 0;
         // currentPosition +
     }
-
-
 }

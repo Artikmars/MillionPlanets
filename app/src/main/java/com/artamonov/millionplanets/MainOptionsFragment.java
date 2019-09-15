@@ -1,6 +1,5 @@
 package com.artamonov.millionplanets;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.fragment.app.Fragment;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
+/** A simple {@link Fragment} subclass. */
 public class MainOptionsFragment extends Fragment {
 
     OnButtonPressedListener mCallback;
@@ -34,8 +29,8 @@ public class MainOptionsFragment extends Fragment {
         try {
             mCallback = (OnButtonPressedListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+            throw new ClassCastException(
+                    context.toString() + " must implement OnHeadlineSelectedListener");
         }
     }
 
@@ -43,14 +38,12 @@ public class MainOptionsFragment extends Fragment {
     public void onDestroyView() {
         Log.i("myLogs", "MainFragment onDestroyView: ");
         super.onDestroyView();
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         Log.i("myLogs", "MainFragment onDetach: ");
-
     }
 
     @Override
@@ -63,42 +56,40 @@ public class MainOptionsFragment extends Fragment {
         } else {
             Log.i("myLogs", "bundle is null: ");
         }
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i("myLogs", "MainFragment onDetach: ");
 
         View view = inflater.inflate(R.layout.fragment_main_options, container, false);
         final Button button = view.findViewById(R.id.scan);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                mCallback.onScanPressed();
+                        mCallback.onScanPressed();
 
-              /*
-                if (bundle != null) {
-                    Log.i("myLogs", "bundle is Not NULL");
-                    Fragment scanResultFragment = new ScanResultFragment();
-                    scanResultFragment.setArguments(bundle);
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    //   Fragment fragment = fm.findFragmentById(R.id.scan_result_fragment);
-                    fm.beginTransaction().replace(R.id.main_options_fragment, scanResultFragment).commit();
-                } else {
-                    Log.i("myLogs", "bundle is NULL");
-                    Fragment scanResultFragment = new ScanResultFragment();
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                  //  Fragment scanResultFragment = fm.findFragmentById(R.id.sc);
-                    fm.beginTransaction().replace(R.id.main_options_fragment, scanResultFragment).commit();
-                }*/
+                        /*
+                        if (bundle != null) {
+                            Log.i("myLogs", "bundle is Not NULL");
+                            Fragment scanResultFragment = new ScanResultFragment();
+                            scanResultFragment.setArguments(bundle);
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            //   Fragment fragment = fm.findFragmentById(R.id.scan_result_fragment);
+                            fm.beginTransaction().replace(R.id.main_options_fragment, scanResultFragment).commit();
+                        } else {
+                            Log.i("myLogs", "bundle is NULL");
+                            Fragment scanResultFragment = new ScanResultFragment();
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                          //  Fragment scanResultFragment = fm.findFragmentById(R.id.sc);
+                            fm.beginTransaction().replace(R.id.main_options_fragment, scanResultFragment).commit();
+                        }*/
 
-
-            }
-
-        });
+                    }
+                });
         return view;
     }
 

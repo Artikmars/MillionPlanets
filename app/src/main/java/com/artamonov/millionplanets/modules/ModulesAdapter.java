@@ -5,14 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.model.Module;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.artamonov.millionplanets.R;
+import com.artamonov.millionplanets.model.Module;
+import java.util.List;
 
 public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHolder> {
     private static ItemClickListener listener;
@@ -20,7 +17,11 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     private Context context;
     private int existedItem;
 
-    ModulesAdapter(List<Module> moduleList, int existedItem, Context context, ItemClickListener itemClickListener) {
+    ModulesAdapter(
+            List<Module> moduleList,
+            int existedItem,
+            Context context,
+            ItemClickListener itemClickListener) {
         listener = itemClickListener;
         this.context = context;
         this.moduleList = moduleList;
@@ -30,7 +31,9 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     @NonNull
     @Override
     public ModulesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.modules_items, parent, false);
+        View view =
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.modules_items, parent, false);
         return new ModulesAdapter.ViewHolder(view);
     }
 
@@ -49,7 +52,6 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
             holder.modulesName.setTextColor(context.getResources().getColor(R.color.yellow));
             holder.modulesPrice.setTextColor(context.getResources().getColor(R.color.yellow));
         }
-
     }
 
     @Override
@@ -81,7 +83,6 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
         public void onClick(View view) {
             int position = getAdapterPosition();
             listener.onItemClick(position);
-
         }
     }
 }

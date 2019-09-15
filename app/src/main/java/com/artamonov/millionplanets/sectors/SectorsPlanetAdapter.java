@@ -7,19 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
-
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdapter.ViewHolder> {
 
-    //private static ItemClickListener listener;
+    // private static ItemClickListener listener;
     private static DialogListener dialogListener;
     private List<User> userList;
     private List<ObjectModel> objectModelList;
@@ -27,24 +24,28 @@ public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdap
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    SectorsPlanetAdapter(List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
+    SectorsPlanetAdapter(
+            List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;
         //   this.isPlanetTab = isPlanetTab;
     }
 
-    public SectorsPlanetAdapter(List<User> userList, Context context, SectorsPlanetAdapter.DialogListener listener) {
+    public SectorsPlanetAdapter(
+            List<User> userList, Context context, SectorsPlanetAdapter.DialogListener listener) {
         this.userList = userList;
         this.context = context;
         dialogListener = listener;
     }
 
-
     @NonNull
     @Override
-    public SectorsPlanetAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sectors_you_items, parent, false);
+    public SectorsPlanetAdapter.ViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
+        View view =
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.sectors_you_items, parent, false);
         return new SectorsPlanetAdapter.ViewHolder(view);
     }
 
@@ -55,16 +56,13 @@ public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdap
         ObjectModel objectModel = objectModelList.get(position);
         holder.sectorsAmount.setText(Integer.toString(objectModel.getPlanetSectors()));
         holder.sectorsPrice.setText(Integer.toString(objectModel.getPlanetSectorsPrice()));
-
     }
-
 
     @Override
     public int getItemCount() {
         Log.i("myTags", "getItemCount size: " + userList.size());
         return userList.size();
     }
-
 
     /*public interface ItemClickListener {
         void onItemClick(int position);
@@ -90,9 +88,8 @@ public class SectorsPlanetAdapter extends RecyclerView.Adapter<SectorsPlanetAdap
 
         @Override
         public void onClick(View view) {
-            //int position = getAdapterPosition();
+            // int position = getAdapterPosition();
             dialogListener.onDialogCreate();
-
         }
     }
 }

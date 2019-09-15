@@ -8,19 +8,16 @@ import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
-
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.ViewHolder> {
 
-    //private static ItemClickListener listener;
+    // private static ItemClickListener listener;
     private static DialogListener dialogListener;
     private static List<User> userList;
     private static Context context;
@@ -28,7 +25,11 @@ public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.Vi
     private NumberPicker numberPicker;
     private boolean isPlanetTab;
 
-    public SectorsYouAdapter(List<User> userList, List<ObjectModel> objectModelList, Context context, DialogListener listener) {
+    public SectorsYouAdapter(
+            List<User> userList,
+            List<ObjectModel> objectModelList,
+            Context context,
+            DialogListener listener) {
         this.userList = userList;
         dialogListener = listener;
         this.objectModelList = objectModelList;
@@ -37,17 +38,20 @@ public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.Vi
 
     }
 
-    public SectorsYouAdapter(List<User> userList, Context context, SectorsYouAdapter.DialogListener listener) {
+    public SectorsYouAdapter(
+            List<User> userList, Context context, SectorsYouAdapter.DialogListener listener) {
         this.userList = userList;
         this.context = context;
         dialogListener = listener;
     }
 
-
     @NonNull
     @Override
-    public SectorsYouAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sectors_you_items, parent, false);
+    public SectorsYouAdapter.ViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
+        View view =
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.sectors_you_items, parent, false);
         Log.i("myTags", "onCreateViewHolder " + userList.get(0).getResource_iron());
         return new SectorsYouAdapter.ViewHolder(view);
     }
@@ -64,13 +68,11 @@ public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.Vi
         holder.resourceAmount.setText(Integer.toString(user.getSectors()));
     }
 
-
     @Override
     public int getItemCount() {
         Log.i("myTags", "getItemCount size: " + userList.size());
         return userList.size();
     }
-
 
     public interface DialogListener {
         void onDialogCreate();
@@ -94,7 +96,6 @@ public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.Vi
                 return;
             }
             dialogListener.onDialogCreate();
-
         }
     }
 }

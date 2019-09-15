@@ -24,6 +24,4 @@ public class RandomUtils {
         int max = 300;
         return r.nextInt(max - min + 1) + min;
     }
-
-
 }

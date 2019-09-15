@@ -43,7 +43,6 @@ class MoveActivity : AppCompatActivity() {
         animation.interpolator = DecelerateInterpolator()
         animation.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animator: Animator) {
-
             }
 
             override fun onAnimationEnd(animator: Animator) {
@@ -74,7 +73,6 @@ class MoveActivity : AppCompatActivity() {
         parentLayout = findViewById(android.R.id.content)
         progressBar = findViewById(R.id.progressBar)
         move_scan_result_list.layoutManager = LinearLayoutManager(this)
-
 
         val intent = intent
         val objectModelList = ArrayList<ObjectModel>()
@@ -110,7 +108,6 @@ class MoveActivity : AppCompatActivity() {
                 userList.moveToObjectName = doc.getString("moveToObjectName")
                 userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!.toInt()
 
-
                 move_coordinates.text = String.format(resources.getString(R.string.current_coordinate),
                         userList.x, userList.y)
                 move_ship.text = userList.ship
@@ -122,7 +119,6 @@ class MoveActivity : AppCompatActivity() {
                 move_money.text = userList.money.toString()
             }
         }
-
     }
 
     fun onGoBackToMainOptions(view: View) {
@@ -132,8 +128,8 @@ class MoveActivity : AppCompatActivity() {
     fun onJump(view: View) {
 
         parentLayout = findViewById(android.R.id.content)
-        Log.i("myLogs", "onItemClick: userList.getFuel()" + userList.fuel + ", objectModelList.get(pos).getDistance(): "
-                + userList.moveToObjectDistance)
+        Log.i("myLogs", "onItemClick: userList.getFuel()" + userList.fuel + ", objectModelList.get(pos).getDistance(): " +
+                userList.moveToObjectDistance)
         if (userList.fuel == 0) {
             Snackbar.make(parentLayout!!, "You are run out of fuel! Please, call the tanker. ",
                     Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show()
@@ -144,7 +140,6 @@ class MoveActivity : AppCompatActivity() {
                     Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show()
             return
         }
-
 
         val docRefForMovedObject = firebaseFirestore.collection("Objects")
                 .document(userList.moveToObjectName)
@@ -159,7 +154,6 @@ class MoveActivity : AppCompatActivity() {
             documentReference!!.update(movedPosition)
             startActivity(Intent(applicationContext, GateActivity::class.java))
         }
-
     }
 
     companion object {

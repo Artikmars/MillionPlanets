@@ -1,13 +1,12 @@
 package com.artamonov.millionplanets.market;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MarketPagerAdapter extends FragmentPagerAdapter {
 
@@ -21,7 +20,6 @@ public class MarketPagerAdapter extends FragmentPagerAdapter {
 
         fragmentTitlesList.add(titles);
     }
-
 
     @NonNull
     @Override

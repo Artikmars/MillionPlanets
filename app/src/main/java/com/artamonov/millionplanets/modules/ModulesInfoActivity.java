@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.Module;
 import com.artamonov.millionplanets.model.ObjectModel;
@@ -24,16 +27,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.WriteBatch;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ModulesInfoActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -67,10 +64,10 @@ public class ModulesInfoActivity extends AppCompatActivity {
         position = intent.getIntExtra("position", -1);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userDocumentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        modulesDocumentReference = firebaseFirestore.collection("Modules")
-                .document(firebaseUser.getDisplayName());
+        userDocumentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        modulesDocumentReference =
+                firebaseFirestore.collection("Modules").document(firebaseUser.getDisplayName());
 
         parentLayout = findViewById(R.id.modulesinfo_parentLayout);
         TextView tvClass = findViewById(R.id.modulesinfo_class);
@@ -93,31 +90,39 @@ public class ModulesInfoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userDocumentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        modulesDocumentReference = firebaseFirestore.collection("Modules")
-                .document(firebaseUser.getDisplayName());
-        userDocumentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setMoney(doc.getLong("money").intValue());
-                    tvUserCash.setText(Integer.toString(userList.getMoney()));
-                }
-            }
-        });
-        modulesDocumentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    currentModule = doc.getString("weaponName");
-                    Log.i("myLogs", "current Module " + currentModule);
-                    setOnBuySellButtonVisibility(currentModule);
-                } else {
-                    setOnBuySellButtonVisibility("");
-                }
-            }
-        });
+        userDocumentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        modulesDocumentReference =
+                firebaseFirestore.collection("Modules").document(firebaseUser.getDisplayName());
+        userDocumentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setMoney(doc.getLong("money").intValue());
+                            tvUserCash.setText(Integer.toString(userList.getMoney()));
+                        }
+                    }
+                });
+        modulesDocumentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            currentModule = doc.getString("weaponName");
+                            Log.i("myLogs", "current Module " + currentModule);
+                            setOnBuySellButtonVisibility(currentModule);
+                        } else {
+                            setOnBuySellButtonVisibility("");
+                        }
+                    }
+                });
     }
 
     private void setOnBuySellButtonVisibility(String currentModule) {
@@ -149,18 +154,23 @@ public class ModulesInfoActivity extends AppCompatActivity {
         moduleMap.put("weaponName", module.getName());
         batch.set(modulesDocumentReference, moduleMap);
         batch.update(userDocumentReference, "money", userList.getMoney() - module.getPrice());
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                btnBuy.setEnabled(false);
-                btnBuy.setBackgroundColor(getResources().getColor(R.color.grey));
-                btnSell.setEnabled(true);
-                btnSell.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                Snackbar.make(parentLayout, "The item was successfully bought", Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        });
-
+        batch.commit()
+                .addOnCompleteListener(
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                btnBuy.setEnabled(false);
+                                btnBuy.setBackgroundColor(getResources().getColor(R.color.grey));
+                                btnSell.setEnabled(true);
+                                btnSell.setBackgroundColor(
+                                        getResources().getColor(R.color.colorAccent));
+                                Snackbar.make(
+                                                parentLayout,
+                                                "The item was successfully bought",
+                                                Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
     }
 
     private boolean ifEnoughMoney() {
@@ -180,17 +190,22 @@ public class ModulesInfoActivity extends AppCompatActivity {
         moduleMap.put("weaponName", Utils.getCurrentModuleInfo(0).getName());
         batch.set(modulesDocumentReference, moduleMap);
         batch.update(userDocumentReference, "money", userList.getMoney() + module.getPrice() / 2);
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                btnBuy.setEnabled(true);
-                btnBuy.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                btnSell.setEnabled(false);
-                btnSell.setBackgroundColor(getResources().getColor(R.color.grey));
-                Snackbar.make(parentLayout, "The item was successfully sold", Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        });
-
+        batch.commit()
+                .addOnCompleteListener(
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                btnBuy.setEnabled(true);
+                                btnBuy.setBackgroundColor(
+                                        getResources().getColor(R.color.colorAccent));
+                                btnSell.setEnabled(false);
+                                btnSell.setBackgroundColor(getResources().getColor(R.color.grey));
+                                Snackbar.make(
+                                                parentLayout,
+                                                "The item was successfully sold",
+                                                Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
     }
 }

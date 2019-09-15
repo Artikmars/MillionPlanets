@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.artamonov.millionplanets.market.MarketActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
@@ -23,8 +23,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class PlanetActivity extends AppCompatActivity {
 
@@ -44,97 +42,164 @@ public class PlanetActivity extends AppCompatActivity {
     private TextView btnSectors;
     private TextView btnShipyard;
 
-
     @Override
     protected void onStart() {
         super.onStart();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot doc, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (doc.exists()) {
-                    userList.setFuel(doc.getLong("fuel").intValue());
-                    userList.setMoney(doc.getLong("money").intValue());
-                    userList.setMoveToObjectName(doc.getString("moveToObjectName"));
-                    userList.setShip(doc.getString("ship"));
-                    tvFuel.setText(Integer.toString(userList.getFuel()));
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        documentReference.addSnapshotListener(
+                this,
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(
+                            @javax.annotation.Nullable DocumentSnapshot doc,
+                            @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (doc.exists()) {
+                            userList.setFuel(doc.getLong("fuel").intValue());
+                            userList.setMoney(doc.getLong("money").intValue());
+                            userList.setMoveToObjectName(doc.getString("moveToObjectName"));
+                            userList.setShip(doc.getString("ship"));
+                            tvFuel.setText(Integer.toString(userList.getFuel()));
 
-                    planetDocumentReference = firebaseFirestore.collection("Objects")
-                            .document(userList.getMoveToObjectName());
-                    planetDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            objectModelList.setPlanetClass(documentSnapshot.getString("class"));
-                            objectModelList.setPlanetSize(documentSnapshot.getString("size"));
-                            objectModelList.setPlanetSectors(documentSnapshot.getLong("sectors").intValue());
-                            tvClass.setText(objectModelList.getPlanetClass());
-                            tvSectors.setText(Integer.toString(objectModelList.getPlanetSectors()));
-                            tvSize.setText(objectModelList.getPlanetSize());
-                            tvMoney.setText(Integer.toString(userList.getMoney()));
+                            planetDocumentReference =
+                                    firebaseFirestore
+                                            .collection("Objects")
+                                            .document(userList.getMoveToObjectName());
+                            planetDocumentReference
+                                    .get()
+                                    .addOnSuccessListener(
+                                            new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(
+                                                        DocumentSnapshot documentSnapshot) {
+                                                    objectModelList.setPlanetClass(
+                                                            documentSnapshot.getString("class"));
+                                                    objectModelList.setPlanetSize(
+                                                            documentSnapshot.getString("size"));
+                                                    objectModelList.setPlanetSectors(
+                                                            documentSnapshot
+                                                                    .getLong("sectors")
+                                                                    .intValue());
+                                                    tvClass.setText(
+                                                            objectModelList.getPlanetClass());
+                                                    tvSectors.setText(
+                                                            Integer.toString(
+                                                                    objectModelList
+                                                                            .getPlanetSectors()));
+                                                    tvSize.setText(objectModelList.getPlanetSize());
+                                                    tvMoney.setText(
+                                                            Integer.toString(userList.getMoney()));
 
-                            setObjectsAccessLevel();
+                                                    setObjectsAccessLevel();
+                                                }
+
+                                                private void setObjectsAccessLevel() {
+
+                                                    double occupationLevel =
+                                                            (double)
+                                                                            (6
+                                                                                    - objectModelList
+                                                                                            .getPlanetSectors())
+                                                                    / 6;
+
+                                                    if (occupationLevel < 0.25) {
+                                                        Log.i(
+                                                                "myTags",
+                                                                "objectModelList.getPlanetSectors: < 0.25 - "
+                                                                        + occupationLevel);
+                                                        btnGetFuel.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                        btnGetFuel.setEnabled(false);
+                                                        btnMarket.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                        btnMarket.setEnabled(false);
+                                                        btnShipyard.setEnabled(false);
+                                                        btnShipyard.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                    }
+                                                    if (occupationLevel >= 0.25
+                                                            && occupationLevel < 0.5) {
+                                                        Log.i(
+                                                                "myTags",
+                                                                "objectModelList.getPlanetSectors: 0.25-0.5 - "
+                                                                        + occupationLevel);
+                                                        btnMarket.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                        btnMarket.setEnabled(false);
+                                                        btnGetFuel.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                        btnGetFuel.setEnabled(true);
+                                                        btnShipyard.setEnabled(false);
+                                                        btnShipyard.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                    }
+                                                    if (occupationLevel >= 0.5
+                                                            && occupationLevel < 0.75) {
+                                                        Log.i(
+                                                                "myTags",
+                                                                "objectModelList.getPlanetSectors:  0.5 more - "
+                                                                        + occupationLevel);
+                                                        btnMarket.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                        btnMarket.setEnabled(true);
+                                                        btnGetFuel.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                        btnGetFuel.setEnabled(true);
+                                                        btnShipyard.setEnabled(false);
+                                                        btnShipyard.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(R.color.grey));
+                                                    }
+                                                    if (occupationLevel >= 0.75) {
+                                                        Log.i(
+                                                                "myTags",
+                                                                "objectModelList.getPlanetSectors:  0.5 more - "
+                                                                        + occupationLevel);
+                                                        btnMarket.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                        btnMarket.setEnabled(true);
+                                                        btnGetFuel.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                        btnGetFuel.setEnabled(true);
+                                                        btnShipyard.setEnabled(true);
+                                                        btnShipyard.setBackgroundColor(
+                                                                getResources()
+                                                                        .getColor(
+                                                                                R.color
+                                                                                        .colorAccent));
+                                                    }
+
+                                                    /*  if (objectModelList.getPlanetSectors() / 6 < 0.75) {
+                                                        Log.i("myTags", "objectModelList.getPlanetSectors: " + objectModelList.getPlanetSectors());
+                                                    }*/
+
+                                                }
+                                            });
                         }
-
-                        private void setObjectsAccessLevel() {
-
-                            double occupationLevel = (double) (6 - objectModelList.getPlanetSectors()) / 6;
-
-                            if (occupationLevel < 0.25) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors: < 0.25 - " + occupationLevel);
-                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.grey));
-                                btnGetFuel.setEnabled(false);
-                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
-                                btnMarket.setEnabled(false);
-                                btnShipyard.setEnabled(false);
-                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
-
-                            }
-                            if (occupationLevel >= 0.25 && occupationLevel < 0.5) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors: 0.25-0.5 - " + occupationLevel);
-                                btnMarket.setBackgroundColor(getResources().getColor(R.color.grey));
-                                btnMarket.setEnabled(false);
-                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                                btnGetFuel.setEnabled(true);
-                                btnShipyard.setEnabled(false);
-                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
-                            }
-                            if (occupationLevel >= 0.5 && occupationLevel < 0.75) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + occupationLevel);
-                                btnMarket.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                                btnMarket.setEnabled(true);
-                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                                btnGetFuel.setEnabled(true);
-                                btnShipyard.setEnabled(false);
-                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.grey));
-                            }
-                            if (occupationLevel >= 0.75) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors:  0.5 more - " + occupationLevel);
-                                btnMarket.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                                btnMarket.setEnabled(true);
-                                btnGetFuel.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                                btnGetFuel.setEnabled(true);
-                                btnShipyard.setEnabled(true);
-                                btnShipyard.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                            }
-
-                          /*  if (objectModelList.getPlanetSectors() / 6 < 0.75) {
-                                Log.i("myTags", "objectModelList.getPlanetSectors: " + objectModelList.getPlanetSectors());
-                            }*/
-
-
-                        }
-
-                    });
-
-                }
-            }
-
-        });
-
-
+                    }
+                });
     }
 
     @Override
@@ -143,8 +208,8 @@ public class PlanetActivity extends AppCompatActivity {
         setContentView(R.layout.planet);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.getDisplayName());
+        documentReference =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
 
         tvClass = findViewById(R.id.planet_class);
         tvSize = findViewById(R.id.shipyard_hp);
@@ -155,8 +220,6 @@ public class PlanetActivity extends AppCompatActivity {
         btnMarket = findViewById(R.id.planet_market);
         btnSectors = findViewById(R.id.planet_btn_sectors);
         btnShipyard = findViewById(R.id.planet_shipyard);
-
-
     }
 
     public void onGetFuel(View view) {
@@ -171,7 +234,6 @@ public class PlanetActivity extends AppCompatActivity {
     public void onTakeOff(View view) {
         startActivity(new Intent(this, MainOptionsActivity.class));
     }
-
 
     public void onGoToMarket(View view) {
         Intent intent = new Intent(this, MarketActivity.class);
@@ -198,7 +260,6 @@ public class PlanetActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
-
     }
 
     public void onGoToModules(View view) {

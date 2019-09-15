@@ -5,14 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.model.ObjectModel;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.artamonov.millionplanets.R;
+import com.artamonov.millionplanets.model.ObjectModel;
+import java.util.List;
 
 public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.ViewHolder> {
 
@@ -31,7 +28,9 @@ public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.scan_result_items, parent, false);
+        View view =
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scan_result_items, parent, false);
         return new ViewHolder(view);
     }
 
@@ -54,12 +53,8 @@ public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.Vi
                 holder.name.setTextColor(Color.parseColor("#ff0000"));
                 holder.distance.setTextColor(Color.parseColor("#ff0000"));
                 break;
-
         }
-
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -85,7 +80,6 @@ public class ScanResultAdapter extends RecyclerView.Adapter<ScanResultAdapter.Vi
         public void onClick(View view) {
             int position = getAdapterPosition();
             listener.onItemClick(position);
-
         }
     }
 }
