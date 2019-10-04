@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.artamonov.millionplanets.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +19,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainOptionsActivity extends AppCompatActivity {
 
@@ -109,6 +113,11 @@ public class MainOptionsActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        createDocumentReference();
+    }
+
+    private void createDocumentReference() {
         documentReference =
                 firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
         documentReference.addSnapshotListener(
@@ -119,38 +128,85 @@ public class MainOptionsActivity extends AppCompatActivity {
                             @javax.annotation.Nullable DocumentSnapshot doc,
                             @javax.annotation.Nullable FirebaseFirestoreException e) {
                         if (doc.exists()) {
-                            userList.setShip(doc.getString("ship"));
-                            userList.setX((doc.getLong("x").intValue()));
-                            userList.setY((doc.getLong("y").intValue()));
-                            userList.setSumXY((doc.getLong("sumXY").intValue()));
-                            userList.setHp(doc.getLong("hp").intValue());
-                            userList.setCargo(doc.getLong("cargo").intValue());
-                            userList.setFuel(doc.getLong("fuel").intValue());
-                            userList.setScanner_capacity(
-                                    doc.getLong("scanner_capacity").intValue());
-                            userList.setShield(doc.getLong("shield").intValue());
-                            userList.setMoney(doc.getLong("money").intValue());
-                            userList.setMoveToObjectName(doc.getString("moveToObjectName"));
-                            userList.setMoveToObjectType(doc.getString("moveToObjectType"));
-
-                            tvPosition.setText(
-                                    String.format(
-                                            getResources().getString(R.string.current_coordinate),
-                                            userList.getX(),
-                                            userList.getY()));
-                            tvShip.setText(userList.getShip());
-                            tvHp.setText(Integer.toString(userList.getHp()));
-                            tvShield.setText(Integer.toString(userList.getShield()));
-                            tvCargo.setText(Integer.toString(userList.getCargo()));
-                            tv_ScannerCapacity.setText(
-                                    Integer.toString(userList.getScanner_capacity()));
-                            tvFuel.setText(Integer.toString(userList.getFuel()));
-                            tvMoney.setText(Integer.toString(userList.getMoney()));
-
-                            progressDialog.dismiss();
+                            setDefaultValues(doc);
+                        } else {
+                            createNewUserObject();
                         }
                     }
                 });
+    }
+
+    private void createNewUserObject() {
+        final DocumentReference documentReferenceInventory =
+                firebaseFirestore.collection("Inventory").document(firebaseUser.getDisplayName());
+        final DocumentReference documentReferenceObjects =
+                firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
+        final User user = new User();
+        user.setX(5);
+        user.setY(6);
+        user.setCargo(10);
+        user.setHp(50);
+        user.setShip("Fighter");
+        user.setMoney(1000);
+        user.setScanner_capacity(15);
+        user.setShield(100);
+        user.setJump(10);
+        user.setFuel(20);
+        user.setType("user");
+        user.setSumXY(11);
+        firebaseFirestore
+                .runTransaction(
+                        new Transaction.Function<Void>() {
+
+                            @Override
+                            public Void apply(Transaction transaction) {
+                                transaction.set(documentReferenceObjects, user);
+                                Map<String, Object> ironData = new HashMap<>();
+                                ironData.put("Iron", 0);
+                                ironData.put("Mercaster", 0);
+                                ironData.put("Leabia", 0);
+                                ironData.put("Cracaphill", 0);
+                                transaction.set(documentReferenceInventory, ironData);
+                                return null;
+                            }
+                        })
+                .addOnSuccessListener(
+                        new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                createDocumentReference();
+                            }
+                        });
+    }
+
+    private void setDefaultValues(DocumentSnapshot doc) {
+        userList.setShip(doc.getString("ship"));
+        userList.setX((doc.getLong("x").intValue()));
+        userList.setY((doc.getLong("y").intValue()));
+        userList.setSumXY((doc.getLong("sumXY").intValue()));
+        userList.setHp(doc.getLong("hp").intValue());
+        userList.setCargo(doc.getLong("cargo").intValue());
+        userList.setFuel(doc.getLong("fuel").intValue());
+        userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
+        userList.setShield(doc.getLong("shield").intValue());
+        userList.setMoney(doc.getLong("money").intValue());
+        userList.setMoveToObjectName(doc.getString("moveToObjectName"));
+        userList.setMoveToObjectType(doc.getString("moveToObjectType"));
+
+        tvPosition.setText(
+                String.format(
+                        getResources().getString(R.string.current_coordinate),
+                        userList.getX(),
+                        userList.getY()));
+        tvShip.setText(userList.getShip());
+        tvHp.setText(Integer.toString(userList.getHp()));
+        tvShield.setText(Integer.toString(userList.getShield()));
+        tvCargo.setText(Integer.toString(userList.getCargo()));
+        tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
+        tvFuel.setText(Integer.toString(userList.getFuel()));
+        tvMoney.setText(Integer.toString(userList.getMoney()));
+
+        progressDialog.dismiss();
     }
 
     public void onScan(View view) {

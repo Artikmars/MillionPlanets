@@ -7,12 +7,12 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.artamonov.millionplanets.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +31,19 @@ public class NewGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_player_activity);
-        etNickname = findViewById(R.id.player_name);
+        etNickname = findViewById(R.id.register_username);
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     public void onGoToSpace(View view) {
+        if (!nicknameIsValid()) {
+            Snackbar.make(
+                            findViewById(android.R.id.content),
+                            "Your nickname must be at least 3 characters",
+                            Snackbar.LENGTH_SHORT)
+                    .show();
+            return;
+        }
         firebaseAuth = FirebaseAuth.getInstance();
         username = etNickname.getText().toString();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -80,8 +88,7 @@ public class NewGameActivity extends AppCompatActivity {
                         new Transaction.Function<Void>() {
 
                             @Override
-                            public Void apply(Transaction transaction)
-                                    throws FirebaseFirestoreException {
+                            public Void apply(Transaction transaction) {
                                 transaction.set(documentReferenceObjects, user);
                                 UserProfileChangeRequest profileUpdates =
                                         new UserProfileChangeRequest.Builder()
@@ -124,5 +131,9 @@ public class NewGameActivity extends AppCompatActivity {
             });
         }*/
 
+    }
+
+    private boolean nicknameIsValid() {
+        return etNickname.getText().length() > 2;
     }
 }
