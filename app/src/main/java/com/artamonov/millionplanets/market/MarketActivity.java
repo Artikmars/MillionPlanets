@@ -1,14 +1,14 @@
 package com.artamonov.millionplanets.market;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.artamonov.millionplanets.R;
+import com.artamonov.millionplanets.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
-public class MarketActivity extends AppCompatActivity implements MarketYouAdapter.DialogListener {
+public class MarketActivity extends BaseActivity implements MarketYouAdapter.DialogListener {
 
     /**
      * The {@link PagerAdapter} that will provide fragments for each of the sections. We use a

@@ -4,32 +4,22 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.User
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.registration.*
 import java.util.HashMap
 
-class RegistrationActivity : AppCompatActivity() {
-
-    private lateinit var firebaseAuth: FirebaseAuth
-    var firebaseUser: FirebaseUser? = null
-    lateinit var firebaseFirestore: FirebaseFirestore
+class RegistrationActivity : BaseActivity() {
     var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.registration)
-        firebaseAuth = FirebaseAuth.getInstance()
-        firebaseUser = firebaseAuth.currentUser
-        firebaseFirestore = FirebaseFirestore.getInstance()
         progressDialog = ProgressDialog(this)
 
         register_login_firebase.setOnClickListener {

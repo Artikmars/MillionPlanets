@@ -2,15 +2,15 @@ package com.artamonov.millionplanets.sectors;
 
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.artamonov.millionplanets.R;
+import com.artamonov.millionplanets.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
-public class SectorsActivity extends AppCompatActivity {
+public class SectorsActivity extends BaseActivity {
 
     /**
      * The {@link PagerAdapter} that will provide fragments for each of the sections. We use a

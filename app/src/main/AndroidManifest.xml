@@ -48,7 +48,7 @@
             android:name=".ScanResultActivity"
             android:parentActivityName=".MainOptionsActivity" />
         <activity
-            android:name=".move.MoveActivity"
+            android:name=".fight.FightActivity"
             android:parentActivityName=".ScanResultActivity" />
         <activity android:name=".gate.GateActivity" />
         <activity

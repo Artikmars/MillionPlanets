@@ -7,25 +7,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
+import com.artamonov.millionplanets.base.BaseActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShipyardActivity extends AppCompatActivity
-        implements ShipyardAdapter.ItemClickListener {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+public class ShipyardActivity extends BaseActivity implements ShipyardAdapter.ItemClickListener {
     User userList = new User();
     ObjectModel objectModelList = new ObjectModel();
     User figher = new User();
@@ -51,8 +47,6 @@ public class ShipyardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipyard);
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         documentReference =
                 firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
 
@@ -97,8 +91,6 @@ public class ShipyardActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         documentReference =
                 firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
         documentReference.addSnapshotListener(

@@ -7,36 +7,30 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
+import com.artamonov.millionplanets.MainOptionsActivity
+import com.artamonov.millionplanets.PlanetActivity
+import com.artamonov.millionplanets.R
 
 import com.artamonov.millionplanets.utils.RandomUtils
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 
 import java.util.HashMap
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
-import androidx.appcompat.app.AppCompatActivity
-import com.artamonov.millionplanets.MainOptionsActivity
-import com.artamonov.millionplanets.PlanetActivity
-import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.ScanResultActivity
+import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenter
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenterImpl
+import com.artamonov.millionplanets.ScanResultActivity
 import com.artamonov.millionplanets.model.User
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.gate.*
 
-class GateActivity : AppCompatActivity(), GateActivityView {
+class GateActivity : BaseActivity(), GateActivityView {
 
     private var documentReference: DocumentReference? = null
     private var inventoryDocument: DocumentReference? = null
     private var planetDocument: DocumentReference? = null
-    internal var firebaseFirestore = FirebaseFirestore.getInstance()
-    private var firebaseUser: FirebaseUser? = null
-
     private var maxTimeInMilliseconds: Long = 0
     private var debrisIsOver: Boolean = false
     private var countDownTimer: CountDownTimer? = null
@@ -97,9 +91,8 @@ class GateActivity : AppCompatActivity(), GateActivityView {
     override fun onStart() {
         super.onStart()
         presenter.initFirebase()
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser!!.displayName!!)
+                .document(firebaseUser?.displayName!!)
         presenter.initData()
         documentReference!!.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {
@@ -202,7 +195,7 @@ class GateActivity : AppCompatActivity(), GateActivityView {
         debris["type"] = "debris"
         debris["iron"] = RandomUtils.getRandomDebrisIron()
 
-        val collectionReferencePlanet = firebaseFirestore.collection("Objects")
+        val collectionReferencePlanet = firebaseFirestore?.collection("Objects")
         collectionReferencePlanet.document("Debris-" + RandomUtils.getRandomDebrisName(4))
                 .set(debris)
     }
