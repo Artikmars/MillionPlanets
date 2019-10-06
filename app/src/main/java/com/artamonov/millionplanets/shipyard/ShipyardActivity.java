@@ -68,7 +68,7 @@ public class ShipyardActivity extends AppCompatActivity
         figher.setScanner_capacity(15);
         figher.setWeaponSlots(3);*/
         figher.setShipPrice(0);
-        figher.setShip("Fighter");
+        figher.setShip(getString(R.string.fighter));
         shipsList.add(figher);
 
         /*   trader.setHp(100);
@@ -79,7 +79,7 @@ public class ShipyardActivity extends AppCompatActivity
         trader.setScanner_capacity(30);
         trader.setWeaponSlots(1);*/
         trader.setShipPrice(50000);
-        trader.setShip("Trader");
+        trader.setShip(getString(R.string.trader));
         shipsList.add(trader);
 
         /*    rs.setHp(150);
@@ -90,7 +90,7 @@ public class ShipyardActivity extends AppCompatActivity
         rs.setScanner_capacity(100);
         rs.setWeaponSlots(2);*/
         rs.setShipPrice(100000);
-        rs.setShip("Research Spaceship");
+        rs.setShip(getString(R.string.research_spaceship));
         shipsList.add(rs);
     }
 

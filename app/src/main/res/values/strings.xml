@@ -61,6 +61,9 @@
     <string name="shipyard_jump">Jump: </string>
     <string name="shipyard_buy">Buy</string>
     <string name="shipyard_ships">Ships</string>
+    <string name="research_spaceship">Research Spaceship</string>
+    <string name="trader">Trader</string>
+    <string name="fighter">Fighter</string>
 
 
     //Market
@@ -122,6 +125,5 @@
     <string name="modules_info_you_have">You have: </string>
     <string name="run_out_of_fuel">You are run out of fuel! Please, call the tanker.</string>
     <string name="not_enough_fuel_to_get_to_destination">Not enough fuel to get to the destination. Please, call the tanker.</string>
-
 
 </resources>

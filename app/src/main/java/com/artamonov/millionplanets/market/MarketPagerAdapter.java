@@ -12,11 +12,11 @@ public class MarketPagerAdapter extends FragmentPagerAdapter {
 
     private List<String> fragmentTitlesList = new ArrayList<>();
 
-    public MarketPagerAdapter(@NonNull FragmentManager fm) {
+    MarketPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
-    public void setPageTitles(String titles) {
+    void setPageTitles(String titles) {
 
         fragmentTitlesList.add(titles);
     }
@@ -24,14 +24,10 @@ public class MarketPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return MarketYouFragment.newInstance();
-            case 1:
-                return MarketPlanetFragment.newInstance();
-            default:
-                return MarketYouFragment.newInstance();
+        if (position == 1) {
+            return MarketPlanetFragment.newInstance();
         }
+        return MarketYouFragment.newInstance();
     }
 
     @Nullable

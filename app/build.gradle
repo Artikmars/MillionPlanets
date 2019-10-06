@@ -9,19 +9,31 @@ repositories {
 
 
 android {
+    signingConfigs {
+        release {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            storeFile file(properties.getProperty('storeFile'))
+            keyAlias properties.getProperty('keyAlias')
+            storePassword properties.getProperty('storePassword')
+            keyPassword properties.getProperty('keyPassword')
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.artamonov.millionplanets"
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 20
-        versionName "0.18"
+        versionCode 21
+        versionName "0.18.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

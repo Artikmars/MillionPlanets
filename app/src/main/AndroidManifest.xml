@@ -50,10 +50,10 @@
         <activity
             android:name=".move.MoveActivity"
             android:parentActivityName=".ScanResultActivity" />
-        <activity android:name=".GateActivity" />
+        <activity android:name=".gate.GateActivity" />
         <activity
             android:name=".PlanetActivity"
-            android:parentActivityName=".GateActivity" />
+            android:parentActivityName=".gate.GateActivity" />
         <activity
             android:name=".market.MarketActivity"
             android:label="@string/title_activity_market"

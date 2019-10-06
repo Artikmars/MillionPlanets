@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.adapter.ScanResultAdapter;
+import com.artamonov.millionplanets.gate.GateActivity;
 import com.artamonov.millionplanets.model.ObjectModel;
 import com.artamonov.millionplanets.model.User;
 import com.artamonov.millionplanets.move.MoveActivity;

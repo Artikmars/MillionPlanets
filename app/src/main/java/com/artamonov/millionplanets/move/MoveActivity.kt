@@ -21,7 +21,7 @@ import java.util.HashMap
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.artamonov.millionplanets.GateActivity
+import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
@@ -43,7 +43,7 @@ class MoveActivity : AppCompatActivity(), MoveActivityView {
     lateinit var firebaseAuth: FirebaseAuth
     private var firebaseUser: FirebaseUser? = null
     private var parentLayout: View? = null
-    private var objectModel: ObjectModel? = null
+    private lateinit var objectModel: ObjectModel
     private var documentReference: DocumentReference? = null
 
     lateinit var presenter: MoveActivityPresenter<MoveActivityView>
@@ -79,12 +79,12 @@ class MoveActivity : AppCompatActivity(), MoveActivityView {
         val intent = intent
         val objectModelList = ArrayList<ObjectModel>()
         objectModel = ObjectModel()
-        objectModel!!.type = intent.getStringExtra("objectType")
-        objectModel!!.name = intent.getStringExtra("objectName")
-        objectModel!!.distance = intent.getIntExtra("objectDistance", 0)
-        objectModel!!.x = intent.getIntExtra("objectX", 0)
-        objectModel!!.y = intent.getIntExtra("objectY", 0)
-        objectModelList.add(objectModel!!)
+        objectModel.type = intent.getStringExtra("objectType")
+        objectModel.name = intent.getStringExtra("objectName")
+        objectModel.distance = intent.getIntExtra("objectDistance", 0)
+        objectModel.x = intent.getIntExtra("objectX", 0)
+        objectModel.y = intent.getIntExtra("objectY", 0)
+        objectModelList.add(objectModel)
 
         val scanResultAdapter = ScanResultAdapter(objectModelList)
         move_scan_result_list.adapter = scanResultAdapter
