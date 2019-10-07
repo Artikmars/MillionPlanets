@@ -35,6 +35,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     private var debrisIsOver: Boolean = false
     private var countDownTimer: CountDownTimer? = null
     private var remainedSecs: Long = 0
+    private var enemyUsername: String? = null
 
     lateinit var presenter: GateActivityPresenter<GateActivityView>
 
@@ -42,6 +43,10 @@ class GateActivity : BaseActivity(), GateActivityView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gate)
         presenter = GateActivityPresenterImpl(this)
+
+        if (intent != null) {
+            enemyUsername = intent.getStringExtra(ENEMY_USERNAME)
+        }
 
         gate_action.setOnClickListener {
 
@@ -56,8 +61,6 @@ class GateActivity : BaseActivity(), GateActivityView {
                 gate_action.text = resources.getString(R.string.mine)
                 return@setOnClickListener
             }
-
-            presenter.setObjectType()
         }
     }
 
@@ -85,7 +88,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     override fun setFightType() {
-        gate_action.text = resources.getString(R.string.fight)
+        gate_action.text = resources.getString(R.string.fight_with, enemyUsername)
     }
 
     override fun onStart() {
@@ -97,6 +100,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         documentReference!!.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {
                 presenter.initUserList(doc)
+                presenter.setObjectType()
             }
         }
         inventoryDocument = firebaseFirestore.collection("Inventory")
@@ -265,7 +269,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     companion object {
-
         private val TAG = "myLogs"
+        const val ENEMY_USERNAME = "ENEMY_USERNAME"
     }
 }

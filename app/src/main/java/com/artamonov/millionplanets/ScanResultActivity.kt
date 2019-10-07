@@ -18,6 +18,7 @@ import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.fight.FightActivity
+import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.google.firebase.firestore.DocumentReference
 import java.util.ArrayList
 import java.util.Comparator
@@ -233,6 +234,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 }
                 else -> {
                     val intent2 = Intent(this, GateActivity::class.java)
+                    intent2.putExtra(ENEMY_USERNAME, objectModelList!![pos].name)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(
                                 intent2,

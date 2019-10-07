@@ -1,12 +1,13 @@
-package com.artamonov.millionplanets.move.presenter
+package com.artamonov.millionplanets.fight.presenter
 
 import com.artamonov.millionplanets.R
+import com.artamonov.millionplanets.fight.FightActivityView
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.move.MoveActivityView
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentSnapshot
 
-class FightActivityPresenterImpl(private var getView: MoveActivityView) : MoveActivityPresenter<MoveActivityView> {
+class FightActivityPresenterImpl(private var getView: FightActivityView) : FightActivityPresenter
+<FightActivityView> {
 
     override fun getFuel() {
         val fuelToFill = Utils.getShipFuelInfo(userList.ship) - userList.fuel

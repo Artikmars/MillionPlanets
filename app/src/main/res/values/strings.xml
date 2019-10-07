@@ -25,6 +25,7 @@
     <string name="user_money">Money: </string>
 
     <string name="scan">Scan</string>
+    <string name="fight_with">Fight with %1$s</string>
     <string name="fight">Fight</string>
     <string name="trade">Trade</string>
     <string name="jump">Jump</string>
@@ -42,6 +43,13 @@
 
     <string name="user_cash">Cash: </string>
     <string name="user_bank">Bank: </string>
+
+    //Fight
+    <string name="retreat">Retreat</string>
+    <string name="ship">Ship</string>
+    <string name="hp">Hp</string>
+    <string name="shield">Shield</string>
+    <string name="weapon">Weapon</string>
 
     //Planet
     <string name="planet_class">Class: </string>

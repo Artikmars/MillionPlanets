@@ -21,18 +21,17 @@ import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.move.MoveActivityView
-import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
-import com.artamonov.millionplanets.move.presenter.FightActivityPresenterImpl
+import com.artamonov.millionplanets.fight.presenter.FightActivityPresenter
+import com.artamonov.millionplanets.fight.presenter.FightActivityPresenterImpl
 import kotlinx.android.synthetic.main.move.*
 
-class FightActivity : BaseActivity(), MoveActivityView {
+class FightActivity : BaseActivity(), FightActivityView {
 
     private var parentLayout: View? = null
     private lateinit var objectModel: ObjectModel
     private var documentReference: DocumentReference? = null
 
-    lateinit var presenter: MoveActivityPresenter<MoveActivityView>
+    lateinit var presenter: FightActivityPresenter<FightActivityView>
 
     private var snackbarOnClickListener: View.OnClickListener = View.OnClickListener {
         Toast.makeText(applicationContext, "Please, wait 10 seconds", Toast.LENGTH_LONG).show()

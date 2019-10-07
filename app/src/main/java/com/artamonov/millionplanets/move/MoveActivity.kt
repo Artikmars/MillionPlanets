@@ -22,7 +22,8 @@ import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
-import com.artamonov.millionplanets.move.presenter.FightActivityPresenterImpl
+import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
+import kotlinx.android.synthetic.main.main_options.*
 import kotlinx.android.synthetic.main.move.*
 
 class MoveActivity : BaseActivity(), MoveActivityView {
@@ -52,7 +53,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.move)
-        presenter = FightActivityPresenterImpl(this)
+        presenter = MoveActivityPresenterImpl(this)
 
         parentLayout = findViewById(android.R.id.content)
         move_scan_result_list.layoutManager = LinearLayoutManager(this)
