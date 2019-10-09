@@ -10,6 +10,8 @@ class User : Serializable {
     var ship: String? = null
     var hp: Int = 0
     var shield: Int = 0
+    var damage: List<Int>? = null
+    var weaponType: List<String>? = null
     var cargo: Int = 0
     var scanner_capacity: Int = 0
     var jump: Int = 0

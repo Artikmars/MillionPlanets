@@ -22,6 +22,7 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenter
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenterImpl
 import com.artamonov.millionplanets.ScanResultActivity
+import com.artamonov.millionplanets.fight.FightActivity
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.gate.*
@@ -61,6 +62,7 @@ class GateActivity : BaseActivity(), GateActivityView {
                 gate_action.text = resources.getString(R.string.mine)
                 return@setOnClickListener
             }
+            openFightActivity(enemyUsername)
         }
     }
 
@@ -80,6 +82,16 @@ class GateActivity : BaseActivity(), GateActivityView {
 
     override fun openPlanetActivity() {
         val intent = Intent(this, PlanetActivity::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        } else {
+            startActivity(intent)
+        }
+    }
+
+    private fun openFightActivity(enemyUsername: String?) {
+        val intent = Intent(this, FightActivity::class.java)
+        intent.putExtra(ENEMY_USERNAME, enemyUsername)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         } else {

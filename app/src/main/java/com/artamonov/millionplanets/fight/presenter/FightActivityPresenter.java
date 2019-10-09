@@ -6,11 +6,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public interface FightActivityPresenter<V extends FightActivityView> {
 
-    void getFuel();
-
     User getUserList();
 
+    void calculateDamage();
+
+    void calculateDamageFromEnemy();
+
+    void calculateDamageToEnemy();
+
     void setUserList(DocumentSnapshot doc);
+
+    void setEnemyList(DocumentSnapshot doc);
 
     void ifEnoughFuelToJump();
 }
