@@ -1,7 +1,6 @@
 package com.artamonov.millionplanets
 
 import android.app.ActivityOptions
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -17,8 +16,8 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.fight.FightActivity
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
+import com.artamonov.millionplanets.move.MoveActivity
 import com.google.firebase.firestore.DocumentReference
 import java.util.ArrayList
 import java.util.Comparator
@@ -30,7 +29,6 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     internal var objectModelList: MutableList<ObjectModel>? = null
     private var rvScanResult: RecyclerView? = null
     internal var userList = User()
-    internal var progressDialog: ProgressDialog? = null
     private var tvPosition: TextView? = null
     private var tvShip: TextView? = null
     private var tvHp: TextView? = null
@@ -40,7 +38,6 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     private var tvFuel: TextView? = null
     private var tvMoney: TextView? = null
     private var documentReference: DocumentReference? = null
-    private val parentLayout: View? = null
 
     override fun onStart() {
         super.onStart()
@@ -50,15 +47,15 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
         ) { doc, _ ->
             if (doc!!.exists()) {
                 userList.ship = doc.getString("ship")
-                userList.x = doc.getLong("x")!!.toInt()
-                userList.y = doc.getLong("y")!!.toInt()
-                userList.sumXY = doc.getLong("sumXY")!!.toInt()
-                userList.hp = doc.getLong("hp")!!.toInt()
-                userList.cargo = doc.getLong("cargo")!!.toInt()
-                userList.fuel = doc.getLong("fuel")!!.toInt()
-                userList.scanner_capacity = doc.getLong("scanner_capacity")!!.toInt()
-                userList.shield = doc.getLong("shield")!!.toInt()
-                userList.money = doc.getLong("money")!!.toInt()
+                userList.x = doc.getLong("x")!!
+                userList.y = doc.getLong("y")!!
+                userList.sumXY = doc.getLong("sumXY")!!
+                userList.hp = doc.getLong("hp")!!
+                userList.cargo = doc.getLong("cargo")!!
+                userList.fuel = doc.getLong("fuel")!!
+                userList.scanner_capacity = doc.getLong("scanner_capacity")!!
+                userList.shield = doc.getLong("shield")!!
+                userList.money = doc.getLong("money")!!
                 tvPosition!!.text = String.format(
                         resources.getString(R.string.current_coordinate),
                         userList.x,
@@ -98,15 +95,15 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
         ) { doc, _ ->
             if (doc!!.exists()) {
                 userList.ship = doc.getString("ship")
-                userList.x = doc.getLong("x")!!.toInt()
-                userList.y = doc.getLong("y")!!.toInt()
-                userList.sumXY = doc.getLong("sumXY")!!.toInt()
-                userList.hp = doc.getLong("hp")!!.toInt()
-                userList.cargo = doc.getLong("cargo")!!.toInt()
-                userList.fuel = doc.getLong("fuel")!!.toInt()
-                userList.scanner_capacity = doc.getLong("scanner_capacity")!!.toInt()
-                userList.shield = doc.getLong("shield")!!.toInt()
-                userList.money = doc.getLong("money")!!.toInt()
+                userList.x = doc.getLong("x")!!
+                userList.y = doc.getLong("y")!!
+                userList.sumXY = doc.getLong("sumXY")!!
+                userList.hp = doc.getLong("hp")!!
+                userList.cargo = doc.getLong("cargo")!!
+                userList.fuel = doc.getLong("fuel")!!
+                userList.scanner_capacity = doc.getLong("scanner_capacity")!!
+                userList.shield = doc.getLong("shield")!!
+                userList.money = doc.getLong("money")!!
                 tvPosition!!.text = String.format(
                         resources.getString(R.string.current_coordinate),
                         userList.x,
@@ -147,17 +144,16 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                                 objectModel.y = document.getLong("y")!!.toInt()
 
                                 //  Distinguish between (2;8) and (3;7)
-                                if (document.getLong("sumXY")!!.toInt() == userList.sumXY) {
+                                if (document.getLong("sumXY")!! == userList.sumXY) {
                                     objectModel.distance = Math.abs(
-                                            document.getLong("x")!!
-                                                    .toInt() - userList
-                                                    .x)
+                                            document.getLong("x")!!.toInt() - userList
+                                                    .x.toInt())
                                 } else {
                                     objectModel.distance = abs(
                                             document.getLong(
                                                     "sumXY")!!
                                                     .toInt() - userList
-                                                    .sumXY)
+                                                    .sumXY.toInt())
                                 }
 
                                 if (objectModel.distance <= userList.scanner_capacity) {
@@ -245,7 +241,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 }
             }
         } else {
-            val intent = Intent(this, FightActivity::class.java)
+            val intent = Intent(this, MoveActivity::class.java)
             // Show only the recycler view item which was clicked
             val objectModel = objectModelList!![pos]
             intent.putExtra("objectType", objectModel.type)

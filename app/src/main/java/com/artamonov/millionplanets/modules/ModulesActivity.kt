@@ -47,7 +47,7 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
                 this
         ) { doc, e ->
             if (doc!!.exists()) {
-                userList.money = doc.getLong("money")!!.toInt()
+                userList.money = doc.getLong("money")!!
                 tvMoney!!.text = userList.money.toString()
             }
         }

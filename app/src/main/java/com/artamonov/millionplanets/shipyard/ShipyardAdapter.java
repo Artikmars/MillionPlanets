@@ -48,7 +48,7 @@ public class ShipyardAdapter extends RecyclerView.Adapter<ShipyardAdapter.ViewHo
     public void onBindViewHolder(@NonNull ShipyardAdapter.ViewHolder holder, int position) {
         Log.i("myTags", "onBindViewHolder pos: " + position);
         holder.shipyardName.setText(shipsList.get(position).getShip());
-        holder.shipyardPrice.setText(Integer.toString(shipsList.get(position).getShipPrice()));
+        holder.shipyardPrice.setText(Long.toString(shipsList.get(position).getShipPrice()));
     }
 
     @Override

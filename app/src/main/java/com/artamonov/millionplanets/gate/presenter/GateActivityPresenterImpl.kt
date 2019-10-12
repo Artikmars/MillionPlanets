@@ -54,15 +54,15 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     override fun initUserList(doc: DocumentSnapshot) {
         userList.moveToObjectName = doc.getString("moveToObjectName")
         userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")!!.toInt()
-        userList.y = doc.getLong("y")!!.toInt()
-        userList.sumXY = doc.getLong("sumXY")!!.toInt()
-        userList.hp = doc.getLong("hp")!!.toInt()
-        userList.cargo = doc.getLong("cargo")!!.toInt()
-        userList.fuel = doc.getLong("fuel")!!.toInt()
-        userList.scanner_capacity = doc.getLong("scanner_capacity")!!.toInt()
-        userList.shield = doc.getLong("shield")!!.toInt()
-        userList.money = doc.getLong("money")!!.toInt()
+        userList.x = doc.getLong("x")!!
+        userList.y = doc.getLong("y")!!
+        userList.sumXY = doc.getLong("sumXY")!!
+        userList.hp = doc.getLong("hp")!!
+        userList.cargo = doc.getLong("cargo")!!
+        userList.fuel = doc.getLong("fuel")!!
+        userList.scanner_capacity = doc.getLong("scanner_capacity")!!
+        userList.shield = doc.getLong("shield")!!
+        userList.money = doc.getLong("money")!!
         userList.moveToObjectType = doc.getString("moveToObjectType")
 
         getView.setUserData(userList)
@@ -81,17 +81,17 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
 
     override fun setUserList(doc: DocumentSnapshot) {
         userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")?.toInt() ?: 0
-        userList.y = doc.getLong("y")?.toInt() ?: 0
-        userList.sumXY = doc.getLong("sumXY")?.toInt() ?: 0
-        userList.hp = doc.getLong("hp")?.toInt() ?: 0
-        userList.cargo = doc.getLong("cargo")?.toInt() ?: 0
-        userList.fuel = doc.getLong("fuel")?.toInt() ?: 0
-        userList.scanner_capacity = doc.getLong("scanner_capacity")?.toInt() ?: 0
-        userList.shield = doc.getLong("shield")?.toInt() ?: 0
-        userList.money = doc.getLong("money")?.toInt() ?: 0
+        userList.x = doc.getLong("x") ?: 0
+        userList.y = doc.getLong("y") ?: 0
+        userList.sumXY = doc.getLong("sumXY") ?: 0
+        userList.hp = doc.getLong("hp") ?: 0
+        userList.cargo = doc.getLong("cargo") ?: 0
+        userList.fuel = doc.getLong("fuel") ?: 0
+        userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
+        userList.shield = doc.getLong("shield") ?: 0
+        userList.money = doc.getLong("money") ?: 0
         userList.moveToObjectName = doc.getString("moveToObjectName")
-        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!.toInt()
+        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!
     }
 
     override fun setObjectType() {

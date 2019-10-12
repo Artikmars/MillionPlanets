@@ -14,9 +14,13 @@ public interface FightActivityPresenter<V extends FightActivityView> {
 
     void calculateDamageToEnemy();
 
+    void calculateLoot();
+
+    Boolean fightFinished();
+
+    void setLootTransferFinished(Boolean state);
+
     void setUserList(DocumentSnapshot doc);
 
     void setEnemyList(DocumentSnapshot doc);
-
-    void ifEnoughFuelToJump();
 }

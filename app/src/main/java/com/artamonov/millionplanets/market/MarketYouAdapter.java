@@ -92,7 +92,7 @@ public class MarketYouAdapter extends RecyclerView.Adapter<MarketYouAdapter.View
         if (user.getResource_iron() == 0) {
             holder.resourceAmount.setText("0");
         } else {
-            holder.resourceAmount.setText(Integer.toString(user.getResource_iron()));
+            holder.resourceAmount.setText(Long.toString(user.getResource_iron()));
         }
     }
 

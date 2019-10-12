@@ -49,7 +49,6 @@ public class ShipyardActivity extends BaseActivity implements ShipyardAdapter.It
         setContentView(R.layout.shipyard);
         documentReference =
                 firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
-
         rvShipyard = findViewById(R.id.rvShipyard);
         rvShipyard.setLayoutManager(new LinearLayoutManager(this));
         tvMoney = findViewById(R.id.shipyard_user_cash);
@@ -103,7 +102,7 @@ public class ShipyardActivity extends BaseActivity implements ShipyardAdapter.It
                         if (doc.exists()) {
                             userList.setShip(doc.getString("ship"));
                             userList.setMoney(doc.getLong("money").intValue());
-                            tvMoney.setText(Integer.toString(userList.getMoney()));
+                            tvMoney.setText(Long.toString(userList.getMoney()));
 
                             // For larger amount of spaceships
 
@@ -118,21 +117,21 @@ public class ShipyardActivity extends BaseActivity implements ShipyardAdapter.It
                             Log.i(
                                     "myLogs",
                                     " Integer.toString(shipsList.get(0).getShipPrice(): "
-                                            + Integer.toString(shipsList.get(0).getShipPrice()));
+                                            + shipsList.get(0).getShipPrice());
                             Log.i(
                                     "myLogs",
                                     " shipsList.get(1).getShip():" + shipsList.get(1).getShip());
                             Log.i(
                                     "myLogs",
                                     " Integer.toString(shipsList.get(0).getShipPrice():: "
-                                            + Integer.toString(shipsList.get(1).getShipPrice()));
+                                            + shipsList.get(1).getShipPrice());
                             Log.i(
                                     "myLogs",
                                     " shipsList.get(2).getShip():: " + shipsList.get(2).getShip());
                             Log.i(
                                     "myLogs",
                                     " Integer.toString(shipsList.get(0).getShipPrice():: "
-                                            + Integer.toString(shipsList.get(2).getShipPrice()));
+                                            + (shipsList.get(2).getShipPrice()));
 
                             ShipyardAdapter shipyardAdapter =
                                     new ShipyardAdapter(shipsList, ShipyardActivity.this);

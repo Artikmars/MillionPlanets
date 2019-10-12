@@ -1,6 +1,5 @@
 package com.artamonov.millionplanets.fight.presenter
 
-import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.fight.FightActivityView
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.WeaponType
@@ -16,9 +15,19 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     private var enemyHpDamage: Int = 0
     private var userList = User()
     private var enemyList = User()
+    private var isFightFinished: Boolean = false
+    private var isLootTransferFinished: Boolean = false
 
     override fun getUserList(): User {
         return userList
+    }
+
+    override fun fightFinished(): Boolean {
+        return isFightFinished
+    }
+
+    override fun setLootTransferFinished(state: Boolean) {
+        isLootTransferFinished = state
     }
 
     override fun setUserList(doc: DocumentSnapshot) {
@@ -37,23 +46,38 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
         calculateDamageFromEnemy()
         attack()
         if (isFinished()) {
+            isFightFinished = true
             if (isYouWon()) {
                 getView.showYouWonMessage()
             } else {
                 getView.showEnemyWonMessage()
             }
+        } else {
+            getView.startTimer()
         }
     }
 
     private fun isYouWon(): Boolean {
-        return userList.hp != 0
+        return userList.hp != 0L
+    }
+
+    override fun calculateLoot() {
+        if (isYouWon()) {
+            getView.calculateLoot(userList.nickname, enemyList.nickname, enemyList.ship)
+            getView.showLootSnackbar(isYouWon(), enemyList.ship)
+        } else {
+            getView.calculateLoot(enemyList.nickname, userList.nickname, userList.ship)
+            getView.showLootSnackbar(isYouWon(), userList.ship) }
     }
 
     private fun isFinished(): Boolean {
-        return (userList.hp == 0 || enemyList.hp == 0)
+        return userList.hp == 0L || enemyList.hp == 0L
     }
 
-    override fun calculateDamageToEnemy() { for (weapon in userList.weaponType!!.indices) {
+    override fun calculateDamageToEnemy() {
+        hpDamage = 0
+        shieldDamage = 0
+        for (weapon in userList.weaponType!!.indices) {
         when (userList.weaponType!![weapon]) {
             WeaponType.LASER.name -> { shieldDamage += randomizeDamage(userList.damage!![weapon])
             hpDamage += randomizeDamage(userList.damage!![weapon]) }
@@ -66,6 +90,8 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     }
 
     override fun calculateDamageFromEnemy() {
+        enemyHpDamage = 0
+        enemyShieldDamage = 0
         for (weapon in enemyList.weaponType!!.indices) {
             when (enemyList.weaponType!![weapon]) {
                 WeaponType.LASER.name ->
@@ -83,7 +109,7 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     }
 
     private fun attack() {
-        if (enemyList.shield != 0) {
+        if (enemyList.shield != 0L) {
         enemyList.shield = enemyList.shield - shieldDamage
             if (enemyList.shield < 0) enemyList.shield = 0
         } else {
@@ -91,7 +117,7 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
             if (enemyList.hp < 0) enemyList.hp = 0
         }
 
-        if (userList.shield != 0) {
+        if (userList.shield != 0L) {
             userList.shield = userList.shield - enemyShieldDamage
             if (userList.shield < 0) userList.shield = 0
         } else {
@@ -100,18 +126,11 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
         }
         getView.setUserData(userList)
         getView.setEnemyData(enemyList)
+        getView.setFightLog(hpDamage, shieldDamage, enemyHpDamage, enemyShieldDamage)
     }
 
-    private fun randomizeDamage(damage: Int): Int {
-        return Random().nextInt(((damage + (damage / 100)*25) -
-                (damage - (damage / 100)*25) + 1) + (damage - (damage / 100)*25))
-    }
-
-    override fun ifEnoughFuelToJump() {
-        if (userList.fuel == 0) {
-        getView.setSnackbarError(R.string.run_out_of_fuel)
-        return
-    }
-        if (userList.fuel - userList.moveToObjectDistance < 0) { getView.setSnackbarError(R.string.not_enough_fuel_to_get_to_destination) }
+    private fun randomizeDamage(damage: Long): Int {
+        return Random().nextInt(((damage.toInt() + (damage.toInt() / 100)*25) -
+                (damage.toInt() - (damage.toInt() / 100)*25) + 1) + (damage.toInt() - (damage.toInt() / 100)*25))
     }
 }

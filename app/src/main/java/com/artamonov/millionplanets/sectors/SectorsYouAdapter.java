@@ -65,7 +65,7 @@ public class SectorsYouAdapter extends RecyclerView.Adapter<SectorsYouAdapter.Vi
         Log.i("myTags", "onBindViewHolder price buy : " + objectModel.getPrice_buy_iron());
 
         holder.resourcePrice.setText(Integer.toString(objectModel.getPlanetSectorsPrice() / 2));
-        holder.resourceAmount.setText(Integer.toString(user.getSectors()));
+        holder.resourceAmount.setText(Long.toString(user.getSectors()));
     }
 
     @Override

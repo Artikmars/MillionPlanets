@@ -70,6 +70,26 @@ class MoveActivity : BaseActivity(), MoveActivityView {
 
         val scanResultAdapter = ScanResultAdapter(objectModelList)
         move_scan_result_list.adapter = scanResultAdapter
+
+        move_jump.setOnClickListener {
+            presenter.ifEnoughFuelToJump()
+
+            if (presenter.userList.moveToObjectName != null) {
+                val docRefForMovedObject = firebaseFirestore.collection("Objects")
+                        .document(presenter.userList.moveToObjectName!!)
+                docRefForMovedObject.get().addOnSuccessListener { documentSnapshot ->
+                    val x = documentSnapshot.getLong("x")!!.toInt()
+                    val y = documentSnapshot.getLong("y")!!.toInt()
+                    val movedPosition = HashMap<String, Any>()
+                    movedPosition["x"] = x
+                    movedPosition["y"] = y
+                    movedPosition["fuel"] = presenter.userList.fuel - presenter.userList.moveToObjectDistance
+                    movedPosition["sumXY"] = x + y
+                    documentReference!!.update(movedPosition)
+                    startActivity(Intent(applicationContext, GateActivity::class.java))
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -97,7 +117,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
         startActivity(Intent(applicationContext, MainOptionsActivity::class.java))
     }
 
-    override fun buyFuel(fuel: Int, money: Int) {
+    override fun buyFuel(fuel: Long, money: Long) {
         documentReference!!.update("fuel", fuel)
         documentReference!!.update("money", money) }
 
@@ -110,27 +130,6 @@ class MoveActivity : BaseActivity(), MoveActivityView {
         parentLayout = findViewById(android.R.id.content)
         Snackbar.make(parentLayout!!, getString(R.string.run_out_of_fuel),
                 Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show() }
-
-    fun onJump(view: View) {
-
-        presenter.ifEnoughFuelToJump()
-
-        if (presenter.userList.moveToObjectName != null) {
-            val docRefForMovedObject = firebaseFirestore.collection("Objects")
-                    .document(presenter.userList.moveToObjectName!!)
-            docRefForMovedObject.get().addOnSuccessListener { documentSnapshot ->
-                val x = documentSnapshot.getLong("x")!!.toInt()
-                val y = documentSnapshot.getLong("y")!!.toInt()
-                val movedPosition = HashMap<String, Any>()
-                movedPosition["x"] = x
-                movedPosition["y"] = y
-                movedPosition["fuel"] = presenter.userList.fuel - presenter.userList.moveToObjectDistance
-                movedPosition["sumXY"] = x + y
-                documentReference!!.update(movedPosition)
-                startActivity(Intent(applicationContext, GateActivity::class.java))
-            }
-        }
-    }
 
     companion object {
 

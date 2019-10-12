@@ -214,7 +214,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                                     - selectedValue);
                                                     dismiss();
                                                 } else {
-                                                    int resourceAmountToSell =
+                                                    Long resourceAmountToSell =
                                                             user.getMoney()
                                                                     / objectModel
                                                                             .getPrice_sell_iron();

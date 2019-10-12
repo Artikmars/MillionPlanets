@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 interface GateActivityView {
 
-    fun buyFuel(fuel: Int, money: Int, ship: String?)
+    fun buyFuel(fuel: Long, money: Long, ship: String?)
 
     fun mineDebris()
 

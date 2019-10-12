@@ -66,7 +66,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         }
     }
 
-    override fun buyFuel(fuel: Int, money: Int, ship: String?) {
+    override fun buyFuel(fuel: Long, money: Long, ship: String?) {
         var maxFuel = 20
         when (ship) {
             getString(R.string.research_spaceship) -> maxFuel = 150
@@ -100,7 +100,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     override fun setFightType() {
-        gate_action.text = resources.getString(R.string.fight_with, enemyUsername)
+        gate_action.text = resources.getString(R.string.fight_with, presenter.getUserList()?.moveToObjectName)
     }
 
     override fun onStart() {
@@ -109,9 +109,11 @@ class GateActivity : BaseActivity(), GateActivityView {
         documentReference = firebaseFirestore.collection("Objects")
                 .document(firebaseUser?.displayName!!)
         presenter.initData()
-        documentReference!!.addSnapshotListener(this) { doc, _ ->
+        documentReference!!.get().addOnSuccessListener { doc ->
             if (doc!!.exists()) {
                 presenter.initUserList(doc)
+                planetDocument = firebaseFirestore.collection("Objects")
+                        .document(presenter.getUserList()?.moveToObjectName!!)
                 presenter.setObjectType()
             }
         }
@@ -144,7 +146,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     override fun setUserIron(userList: User, documentSnapshot: DocumentSnapshot?) {
-        userList.resource_iron = documentSnapshot?.getLong("Iron")!!.toInt() }
+        userList.resource_iron = documentSnapshot?.getLong("Iron")!! }
 
     fun onGoBackToMainOptions(view: View) {
         startActivity(Intent(applicationContext, MainOptionsActivity::class.java))

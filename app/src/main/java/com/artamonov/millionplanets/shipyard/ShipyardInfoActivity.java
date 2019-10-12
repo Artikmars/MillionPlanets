@@ -101,7 +101,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
         TextView tvCostDiff = findViewById(R.id.shipyard_cost_diff);
         TextView tvWeaponSlotsDiff = findViewById(R.id.shipyard_weapon_slots_diff);
         TextView tvScannerCapacityDiff = findViewById(R.id.shipyard_scanner_diff);
-        int hpDiff = shipToBuy.getHp() - userList.getHp();
+        Long hpDiff = shipToBuy.getHp() - userList.getHp();
         if (hpDiff >= 0) {
             tvHpDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvHpDiff.setText("+ " + hpDiff);
@@ -110,7 +110,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvHpDiff.setText(String.valueOf(hpDiff));
         }
 
-        int cargoDiff = shipToBuy.getCargo() - userList.getCargo();
+        Long cargoDiff = shipToBuy.getCargo() - userList.getCargo();
         if (cargoDiff >= 0) {
             tvCargoDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCargoDiff.setText("+ " + cargoDiff);
@@ -118,7 +118,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvCargoDiff.setTextColor(getResources().getColor(R.color.red));
             tvCargoDiff.setText(String.valueOf(cargoDiff));
         }
-        int shieldDiff = shipToBuy.getShield() - userList.getShield();
+        Long shieldDiff = shipToBuy.getShield() - userList.getShield();
         if (shieldDiff >= 0) {
             tvShieldDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvShieldDiff.setText("+ " + shieldDiff);
@@ -126,7 +126,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvShieldDiff.setTextColor(getResources().getColor(R.color.red));
             tvShieldDiff.setText(String.valueOf(shieldDiff));
         }
-        int fuelDiff = shipToBuy.getFuel() - userList.getFuel();
+        Long fuelDiff = shipToBuy.getFuel() - userList.getFuel();
         if (fuelDiff >= 0) {
             tvFuelDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvFuelDiff.setText("+ " + fuelDiff);
@@ -134,7 +134,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvFuelDiff.setTextColor(getResources().getColor(R.color.red));
             tvFuelDiff.setText(String.valueOf(fuelDiff));
         }
-        int jumpDiff = shipToBuy.getJump() - userList.getJump();
+        Long jumpDiff = shipToBuy.getJump() - userList.getJump();
         if (jumpDiff >= 0) {
             tvJumpDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvJumpDiff.setText("+ " + jumpDiff);
@@ -142,7 +142,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvJumpDiff.setTextColor(getResources().getColor(R.color.red));
             tvJumpDiff.setText(String.valueOf(jumpDiff));
         }
-        int costDiff = shipToBuy.getShipPrice() - userList.getShipPrice();
+        Long costDiff = shipToBuy.getShipPrice() - userList.getShipPrice();
         if (costDiff >= 0) {
             tvCostDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvCostDiff.setText("+ " + costDiff);
@@ -150,7 +150,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvCostDiff.setTextColor(getResources().getColor(R.color.red));
             tvCostDiff.setText(String.valueOf(costDiff));
         }
-        int weaponSlotsDiff = shipToBuy.getWeaponSlots() - userList.getWeaponSlots();
+        Long weaponSlotsDiff = shipToBuy.getWeaponSlots() - userList.getWeaponSlots();
         if (weaponSlotsDiff >= 0) {
             tvWeaponSlotsDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvWeaponSlotsDiff.setText("+ " + weaponSlotsDiff);
@@ -158,7 +158,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
             tvWeaponSlotsDiff.setTextColor(getResources().getColor(R.color.red));
             tvWeaponSlotsDiff.setText(String.valueOf(weaponSlotsDiff));
         }
-        int scannerDiff = shipToBuy.getScanner_capacity() - userList.getScanner_capacity();
+        Long scannerDiff = shipToBuy.getScanner_capacity() - userList.getScanner_capacity();
         if (scannerDiff >= 0) {
             tvScannerCapacityDiff.setTextColor(getResources().getColor(R.color.colorAccent));
             tvScannerCapacityDiff.setText("+ " + scannerDiff);
@@ -195,7 +195,7 @@ public class ShipyardInfoActivity extends AppCompatActivity {
                             userList.setShipPrice(doc.getLong("shipPrice").intValue());
                             userList.setMoney(doc.getLong("money").intValue());
                             tv_YourShip.setText(userList.getShip());
-                            tvUserCash.setText(Integer.toString(userList.getMoney()));
+                            tvUserCash.setText(Long.toString(userList.getMoney()));
                             showDiffStats(shipToBuy, userList);
                         }
                     }

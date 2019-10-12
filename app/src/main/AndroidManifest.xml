@@ -16,6 +16,9 @@
             android:name=".modules.ModulesInfoActivity"
             android:parentActivityName=".modules.ModulesActivity" />
         <activity
+            android:name=".fight.FightActivity"
+            android:parentActivityName=".gate.GateActivity" />
+        <activity
             android:name=".modules.ModulesActivity"
             android:parentActivityName=".modules.ModulesListActivity" />
 
@@ -48,7 +51,7 @@
             android:name=".ScanResultActivity"
             android:parentActivityName=".MainOptionsActivity" />
         <activity
-            android:name=".fight.FightActivity"
+            android:name=".move.MoveActivity"
             android:parentActivityName=".ScanResultActivity" />
         <activity android:name=".gate.GateActivity" />
         <activity

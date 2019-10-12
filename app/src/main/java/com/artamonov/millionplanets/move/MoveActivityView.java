@@ -4,7 +4,7 @@ public interface MoveActivityView {
 
     void setSnackbarError(int errorMessage);
 
-    void buyFuel(int fuel, int money);
+    void buyFuel(Long fuel, Long money);
 
     void setProgressBar(boolean state);
 }

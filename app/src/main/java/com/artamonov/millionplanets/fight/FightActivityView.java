@@ -4,7 +4,9 @@ import com.artamonov.millionplanets.model.User;
 
 public interface FightActivityView {
 
-    void setSnackbarError(int errorMessage);
+    void calculateLoot(String nicknameGet, String nicknameLose, String ship);
+
+    void setFightLog(int hpDamage, int shieldDamage, int enemyHpDamage, int enemyShieldDamage);
 
     void setProgressBar(boolean state);
 
@@ -12,7 +14,11 @@ public interface FightActivityView {
 
     void setEnemyData(User userList);
 
+    void showLootSnackbar(Boolean isYouWon, String ship);
+
     void showYouWonMessage();
 
     void showEnemyWonMessage();
+
+    void startTimer();
 }

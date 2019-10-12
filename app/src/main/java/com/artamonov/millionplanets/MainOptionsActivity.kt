@@ -101,7 +101,7 @@ class MainOptionsActivity : BaseActivity() {
         val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         documentReference.addSnapshotListener(
                 this
-        ) { doc, e ->
+        ) { doc, _ ->
             if (doc!!.exists()) {
                 setDefaultValues(doc)
             } else {
@@ -142,15 +142,15 @@ class MainOptionsActivity : BaseActivity() {
 
     private fun setDefaultValues(doc: DocumentSnapshot) {
         userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")!!.toInt()
-        userList.y = doc.getLong("y")!!.toInt()
-        userList.sumXY = doc.getLong("sumXY")!!.toInt()
-        userList.hp = doc.getLong("hp")!!.toInt()
-        userList.cargo = doc.getLong("cargo")!!.toInt()
-        userList.fuel = doc.getLong("fuel")!!.toInt()
-        userList.scanner_capacity = doc.getLong("scanner_capacity")!!.toInt()
-        userList.shield = doc.getLong("shield")!!.toInt()
-        userList.money = doc.getLong("money")!!.toInt()
+        userList.x = doc.getLong("x")!!
+        userList.y = doc.getLong("y")!!
+        userList.sumXY = doc.getLong("sumXY")!!
+        userList.hp = doc.getLong("hp")!!
+        userList.cargo = doc.getLong("cargo")!!
+        userList.fuel = doc.getLong("fuel")!!
+        userList.scanner_capacity = doc.getLong("scanner_capacity")!!
+        userList.shield = doc.getLong("shield")!!
+        userList.money = doc.getLong("money")!!
         userList.moveToObjectName = doc.getString("moveToObjectName")
         userList.moveToObjectType = doc.getString("moveToObjectType")
 

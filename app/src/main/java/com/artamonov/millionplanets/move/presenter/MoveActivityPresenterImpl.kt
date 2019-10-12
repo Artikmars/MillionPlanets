@@ -25,21 +25,21 @@ class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveAct
 
     override fun setUserList(doc: DocumentSnapshot) {
         userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")?.toInt() ?: 0
-        userList.y = doc.getLong("y")?.toInt() ?: 0
-        userList.sumXY = doc.getLong("sumXY")?.toInt() ?: 0
-        userList.hp = doc.getLong("hp")?.toInt() ?: 0
-        userList.cargo = doc.getLong("cargo")?.toInt() ?: 0
-        userList.fuel = doc.getLong("fuel")?.toInt() ?: 0
-        userList.scanner_capacity = doc.getLong("scanner_capacity")?.toInt() ?: 0
-        userList.shield = doc.getLong("shield")?.toInt() ?: 0
-        userList.money = doc.getLong("money")?.toInt() ?: 0
+        userList.x = doc.getLong("x") ?: 0
+        userList.y = doc.getLong("y") ?: 0
+        userList.sumXY = doc.getLong("sumXY") ?: 0
+        userList.hp = doc.getLong("hp") ?: 0
+        userList.cargo = doc.getLong("cargo") ?: 0
+        userList.fuel = doc.getLong("fuel") ?: 0
+        userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
+        userList.shield = doc.getLong("shield") ?: 0
+        userList.money = doc.getLong("money") ?: 0
         userList.moveToObjectName = doc.getString("moveToObjectName")
-        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!.toInt()
+        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!
     }
 
     override fun ifEnoughFuelToJump() {
-        if (userList.fuel == 0) {
+        if (userList.fuel == 0L) {
         getView.setSnackbarError(R.string.run_out_of_fuel)
         return
     }

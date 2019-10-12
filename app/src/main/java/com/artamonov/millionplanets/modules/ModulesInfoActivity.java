@@ -103,7 +103,7 @@ public class ModulesInfoActivity extends AppCompatActivity {
                             @javax.annotation.Nullable FirebaseFirestoreException e) {
                         if (doc.exists()) {
                             userList.setMoney(doc.getLong("money").intValue());
-                            tvUserCash.setText(Integer.toString(userList.getMoney()));
+                            tvUserCash.setText(Long.toString(userList.getMoney()));
                         }
                     }
                 });
