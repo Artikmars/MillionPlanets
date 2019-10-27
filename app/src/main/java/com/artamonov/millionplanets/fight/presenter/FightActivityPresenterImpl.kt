@@ -2,6 +2,7 @@ package com.artamonov.millionplanets.fight.presenter
 
 import com.artamonov.millionplanets.fight.FightActivityView
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.utils.Utils
 import com.artamonov.millionplanets.utils.WeaponType
 import com.google.firebase.firestore.DocumentSnapshot
 import java.util.Random
@@ -77,14 +78,15 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     override fun calculateDamageToEnemy() {
         hpDamage = 0
         shieldDamage = 0
-        for (weapon in userList.weaponType!!.indices) {
-        when (userList.weaponType!![weapon]) {
-            WeaponType.LASER.name -> { shieldDamage += randomizeDamage(userList.damage!![weapon])
-            hpDamage += randomizeDamage(userList.damage!![weapon]) }
-            WeaponType.GUN.name -> {
-            val randomizedDamage = randomizeDamage(userList.damage!![weapon])
-            shieldDamage += randomizedDamage / 2
-            hpDamage += randomizedDamage / 2 }
+
+        for (weapon in userList.weapon!!.indices) {
+            when (Utils.getCurrentModuleInfo(userList.weapon!![weapon])?.type) {
+                WeaponType.LASER.name -> { shieldDamage += randomizeDamage(userList.damage!![weapon])
+                    hpDamage += randomizeDamage(userList.damage!![weapon]) }
+                WeaponType.GUN.name -> {
+                    val randomizedDamage = randomizeDamage(userList.damage!![weapon])
+                    shieldDamage += randomizedDamage / 2
+                    hpDamage += randomizedDamage / 2 }
             }
         }
     }
@@ -92,8 +94,8 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     override fun calculateDamageFromEnemy() {
         enemyHpDamage = 0
         enemyShieldDamage = 0
-        for (weapon in enemyList.weaponType!!.indices) {
-            when (enemyList.weaponType!![weapon]) {
+        for (weapon in enemyList.weapon!!.indices) {
+            when (Utils.getCurrentModuleInfo(enemyList.weapon!![weapon])?.type) {
                 WeaponType.LASER.name ->
                 {
                     enemyShieldDamage += randomizeDamage(enemyList.damage!![weapon])

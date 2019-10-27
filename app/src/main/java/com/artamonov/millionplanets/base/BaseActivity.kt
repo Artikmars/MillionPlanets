@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 abstract class BaseActivity : AppCompatActivity() {
 
     internal lateinit var firebaseFirestore: FirebaseFirestore
-    public var firebaseUser: FirebaseUser? = null
+    var firebaseUser: FirebaseUser? = null
     lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {

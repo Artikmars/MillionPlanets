@@ -9,11 +9,11 @@ import com.google.firebase.firestore.DocumentSnapshot
 class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveActivityPresenter<MoveActivityView> {
 
     override fun getFuel() {
-        val fuelToFill = Utils.getShipFuelInfo(userList.ship) - userList.fuel
+        val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
         val price = fuelToFill * 1000
         if (userList.money >= price) {
 
-            getView.buyFuel(Utils.getShipFuelInfo(userList.ship), userList.money - price)
+            getView.buyFuel(Utils.getShipFuelInfo(userList.ship!!), userList.money - price)
             getView.setProgressBar(false)
         } }
 

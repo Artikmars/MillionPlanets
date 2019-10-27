@@ -114,6 +114,7 @@
     <string name="modules_list_special">Special</string>
     <string name="modules_empty_slots">Empty Slots: </string>
     <string name="modules_weapon_slots">Weapon</string>
+    <string name="modules_your_weapon">Your weapons: </string>
     <!-- <string name="modules_template_modules_name_slots">%1s (%2d )</string>-->
 
 

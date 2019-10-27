@@ -12,16 +12,17 @@ import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.modules.*
 
 class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
+
     internal var documentReference: DocumentReference? = null
     private var modulesRef: DocumentReference? = null
     internal var userList = User()
     private var rvModules: RecyclerView? = null
     private var tvMoney: TextView? = null
     private var modules: MutableList<Module>? = null
-    private var existedItem: Int = 0
+    private lateinit var existedItem: List<Long>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +33,7 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
 
         rvModules = findViewById(R.id.rvModules)
         rvModules!!.layoutManager = LinearLayoutManager(this)
-        modules = ArrayList()
-        modules!!.add(0, Module("Light Laser", 1, 0))
-        modules!!.add(1, Module("Medium Laser", 2, 5000))
-        modules!!.add(2, Module("Heavy Laser", 3, 10000))
-        modules!!.add(3, Module("Military Laser", 2, 0))
-        modules!!.add(4, Module("Heavy Military Laser", 3, 0))
+        modules = Utils.getAllWeapons()
     }
 
     override fun onStart() {
@@ -45,35 +41,27 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
         documentReference?.addSnapshotListener(
                 this
-        ) { doc, e ->
-            if (doc!!.exists()) {
-                userList.money = doc.getLong("money")!!
-                tvMoney!!.text = userList.money.toString()
-            }
-        }
-        modulesRef = firebaseFirestore.collection("Modules").document(firebaseUser?.displayName!!)
-        modulesRef?.addSnapshotListener(
-                this
         ) { doc, _ ->
             if (doc!!.exists()) {
-                // Weapon which is already installed on a s
-                existedItem = Utils.getWeaponIdByName(doc.getString("weaponName"))
+                userList = doc.toObject(User::class.java)!!
+                tvMoney!!.text = userList.money.toString()
+                val listOfCurrentWeapons: MutableList<String> = mutableListOf()
+                for (weapon in userList.weapon!!.indices) {
+                        listOfCurrentWeapons.add(weapon, Utils.getCurrentModuleInfo(userList.weapon!![weapon])!!.name)
+                }
+                modules_current_weapons.text = listOfCurrentWeapons.joinToString()
+                existedItem = userList.weapon!!
+                val modulesAdapter = ModulesAdapter(
+                        modules,
+                        existedItem,
+                        applicationContext,
+                        this@ModulesActivity)
+                rvModules?.adapter = modulesAdapter
             }
-            val modulesAdapter = ModulesAdapter(
-                    modules,
-                    existedItem,
-                    applicationContext,
-                    this@ModulesActivity)
-            rvModules?.adapter = modulesAdapter
         }
-    }
+        }
 
     override fun onItemClick(position: Int) {
-
-        // Last two weapon types are currently unavailable
-        if (position == 3 || position == 4) {
-            return
-        }
         val intent = Intent(this, ModulesInfoActivity::class.java)
         intent.putExtra("position", position)
         startActivity(intent)

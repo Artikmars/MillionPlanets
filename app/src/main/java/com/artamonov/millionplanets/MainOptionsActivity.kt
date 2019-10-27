@@ -97,6 +97,11 @@ class MainOptionsActivity : BaseActivity() {
         createDocumentReference()
     }
 
+    override fun onResume() {
+        super.onResume()
+        progressDialog?.dismiss()
+    }
+
     private fun createDocumentReference() {
         val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         documentReference.addSnapshotListener(

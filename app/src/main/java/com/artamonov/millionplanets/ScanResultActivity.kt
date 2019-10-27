@@ -224,8 +224,10 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                         startActivity(
                                 intent,
                                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                        finish()
                     } else {
                         startActivity(intent)
+                        finish()
                     }
                 }
                 else -> {

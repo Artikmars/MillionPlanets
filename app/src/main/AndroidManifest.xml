@@ -56,7 +56,7 @@
         <activity android:name=".gate.GateActivity" />
         <activity
             android:name=".PlanetActivity"
-            android:parentActivityName=".gate.GateActivity" />
+            android:parentActivityName=".MainOptionsActivity" />
         <activity
             android:name=".market.MarketActivity"
             android:label="@string/title_activity_market"

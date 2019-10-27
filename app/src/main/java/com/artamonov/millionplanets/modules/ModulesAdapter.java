@@ -15,11 +15,11 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     private static ItemClickListener listener;
     private List<Module> moduleList;
     private Context context;
-    private int existedItem;
+    private List<Long> existedItem;
 
     ModulesAdapter(
             List<Module> moduleList,
-            int existedItem,
+            List<Long> existedItem,
             Context context,
             ItemClickListener itemClickListener) {
         listener = itemClickListener;
@@ -39,16 +39,18 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
-        if (position == 3 || position == 4) {
-            holder.modulesPrice.setEnabled(false);
-            holder.modulesName.setEnabled(false);
-            holder.modulesPrice.setBackgroundColor(context.getResources().getColor(R.color.grey));
-            holder.modulesName.setBackgroundColor(context.getResources().getColor(R.color.grey));
-        }
+        //        if (position == 3 || position == 4) {
+        //            holder.modulesPrice.setEnabled(false);
+        //            holder.modulesName.setEnabled(false);
+        //
+        // holder.modulesPrice.setBackgroundColor(context.getResources().getColor(R.color.grey));
+        //
+        // holder.modulesName.setBackgroundColor(context.getResources().getColor(R.color.grey));
+        //        }
         holder.modulesName.setText(moduleList.get(position).getName());
         holder.modulesPrice.setText(Integer.toString(moduleList.get(position).getPrice()));
 
-        if (position == existedItem) {
+        if (existedItem.contains((long) position)) {
             holder.modulesName.setTextColor(context.getResources().getColor(R.color.yellow));
             holder.modulesPrice.setTextColor(context.getResources().getColor(R.color.yellow));
         }

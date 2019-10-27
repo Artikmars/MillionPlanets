@@ -6,13 +6,13 @@ public class Module {
     private boolean isBought;
     private String moduleClass;
     private int damageHP;
-    private int damageShield;
     private int slots;
+    private String type;
 
-    public Module(String name, String moduleClass, int damageHP, int damageShield, int cost) {
+    public Module(String name, String type, String moduleClass, int damageHP, int cost) {
         this.moduleClass = moduleClass;
+        this.type = type;
         this.damageHP = damageHP;
-        this.damageShield = damageShield;
         price = cost;
         this.name = name;
     }
@@ -21,6 +21,10 @@ public class Module {
         this.name = name;
         this.slots = slots;
         this.price = price;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public boolean isBought() {
@@ -45,14 +49,6 @@ public class Module {
 
     public void setDamageHP(int damageHP) {
         this.damageHP = damageHP;
-    }
-
-    public int getDamageShield() {
-        return damageShield;
-    }
-
-    public void setDamageShield(int damageShield) {
-        this.damageShield = damageShield;
     }
 
     public int getPrice() {

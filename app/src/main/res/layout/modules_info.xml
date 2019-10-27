@@ -8,31 +8,6 @@
     android:id="@+id/modulesinfo_parentLayout"
     tools:context=".modules.ModulesInfoActivity">
 
-    <TextView
-        android:id="@+id/modulesinfo_damageShield"
-        style="@style/UserInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginRight="156dp"
-        android:text="@string/undefined"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp" />
-
-    <TextView
-        android:id="@+id/modulesinfo_damageShield_label"
-        style="@style/UserInfoLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/modules_info_damage_shield"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp_label" />
-
     <Button
         android:id="@+id/modulesinfo_sell"
         style="@style/Button"
@@ -193,6 +168,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modulesinfo_sell" />
 
+
     <Button
         android:id="@+id/modulesinfo_buy"
         style="@style/Button"
@@ -200,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="192dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:onClick="onBuy"
@@ -208,8 +184,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageShield" />
-
+        app:layout_constraintTop_toBottomOf="@+id/modulesinfo_damageHp" />
 
     <TextView
         android:id="@+id/modulesinfo_header"

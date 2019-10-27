@@ -84,8 +84,10 @@ class GateActivity : BaseActivity(), GateActivityView {
         val intent = Intent(this, PlanetActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            finish()
         } else {
             startActivity(intent)
+            finish()
         }
     }
 

@@ -148,7 +148,7 @@ class FightActivity : BaseActivity(), FightActivityView {
                 presenter.setLootTransferFinished(true)
             } } }
 
-    override fun showLootSnackbar(isYouWon: Boolean, ship: String?) {
+    override fun showLootSnackbar(isYouWon: Boolean, ship: String) {
         if (isYouWon) {
             setSnackbarError("You won " + Utils.getCurrentShipInfo(ship).hp + " iron!")
         } else {

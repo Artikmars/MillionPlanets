@@ -73,10 +73,10 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     }
 
     override fun getFuel(fuel: Int, money: Int) {
-        val fuelToFill = Utils.getShipFuelInfo(userList.ship) - userList.fuel
+        val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
         val price = fuelToFill * 1000
         if (userList.money >= price) {
-            getView.buyFuel(Utils.getShipFuelInfo(userList.ship), userList.money - price, userList.ship)
+            getView.buyFuel(Utils.getShipFuelInfo(userList.ship!!), userList.money - price, userList.ship)
         } }
 
     override fun setUserList(doc: DocumentSnapshot) {
