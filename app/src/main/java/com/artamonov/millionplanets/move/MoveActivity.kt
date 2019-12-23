@@ -23,7 +23,6 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
-import kotlinx.android.synthetic.main.main_options.*
 import kotlinx.android.synthetic.main.move.*
 
 class MoveActivity : BaseActivity(), MoveActivityView {
@@ -105,7 +104,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
                 move_ship.text = presenter.userList.ship
                 move_hp.text = presenter.userList.hp.toString()
                 move_shield.text = presenter.userList.shield.toString()
-                move_cargo!!.text = presenter.userList.cargo.toString()
+                move_cargo!!.text = presenter.userList.cargoCapacity.toString()
                 move_scanner_capacity.text = presenter.userList.scanner_capacity.toString()
                 move_fuel.text = presenter.userList.fuel.toString()
                 move_money.text = presenter.userList.money.toString()

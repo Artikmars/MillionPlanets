@@ -58,7 +58,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
         userList.y = doc.getLong("y")!!
         userList.sumXY = doc.getLong("sumXY")!!
         userList.hp = doc.getLong("hp")!!
-        userList.cargo = doc.getLong("cargo")!!
+        userList.cargoCapacity = doc.getLong("cargoCapacity")!!
         userList.fuel = doc.getLong("fuel")!!
         userList.scanner_capacity = doc.getLong("scanner_capacity")!!
         userList.shield = doc.getLong("shield")!!
@@ -85,7 +85,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
         userList.y = doc.getLong("y") ?: 0
         userList.sumXY = doc.getLong("sumXY") ?: 0
         userList.hp = doc.getLong("hp") ?: 0
-        userList.cargo = doc.getLong("cargo") ?: 0
+        userList.cargoCapacity = doc.getLong("cargoCapacity") ?: 0
         userList.fuel = doc.getLong("fuel") ?: 0
         userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
         userList.shield = doc.getLong("shield") ?: 0

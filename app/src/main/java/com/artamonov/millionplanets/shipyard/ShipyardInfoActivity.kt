@@ -1,25 +1,19 @@
 package com.artamonov.millionplanets.shipyard
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
+import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Utils
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.main_options.*
 import kotlinx.android.synthetic.main.shipyard_info.*
 import java.util.ArrayList
 
-class ShipyardInfoActivity : AppCompatActivity() {
-    internal var firebaseFirestore = FirebaseFirestore.getInstance()
+class ShipyardInfoActivity : BaseActivity() {
     internal var userList: User? = User()
     internal var objectModelList = ObjectModel()
     /*  User figher = new User();
@@ -29,11 +23,6 @@ class ShipyardInfoActivity : AppCompatActivity() {
 
     private var documentReference: DocumentReference? = null
     private val planetDocumentReference: DocumentReference? = null
-    private var firebaseUser: FirebaseUser? = null
-    private var tv_YourShip: TextView? = null
-    private var tvUserCash: TextView? = null
-    private var tvUserBank: TextView? = null
-    private var btnBuy: Button? = null
     private val rvShipyard: RecyclerView? = null
     private val shipsArrayList = ArrayList<String>()
     private var yourShip: String? = null
@@ -46,38 +35,22 @@ class ShipyardInfoActivity : AppCompatActivity() {
         val position = intent.getIntExtra("position", 0)
         yourShip = intent.getStringExtra("your_ship")
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
-
-        val tvHp = findViewById<TextView>(R.id.shipyard_hp)
-        val tvCargo = findViewById<TextView>(R.id.shipyard_cargo)
-        val tvShield = findViewById<TextView>(R.id.shipyard_shield)
-        val tvFuel = findViewById<TextView>(R.id.shipyard_fuel)
-        val tvJump = findViewById<TextView>(R.id.shipyard_jump)
-        val tvCost = findViewById<TextView>(R.id.shipyard_cost)
-        val tvWeaponSlots = findViewById<TextView>(R.id.shipyard_weapon_slots)
-        val tv_ScannerCapacity = findViewById<TextView>(R.id.shipyard_scanner)
-        tv_YourShip = findViewById(R.id.shipyard_your_ship)
-        val tvShipyardName = findViewById<TextView>(R.id.shipyard_name)
-        val tvClass = findViewById<TextView>(R.id.shipyard_class)
-        btnBuy = findViewById(R.id.shipyard_btn_buy)
-        tvUserCash = findViewById(R.id.shipyardinfo_user_cash)
-        tvUserBank = findViewById(R.id.shipyardinfo_user_bank)
+        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
         shipToBuy = Utils.getCurrentShipInfo(position)
         setOnBuyButtonVisibility(shipToBuy!!)
-        tvHp.text = shipToBuy!!.hp.toString()
-        tvCargo.text = shipToBuy!!.cargo.toString()
-        tvShield.text = shipToBuy!!.shield.toString()
-        tvFuel.text = shipToBuy!!.fuel.toString()
-        tvJump.text = shipToBuy!!.jump.toString()
-        tvCost.text = shipToBuy!!.shipPrice.toString()
-        tvWeaponSlots.text = shipToBuy!!.weaponSlots.toString()
-        tv_ScannerCapacity.text = shipToBuy!!.scanner_capacity.toString()
-        tvShipyardName.text = shipToBuy!!.ship
-        tvClass.text = Utils.getCurrentShipInfo(position)?.shipClass
+        shipyard_hp.text = shipToBuy!!.hp.toString()
+        shipyard_cargo.text = shipToBuy!!.cargoCapacity.toString()
+        shipyard_shield.text = shipToBuy!!.shield.toString()
+        shipyard_fuel.text = shipToBuy!!.fuel.toString()
+        shipyard_jump.text = shipToBuy!!.jump.toString()
+        shipyard_cost.text = shipToBuy!!.shipPrice.toString()
+        shipyard_weapon_slots.text = shipToBuy!!.weaponSlots.toString()
+        shipyard_scanner.text = shipToBuy!!.scanner_capacity.toString()
+        shipyard_name.text = shipToBuy!!.ship
+        shipyard_class.text = Utils.getCurrentShipInfo(position)?.shipClass
 
-//        userList = User(shipToBuy!!.cargo, shipToBuy!!.fuel,shipToBuy!!.hp, shipToBuy!!.jump,
+//        userList = User(shipToBuy!!.cargoCapacity, shipToBuy!!.fuel,shipToBuy!!.hp, shipToBuy!!.jump,
 //                shipToBuy!!.scanner_capacity,shipToBuy!!.shield,
 //                 shipToBuy!!.shipPrice, shipToBuy!!.ship, shipToBuy!!.shipClass, shipToBuy!!.weapon!!,
 //                 shipToBuy!!.weaponSlots
@@ -88,13 +61,13 @@ class ShipyardInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "Not enough money to buy the ship!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            btnBuy!!.isEnabled = false
-            btnBuy!!.setBackgroundColor(resources.getColor(R.color.grey))
+            shipyard_btn_buy.isEnabled = false
+            shipyard_btn_buy.setBackgroundColor(resources.getColor(R.color.grey))
             firebaseFirestore.runTransaction { transaction ->
 
                 userList?.hp = shipToBuy!!.hp
                 userList?.shield = shipToBuy!!.shield
-                userList?.cargo = shipToBuy!!.cargo
+                userList?.cargoCapacity = shipToBuy!!.cargoCapacity
                 userList?.jump = shipToBuy!!.jump
                 userList?.fuel = shipToBuy!!.fuel
                 userList?.scanner_capacity = shipToBuy!!.scanner_capacity
@@ -130,7 +103,7 @@ class ShipyardInfoActivity : AppCompatActivity() {
             tvHpDiff.text = hpDiff.toString()
         }
 
-        val cargoDiff = shipToBuy.cargo - userList.cargo
+        val cargoDiff = shipToBuy.cargoCapacity - userList.cargoCapacity
         if (cargoDiff >= 0) {
             tvCargoDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvCargoDiff.text = "+ $cargoDiff"
@@ -197,8 +170,8 @@ class ShipyardInfoActivity : AppCompatActivity() {
             if (doc!!.exists()) {
                 userList = doc.toObject(User::class.java)
                 userList
-                tv_YourShip!!.text = userList!!.ship
-                tvUserCash!!.text = userList!!.money.toString()
+                shipyard_your_ship.text = userList!!.ship
+                shipyardinfo_user_cash.text = userList!!.money.toString()
                 showDiffStats(shipToBuy!!, userList!!)
             }
         }
@@ -206,8 +179,8 @@ class ShipyardInfoActivity : AppCompatActivity() {
 
     private fun setOnBuyButtonVisibility(ship: User) {
         if (yourShip == ship.ship) {
-            btnBuy!!.isEnabled = false
-            btnBuy!!.setBackgroundColor(resources.getColor(R.color.grey))
+            shipyard_btn_buy.isEnabled = false
+            shipyard_btn_buy.setBackgroundColor(resources.getColor(R.color.grey))
         }
     }
 

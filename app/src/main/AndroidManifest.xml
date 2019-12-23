@@ -36,6 +36,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".inventory.InventoryActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainOptionsActivity" />
+        <activity
             android:name=".NewGameActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />

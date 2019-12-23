@@ -10,6 +10,7 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.modules.*
@@ -22,7 +23,7 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
     private var rvModules: RecyclerView? = null
     private var tvMoney: TextView? = null
     private var modules: MutableList<Module>? = null
-    private lateinit var existedItem: List<Long>
+    private lateinit var existedItem: List<Weapon>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
                 tvMoney!!.text = userList.money.toString()
                 val listOfCurrentWeapons: MutableList<String> = mutableListOf()
                 for (weapon in userList.weapon!!.indices) {
-                        listOfCurrentWeapons.add(weapon, Utils.getCurrentModuleInfo(userList.weapon!![weapon])!!.name)
+                        listOfCurrentWeapons.add(weapon, Utils.getCurrentModuleInfo(userList.weapon!![weapon].weaponId!!)!!.name)
                 }
                 modules_current_weapons.text = listOfCurrentWeapons.joinToString()
                 existedItem = userList.weapon!!

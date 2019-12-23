@@ -51,6 +51,11 @@
     <string name="shield">Shield</string>
     <string name="weapon">Weapon</string>
 
+    //Inventory
+    <string name="cargo">Cargo</string>
+    <string name="arming">Arming</string>
+
+
     //Planet
     <string name="planet_class">Class: </string>
     <string name="planet_size">Size: </string>

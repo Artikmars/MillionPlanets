@@ -104,9 +104,9 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                         documentSnapshot1
                                                                 .getLong("money")
                                                                 .intValue());
-                                                user.setCargo(
+                                                user.setCargoCapacity(
                                                         documentSnapshot1
-                                                                .getLong("cargo")
+                                                                .getLong("cargoCapacity")
                                                                 .intValue());
                                                 Log.i(
                                                         "myTags",
@@ -151,13 +151,13 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                                                 .getPrice_sell_iron());
 
                                                 if (user.getResource_iron() + selectedValue
-                                                        > user.getCargo()) {
+                                                        > user.getCargoCapacity()) {
                                                     Toast.makeText(
                                                                     getActivity(),
-                                                                    "Your cargo is full!",
+                                                                    "Your cargoCapacity is full!",
                                                                     Toast.LENGTH_SHORT)
                                                             .show();
-                                                    Log.i("myTags", "Your cargo is full!");
+                                                    Log.i("myTags", "Your cargoCapacity is full!");
                                                     transaction.update(
                                                             documentReferenceInventory,
                                                             "Iron",
@@ -214,7 +214,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                                     - selectedValue);
                                                     dismiss();
                                                 } else {
-                                                    Long resourceAmountToSell =
+                                                    long resourceAmountToSell =
                                                             user.getMoney()
                                                                     / objectModel
                                                                             .getPrice_sell_iron();

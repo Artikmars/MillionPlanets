@@ -9,9 +9,11 @@ import android.view.View
 import android.widget.TextView
 
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.User
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.android.synthetic.main.main_options.*
 import java.util.HashMap
 
 class MainOptionsActivity : BaseActivity() {
@@ -52,6 +54,23 @@ class MainOptionsActivity : BaseActivity() {
                 Snackbar.LENGTH_LONG)
                 .show()
 
+        scan.setOnClickListener {
+            val intent = Intent(this, ScanResultActivity::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            } else {
+                startActivity(intent)
+            }
+        }
+
+        inventory.setOnClickListener {
+            val intent = Intent(this, InventoryActivity::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            } else {
+                startActivity(intent)
+            }
+        }
         /*   documentReference = firebaseFirestore.collection("Objects").document(firebaseUser.getDisplayName());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -64,7 +83,7 @@ class MainOptionsActivity : BaseActivity() {
                     userList.setX((doc.getLong("x").intValue()));
                     userList.setY((doc.getLong("y").intValue()));
                     userList.setHp(doc.getLong("hp").intValue());
-                    userList.setCargo(doc.getLong("cargo").intValue());
+                    userList.setCargoCapacity(doc.getLong("cargoCapacity").intValue());
                     userList.setFuel(doc.getLong("fuel").intValue());
                     userList.setScanner_capacity(doc.getLong("scanner_capacity").intValue());
                     userList.setShield(doc.getLong("shield").intValue());
@@ -76,7 +95,7 @@ class MainOptionsActivity : BaseActivity() {
                     tvShip.setText(userList.getShip());
                     tvHp.setText(Integer.toString(userList.getHp()));
                     tvShield.setText(Integer.toString(userList.getShield()));
-                    tvCargo.setText(Integer.toString(userList.getCargo()));
+                    tvCargo.setText(Integer.toString(userList.getCargoCapacity()));
                     tv_ScannerCapacity.setText(Integer.toString(userList.getScanner_capacity()));
                     tvFuel.setText(Integer.toString(userList.getFuel()));
                     progressDialog.dismiss();
@@ -121,7 +140,7 @@ class MainOptionsActivity : BaseActivity() {
         val user = User()
         user.x = 5
         user.y = 6
-        user.cargo = 10
+        user.cargoCapacity = 10
         user.hp = 50
         user.ship = "Fighter"
         user.money = 1000
@@ -151,7 +170,7 @@ class MainOptionsActivity : BaseActivity() {
         userList.y = doc.getLong("y")!!
         userList.sumXY = doc.getLong("sumXY")!!
         userList.hp = doc.getLong("hp")!!
-        userList.cargo = doc.getLong("cargo")!!
+        userList.cargoCapacity = doc.getLong("cargoCapacity") ?: 0
         userList.fuel = doc.getLong("fuel")!!
         userList.scanner_capacity = doc.getLong("scanner_capacity")!!
         userList.shield = doc.getLong("shield")!!
@@ -166,28 +185,11 @@ class MainOptionsActivity : BaseActivity() {
         tvShip!!.text = userList.ship
         tvHp!!.text = userList.hp.toString()
         tvShield!!.text = userList.shield.toString()
-        tvCargo!!.text = userList.cargo.toString()
+        tvCargo!!.text = userList.cargoCapacity.toString()
         tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
         tvFuel!!.text = userList.fuel.toString()
         tvMoney!!.text = userList.money.toString()
 
         progressDialog?.dismiss()
-    }
-
-    fun onScan(view: View) {
-        val intent = Intent(this, ScanResultActivity::class.java)
-        /*  intent.putExtra("x", userList.getX());
-        intent.putExtra("y", userList.getY());
-        intent.putExtra("hull", userList.getHp());
-        intent.putExtra("cargo", userList.getCargo());
-        intent.putExtra("scanner_capacity", userList.getScanner_capacity());
-        intent.putExtra("shield", userList.getShield());
-        intent.putExtra("ship", userList.getShip());
-        intent.putExtra("fuel", userList.getFuel());*/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-        } else {
-            startActivity(intent)
-        }
     }
 }

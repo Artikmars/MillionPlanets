@@ -2,7 +2,9 @@ package com.artamonov.millionplanets.fight.presenter
 
 import com.artamonov.millionplanets.fight.FightActivityView
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.Utils.getFilteredInstalledWeaponList
 import com.artamonov.millionplanets.utils.WeaponType
 import com.google.firebase.firestore.DocumentSnapshot
 import java.util.Random
@@ -15,6 +17,8 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     private var enemyShieldDamage: Int = 0
     private var enemyHpDamage: Int = 0
     private var userList = User()
+    private var installedWeapons: List<Weapon> = listOf()
+    private var enemyInstalledWeapons: List<Weapon> = listOf()
     private var enemyList = User()
     private var isFightFinished: Boolean = false
     private var isLootTransferFinished: Boolean = false
@@ -32,13 +36,16 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     }
 
     override fun setUserList(doc: DocumentSnapshot) {
-
         userList = doc.toObject(User::class.java)!!
+        installedWeapons = getFilteredInstalledWeaponList(userList.weapon!!)
+
         getView.setUserData(userList)
     }
 
     override fun setEnemyList(doc: DocumentSnapshot) {
         enemyList = doc.toObject(User::class.java)!!
+        enemyInstalledWeapons = getFilteredInstalledWeaponList(enemyList.weapon!!)
+
         getView.setEnemyData(enemyList)
     }
 
@@ -79,8 +86,8 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
         hpDamage = 0
         shieldDamage = 0
 
-        for (weapon in userList.weapon!!.indices) {
-            when (Utils.getCurrentModuleInfo(userList.weapon!![weapon])?.type) {
+        for (weapon in installedWeapons.indices) {
+            when (Utils.getCurrentModuleInfo(installedWeapons[weapon].weaponId!!)?.type) {
                 WeaponType.LASER.name -> { shieldDamage += randomizeDamage(userList.damage!![weapon])
                     hpDamage += randomizeDamage(userList.damage!![weapon]) }
                 WeaponType.GUN.name -> {
@@ -94,8 +101,8 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
     override fun calculateDamageFromEnemy() {
         enemyHpDamage = 0
         enemyShieldDamage = 0
-        for (weapon in enemyList.weapon!!.indices) {
-            when (Utils.getCurrentModuleInfo(enemyList.weapon!![weapon])?.type) {
+        for (weapon in enemyInstalledWeapons.indices) {
+            when (Utils.getCurrentModuleInfo(enemyInstalledWeapons[weapon].weaponId!!)?.type) {
                 WeaponType.LASER.name ->
                 {
                     enemyShieldDamage += randomizeDamage(enemyList.damage!![weapon])

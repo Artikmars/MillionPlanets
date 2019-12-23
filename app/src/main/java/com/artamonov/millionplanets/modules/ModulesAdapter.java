@@ -9,17 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
 import com.artamonov.millionplanets.model.Module;
+import com.artamonov.millionplanets.model.Weapon;
 import java.util.List;
 
 public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHolder> {
     private static ItemClickListener listener;
     private List<Module> moduleList;
     private Context context;
-    private List<Long> existedItem;
+    private List<Weapon> existedItem;
 
     ModulesAdapter(
             List<Module> moduleList,
-            List<Long> existedItem,
+            List<Weapon> existedItem,
             Context context,
             ItemClickListener itemClickListener) {
         listener = itemClickListener;

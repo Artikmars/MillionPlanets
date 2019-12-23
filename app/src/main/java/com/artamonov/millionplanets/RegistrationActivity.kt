@@ -118,7 +118,7 @@ class RegistrationActivity : BaseActivity() {
         val user = User()
         user.x = 5
         user.y = 6
-        user.cargo = 10
+        user.cargoCapacity = 10
         user.hp = 50
         user.ship = "Fighter"
         user.money = 1000

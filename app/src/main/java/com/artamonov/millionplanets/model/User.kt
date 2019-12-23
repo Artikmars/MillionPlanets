@@ -3,32 +3,33 @@ package com.artamonov.millionplanets.model
 import java.io.Serializable
 
 class User : Serializable {
-    var x: Long = 544
-    var y: Long = 553
 
-    var sumXY: Long = 1097
-    var ship: String? = null
-    var hp: Long = 0
-    var shield: Long = 0
+    var cargoCapacity: Long = 0
+    var cargo: List<Item>? = listOf()
     var damage: List<Long>? = null
-    var weapon: List<Long>? = listOf(0)
-    var cargo: Long = 0
-    var scanner_capacity: Long = 0
+    var email: String? = null
+    var fuel: Long = 0
     var jump: Long = 0
-    var shipPrice: Long = 0
+    var hp: Long = 0
+    var money: Long = 0
+    var moveToObjectDistance: Long = 0
+    var moveToObjectName: String? = null
+    var moveToObjectType: String? = null
+    var nickname: String? = null
+    var resource_iron: Long = 0
+    var scanner_capacity: Long = 0
+    var sectors: Long = 0
+    var shield: Long = 0
+    var ship: String? = null
     var shipClass: String? = null
+    var shipPrice: Long = 0
+    var sumXY: Long = 1097
+    var type: String? = null
+    var weapon: List<Weapon>? = listOf()
     var weaponSlots: Long = 0
 
-    var money: Long = 0
-    var resource_iron: Long = 0
-    var sectors: Long = 0
-    var email: String? = null
-    var nickname: String? = null
-    var fuel: Long = 0
-    var type: String? = null
-    var moveToObjectName: String? = null
-    var moveToObjectDistance: Long = 0
-    var moveToObjectType: String? = null
+    var x: Long = 544
+    var y: Long = 553
 
     constructor(x: Long, y: Long) {
         this.x = x
@@ -37,12 +38,25 @@ class User : Serializable {
 
     constructor()
 
-    constructor(ship: String?, shield: Long, damage: List<Long>?, weapon: List<Long>?, cargo: Long, scanner_capacity: Long, jump: Long, shipPrice: Long, shipClass: String?, weaponSlots: Long, fuel: Long, type: String?) {
+    constructor(
+        ship: String?,
+        shield: Long,
+        damage: List<Long>?,
+        weapon: List<Weapon>?,
+        cargoCapacity: Long,
+        scanner_capacity: Long,
+        jump: Long,
+        shipPrice: Long,
+        shipClass: String?,
+        weaponSlots: Long,
+        fuel: Long,
+        type: String?
+    ) {
         this.ship = ship
         this.shield = shield
         this.damage = damage
         this.weapon = weapon
-        this.cargo = cargo
+        this.cargoCapacity = cargoCapacity
         this.scanner_capacity = scanner_capacity
         this.jump = jump
         this.shipPrice = shipPrice
@@ -53,7 +67,7 @@ class User : Serializable {
     }
 
     constructor(
-        cargo: Long,
+        cargoCapacity: Long,
         fuel: Long,
         hp: Long,
         jump: Long,
@@ -62,13 +76,13 @@ class User : Serializable {
         shipPrice: Long,
         ship: String?,
         shipClass: String?,
-        weapon: List<Long>,
+        weapon: List<Weapon>?,
         weaponSlots: Long
     ) {
         this.ship = ship
         this.shield = shield
         this.weapon = weapon
-        this.cargo = cargo
+        this.cargoCapacity = cargoCapacity
         this.scanner_capacity = scannerCapacity
         this.jump = jump
         this.shipPrice = shipPrice

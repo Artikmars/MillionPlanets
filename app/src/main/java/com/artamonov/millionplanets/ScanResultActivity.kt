@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.adapter.ScanResultAdapter
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.GateActivity
@@ -19,6 +18,7 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.move.MoveActivity
 import com.google.firebase.firestore.DocumentReference
+import kotlinx.android.synthetic.main.fragment_scan_result.*
 import java.util.ArrayList
 import java.util.Comparator
 import java.util.HashMap
@@ -27,7 +27,6 @@ import kotlin.math.abs
 class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
 
     internal var objectModelList: MutableList<ObjectModel>? = null
-    private var rvScanResult: RecyclerView? = null
     internal var userList = User()
     private var tvPosition: TextView? = null
     private var tvShip: TextView? = null
@@ -51,7 +50,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 userList.y = doc.getLong("y")!!
                 userList.sumXY = doc.getLong("sumXY")!!
                 userList.hp = doc.getLong("hp")!!
-                userList.cargo = doc.getLong("cargo")!!
+                userList.cargoCapacity = doc.getLong("cargoCapacity")!!
                 userList.fuel = doc.getLong("fuel")!!
                 userList.scanner_capacity = doc.getLong("scanner_capacity")!!
                 userList.shield = doc.getLong("shield")!!
@@ -63,7 +62,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 tvShip!!.text = userList.ship
                 tvHp!!.text = userList.hp.toString()
                 tvShield!!.text = userList.shield.toString()
-                tvCargo!!.text = userList.cargo.toString()
+                tvCargo!!.text = userList.cargoCapacity.toString()
                 tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
                 tvFuel!!.text = userList.fuel.toString()
             }
@@ -73,8 +72,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.scan_result)
-        rvScanResult = findViewById(R.id.scan_result_list)
-        rvScanResult?.layoutManager = LinearLayoutManager(this)
+        scan_result_list.layoutManager = LinearLayoutManager(this)
 
         /*  progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -99,7 +97,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 userList.y = doc.getLong("y")!!
                 userList.sumXY = doc.getLong("sumXY")!!
                 userList.hp = doc.getLong("hp")!!
-                userList.cargo = doc.getLong("cargo")!!
+                userList.cargoCapacity = doc.getLong("cargoCapacity")!!
                 userList.fuel = doc.getLong("fuel")!!
                 userList.scanner_capacity = doc.getLong("scanner_capacity")!!
                 userList.shield = doc.getLong("shield")!!
@@ -111,7 +109,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 tvShip!!.text = userList.ship
                 tvHp!!.text = userList.hp.toString()
                 tvShield!!.text = userList.shield.toString()
-                tvCargo!!.text = userList.cargo.toString()
+                tvCargo!!.text = userList.cargoCapacity.toString()
                 tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
                 tvFuel!!.text = userList.fuel.toString()
                 tvMoney!!.text = userList.money.toString()
@@ -179,7 +177,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                             val scanResultAdapter = ScanResultAdapter(
                                     objectModelList,
                                     this@ScanResultActivity)
-                            rvScanResult?.adapter = scanResultAdapter
+                            scan_result_list.adapter = scanResultAdapter
                             scanResultAdapter.notifyDataSetChanged()
                         }
             }
@@ -257,8 +255,8 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
 
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this@ScanResultActivity,
-                        rvScanResult!!,
-                        ViewCompat.getTransitionName(rvScanResult!!)!!)
+                        scan_result_list,
+                        ViewCompat.getTransitionName(scan_result_list)!!)
                 startActivity(intent, options.toBundle())
             } else {
                 startActivity(intent)

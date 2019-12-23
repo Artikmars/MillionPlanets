@@ -55,7 +55,7 @@ class GateActivity : BaseActivity(), GateActivityView {
                 countDownTimer!!.cancel()
                 countDownTimer = null
 
-                // maxTimeInMilliseconds/1000 indicates how much resources are going to be mined until the cargo is fulled
+                // maxTimeInMilliseconds/1000 indicates how much resources are going to be mined until the cargoCapacity is fulled
                 inventoryDocument?.update("Iron", presenter.getUserList()!!.resource_iron + maxTimeInMilliseconds / 1000 - remainedSecs)
                 planetDocument?.update("iron", presenter.getObjectModel()!!.debrisIronAmount - (maxTimeInMilliseconds / 1000 - remainedSecs))
 
@@ -133,7 +133,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         gate_ship.text = userList.ship
         gate_hp.text = userList.hp.toString()
         gate_shield.text = userList.shield.toString()
-        gate_cargo.text = userList.cargo.toString()
+        gate_cargo.text = userList.cargoCapacity.toString()
         gate_scanner_capacity.text = userList.scanner_capacity.toString()
         gate_fuel.text = userList.fuel.toString()
         gate_money.text = userList.money.toString()
@@ -197,11 +197,11 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     override fun updateIron(counter: Int) {
-        if (presenter.getUserList()?.resource_iron!! + counter <= presenter.getUserList()!!.cargo) {
+        if (presenter.getUserList()?.resource_iron!! + counter <= presenter.getUserList()!!.cargoCapacity) {
             Toast.makeText(this, "You got " + counter + " iron. Total: " + (presenter.getUserList()!!.resource_iron + counter), Toast.LENGTH_LONG).show()
             inventoryDocument!!.update("Iron", presenter.getUserList()!!.resource_iron + counter)
         } else {
-            Toast.makeText(this, "Your cargo is full!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Your cargoCapacity is full!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -259,9 +259,9 @@ class GateActivity : BaseActivity(), GateActivityView {
     override fun mineDebris() {
 
         debrisIsOver = false
-        maxTimeInMilliseconds = (1000 * (presenter.getUserList()!!.cargo - presenter.getUserList()!!.resource_iron)).toLong()
+        maxTimeInMilliseconds = (1000 * (presenter.getUserList()!!.cargoCapacity - presenter.getUserList()!!.resource_iron)).toLong()
 
-        // If the iron amount on debris less than an amount that is needed to fill up fully the cargo
+        // If the iron amount on debris less than an amount that is needed to fill up fully the cargoCapacity
 
         if (presenter.getObjectModel()!!.debrisIronAmount < maxTimeInMilliseconds / 1000) {
             maxTimeInMilliseconds = (1000 * presenter.getObjectModel()!!.debrisIronAmount).toLong()

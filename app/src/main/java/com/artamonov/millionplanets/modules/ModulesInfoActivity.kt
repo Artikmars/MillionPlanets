@@ -7,6 +7,7 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
@@ -48,19 +49,19 @@ class ModulesInfoActivity : BaseActivity() {
 
             if (isSlotAvailable()) {
                 val weapon = userList.weapon!!.toMutableList()
-                weapon.add(position.toLong())
+                weapon.add(Weapon(position.toLong(), true))
+
 //                val weaponType = userList.weaponType!!.toMutableList()
 //                weaponType.add(weaponType.size, Utils.getCurrentModuleInfo(position.toLong())!!.type)
                 batch.update(userDocumentReference!!, "weapon", weapon)
             } else {
-
                     if (armingList.weapon != null) {
                         val weapon = armingList.weapon!!.toMutableList()
-                        weapon.add(position.toLong())
+                        weapon.add(Weapon(position.toLong(), true))
                         batch.update(armingDocumentReference!!, "weapon", weapon)
                     } else {
-                        val weapon = mutableListOf<Long>()
-                        weapon.add(position.toLong())
+                        val weapon = mutableListOf<Weapon>()
+                        weapon.add(Weapon(position.toLong(), true))
                         armingList.weapon = weapon
                         batch.set(armingDocumentReference!!, weapon)
                     }
@@ -92,12 +93,12 @@ class ModulesInfoActivity : BaseActivity() {
             when {
                 isInInventory() -> {
                     val weapon = armingList.weapon!!.toMutableList()
-                    weapon.remove(position.toLong())
+                    weapon.removeAt(weapon.indexOf(Weapon(position.toLong())))
                     batch.update(armingDocumentReference!!, "weapon", weapon)
                 }
                 isInstalled() -> {
                     val weapon = userList.weapon!!.toMutableList()
-                    weapon.remove(position.toLong())
+                    weapon.removeAt(weapon.indexOf(Weapon(position.toLong())))
                     batch.update(userDocumentReference!!, "weapon", weapon)
                 }
                 else -> Snackbar.make(
@@ -171,11 +172,11 @@ class ModulesInfoActivity : BaseActivity() {
     }
 
     private fun isInstalled(): Boolean {
-        return userList.weapon!!.contains(position.toLong())
+        return userList.weapon!!.contains(Weapon(position.toLong()))
     }
 
     private fun isInInventory(): Boolean {
-        return armingList.weapon!!.contains(position.toLong())
+        return armingList.weapon!!.contains(Weapon(position.toLong()))
     }
 
     private fun isEnoughMoneyToBuy(): Boolean {

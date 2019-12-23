@@ -19,11 +19,11 @@ android {
             keyPassword properties.getProperty('keyPassword')
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.artamonov.millionplanets"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         multiDexEnabled true
         versionCode 22
         versionName "0.19"
@@ -42,9 +42,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-beta01'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -55,13 +55,13 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.24'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.24'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-auth:19.1.0'
-    implementation 'com.google.firebase:firebase-database:19.1.0'
-    implementation 'com.google.firebase:firebase-firestore:21.1.1'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-firestore:21.3.1'
     implementation "com.scottyab:secure-preferences-lib:0.1.7"
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     implementation "androidx.core:core-ktx:1.1.0"
