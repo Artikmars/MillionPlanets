@@ -23,8 +23,6 @@ interface GateActivityPresenter<V : GateActivityView> {
 
     fun setObjectType()
 
-    fun setUserList(doc: DocumentSnapshot)
-
     fun prepareData()
 
     fun updateIron(i: Int)

@@ -88,9 +88,9 @@ public class SectorsPlanetDialog extends AppCompatDialogFragment {
                                                 DocumentSnapshot documentSnapshot1 =
                                                         transaction.get(documentReferenceUser);
                                                 User user = new User();
-                                                user.setMoveToObjectName(
+                                                user.setLocationName(
                                                         documentSnapshot1.getString(
-                                                                "moveToObjectName"));
+                                                                "locationName"));
                                                 user.setMoney(
                                                         documentSnapshot1
                                                                 .getLong("money")
@@ -104,14 +104,13 @@ public class SectorsPlanetDialog extends AppCompatDialogFragment {
                                                         transaction.get(documentReferenceInventory);
                                                 user.setSectors(
                                                         documentSnapshot
-                                                                .getLong(user.getMoveToObjectName())
+                                                                .getLong(user.getLocationName())
                                                                 .intValue());
 
                                                 DocumentReference documentReferencePlanet =
                                                         firebaseFirestore
                                                                 .collection("Objects")
-                                                                .document(
-                                                                        user.getMoveToObjectName());
+                                                                .document(user.getLocationName());
                                                 DocumentSnapshot documentSnapshotPlanet =
                                                         transaction.get(documentReferencePlanet);
                                                 ObjectModel objectModel = new ObjectModel();
@@ -126,7 +125,7 @@ public class SectorsPlanetDialog extends AppCompatDialogFragment {
 
                                                 transaction.update(
                                                         documentReferenceInventory,
-                                                        user.getMoveToObjectName(),
+                                                        user.getLocationName(),
                                                         selectedValue);
 
                                                 transaction.update(

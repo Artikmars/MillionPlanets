@@ -66,7 +66,7 @@ class FightActivity : BaseActivity(), FightActivityView {
             if (doc!!.exists()) {
                 presenter.setUserList(doc)
                 enemyDocument = firebaseFirestore.collection("Objects")
-                        .document(presenter.userList.moveToObjectName!!)
+                        .document(presenter.userList.locationName!!)
                 enemyDocument!!.addSnapshotListener(this) { doc, _ ->
                     if (doc!!.exists()) {
                         presenter.setEnemyList(doc)
@@ -104,7 +104,7 @@ class FightActivity : BaseActivity(), FightActivityView {
     }
 
     override fun setFightLog(hpDamage: Int, shieldDamage: Int, enemyHpDamage: Int, enemyShieldDamage: Int) {
-        fight_log.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " + shieldDamage + " point to shield\n" + presenter.userList.moveToObjectName + " damaged " + enemyHpDamage + " point to hp\n" + presenter.userList.moveToObjectName + " damaged " + enemyShieldDamage + " point to shield"
+        fight_log.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " + shieldDamage + " point to shield\n" + presenter.userList.locationName + " damaged " + enemyHpDamage + " point to hp\n" + presenter.userList.locationName + " damaged " + enemyShieldDamage + " point to shield"
     }
 
     override fun startTimer() {

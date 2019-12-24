@@ -34,7 +34,7 @@ class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveAct
         userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
         userList.shield = doc.getLong("shield") ?: 0
         userList.money = doc.getLong("money") ?: 0
-        userList.moveToObjectName = doc.getString("moveToObjectName")
+        userList.locationName = doc.getString("locationName")
         userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!
     }
 

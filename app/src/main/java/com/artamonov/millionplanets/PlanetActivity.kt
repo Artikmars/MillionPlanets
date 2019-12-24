@@ -82,13 +82,13 @@ class PlanetActivity : BaseActivity() {
             if (doc!!.exists()) {
                 userList.fuel = doc.getLong("fuel")!!
                 userList.money = doc.getLong("money")!!
-                userList.moveToObjectName = doc.getString("moveToObjectName")
+                userList.locationName = doc.getString("locationName")
                 userList.ship = doc.getString("ship")
                 planet_fuel.text = userList.fuel.toString()
 
                 planetDocumentReference = firebaseFirestore
                         .collection("Objects")
-                        .document(userList.moveToObjectName!!)
+                        .document(userList.locationName!!)
                 planetDocumentReference!!
                         .get()
                         .addOnSuccessListener { documentSnapshot ->

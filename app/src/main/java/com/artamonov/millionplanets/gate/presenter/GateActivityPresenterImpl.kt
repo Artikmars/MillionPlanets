@@ -36,13 +36,13 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
                 .document(firebaseUser!!.displayName!!)
         firebaseFirestore.runTransaction { transaction ->
             val documentSnapshot = transaction.get(userDocument!!)
-            userList.moveToObjectName = documentSnapshot.getString("moveToObjectName")
-            if (userList.moveToObjectName != null) {
+            userList.locationName = documentSnapshot.getString("locationName")
+            if (userList.locationName != null) {
                 planetDocument = firebaseFirestore.collection("Objects")
-                        .document(userList.moveToObjectName!!)
+                        .document(userList.locationName!!)
                 val documentSnapshot2 = transaction.get(planetDocument!!)
                 objectModel.debrisIronAmount = documentSnapshot2.getLong("iron")!!.toInt()
-                transaction.update(userDocument!!, "moveToObjectName", userList.moveToObjectName)
+                transaction.update(userDocument!!, "locationName", userList.locationName)
                 transaction.update(planetDocument!!, "iron", objectModel.debrisIronAmount) }
             null
         }
@@ -52,19 +52,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
         getView.updateIron(i) }
 
     override fun initUserList(doc: DocumentSnapshot) {
-        userList.moveToObjectName = doc.getString("moveToObjectName")
-        userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")!!
-        userList.y = doc.getLong("y")!!
-        userList.sumXY = doc.getLong("sumXY")!!
-        userList.hp = doc.getLong("hp")!!
-        userList.cargoCapacity = doc.getLong("cargoCapacity")!!
-        userList.fuel = doc.getLong("fuel")!!
-        userList.scanner_capacity = doc.getLong("scanner_capacity")!!
-        userList.shield = doc.getLong("shield")!!
-        userList.money = doc.getLong("money")!!
-        userList.moveToObjectType = doc.getString("moveToObjectType")
-
+        userList = doc.toObject(User::class.java)!!
         getView.setUserData(userList)
     }
 
@@ -79,23 +67,8 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
             getView.buyFuel(Utils.getShipFuelInfo(userList.ship!!), userList.money - price, userList.ship)
         } }
 
-    override fun setUserList(doc: DocumentSnapshot) {
-        userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x") ?: 0
-        userList.y = doc.getLong("y") ?: 0
-        userList.sumXY = doc.getLong("sumXY") ?: 0
-        userList.hp = doc.getLong("hp") ?: 0
-        userList.cargoCapacity = doc.getLong("cargoCapacity") ?: 0
-        userList.fuel = doc.getLong("fuel") ?: 0
-        userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
-        userList.shield = doc.getLong("shield") ?: 0
-        userList.money = doc.getLong("money") ?: 0
-        userList.moveToObjectName = doc.getString("moveToObjectName")
-        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!
-    }
-
     override fun setObjectType() {
-        when (userList.moveToObjectType) {
+        when (userList.locationType) {
             "planet" -> {
                 getView.openPlanetActivity()
             }
@@ -109,13 +82,13 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     override fun prepareData() {
         firebaseFirestore.runTransaction { transaction ->
             val documentSnapshot = transaction.get(userDocument!!)
-            userList.moveToObjectName = documentSnapshot.getString("moveToObjectName")
-            if (userList.moveToObjectName != null) {
+            userList.locationName = documentSnapshot.getString("locationName")
+            if (userList.locationName != null) {
                 planetDocument = firebaseFirestore.collection("Objects")
-                        .document(userList.moveToObjectName!!)
+                        .document(userList.locationName!!)
                 val documentSnapshot2 = transaction.get(planetDocument!!)
                 objectModel.debrisIronAmount = documentSnapshot2.getLong("iron")!!.toInt()
-                transaction.update(userDocument!!, "moveToObjectName", userList.moveToObjectName)
+                transaction.update(userDocument!!, "locationName", userList.locationName)
                 transaction.update(planetDocument!!, "iron", objectModel.debrisIronAmount) }
             null
         }

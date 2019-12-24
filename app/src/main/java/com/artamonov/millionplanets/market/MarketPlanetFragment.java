@@ -100,16 +100,16 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
                                                     + user.getResource_iron());
                                     DocumentSnapshot documentSnapshot1 =
                                             transaction.get(documentReferenceUser);
-                                    user.setMoveToObjectName(
-                                            documentSnapshot1.getString("moveToObjectName"));
+                                    user.setLocationName(
+                                            documentSnapshot1.getString("locationName"));
                                     Log.i(
                                             "myTags",
                                             "apply in Planet: user.getName: "
-                                                    + user.getMoveToObjectName());
+                                                    + user.getLocationName());
                                     DocumentReference documentReferencePlanetMarket =
                                             firebaseFirestore
                                                     .collection("Objects")
-                                                    .document(user.getMoveToObjectName());
+                                                    .document(user.getLocationName());
                                     DocumentSnapshot documentSnapshot3 =
                                             transaction.get(documentReferencePlanetMarket);
                                     objectModel.setPrice_buy_iron(
@@ -138,8 +138,8 @@ public class MarketPlanetFragment extends Fragment implements MarketPlanetAdapte
                                             user.getResource_iron());
                                     transaction.update(
                                             documentReferenceUser,
-                                            "moveToObjectName",
-                                            user.getMoveToObjectName());
+                                            "locationName",
+                                            user.getLocationName());
                                     transaction.update(
                                             documentReferencePlanetMarket,
                                             "price_buy_iron",

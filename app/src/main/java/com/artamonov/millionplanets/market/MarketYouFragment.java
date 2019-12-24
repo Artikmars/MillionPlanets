@@ -98,16 +98,16 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
                                             "apply: user.getIron: " + user.getResource_iron());
                                     DocumentSnapshot documentSnapshot1 =
                                             transaction.get(documentReferenceUser);
-                                    user.setMoveToObjectName(
-                                            documentSnapshot1.getString("moveToObjectName"));
+                                    user.setLocationName(
+                                            documentSnapshot1.getString("locationName"));
                                     user.setMoney(documentSnapshot1.getLong("money").intValue());
                                     Log.i(
                                             "myTags",
-                                            "apply: user.getName: " + user.getMoveToObjectName());
+                                            "apply: user.getName: " + user.getLocationName());
                                     documentReferencePlanetMarket =
                                             firebaseFirestore
                                                     .collection("Objects")
-                                                    .document(user.getMoveToObjectName());
+                                                    .document(user.getLocationName());
                                     DocumentSnapshot documentSnapshot2 =
                                             transaction.get(documentReferencePlanetMarket);
                                     objectModel.setPrice_buy_iron(
@@ -136,8 +136,8 @@ public class MarketYouFragment extends Fragment implements MarketYouAdapter.Dial
                                             user.getResource_iron());
                                     transaction.update(
                                             documentReferenceUser,
-                                            "moveToObjectName",
-                                            user.getMoveToObjectName());
+                                            "locationName",
+                                            user.getLocationName());
                                     transaction.update(
                                             documentReferencePlanetMarket,
                                             "price_buy_iron",

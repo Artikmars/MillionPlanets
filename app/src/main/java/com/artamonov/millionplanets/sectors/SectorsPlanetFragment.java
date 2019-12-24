@@ -83,9 +83,9 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                                     User user = new User();
                                     DocumentSnapshot documentReferenceUserSnapshot =
                                             transaction.get(documentReferenceUser);
-                                    user.setMoveToObjectName(
+                                    user.setLocationName(
                                             documentReferenceUserSnapshot.getString(
-                                                    "moveToObjectName"));
+                                                    "locationName"));
                                     user.setMoney(
                                             documentReferenceUserSnapshot
                                                     .getLong("money")
@@ -95,13 +95,13 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                                             transaction.get(documentReferenceInventory);
                                     user.setSectors(
                                             documentReferenceInventorySnapshot
-                                                    .getLong(user.getMoveToObjectName())
+                                                    .getLong(user.getLocationName())
                                                     .intValue());
 
                                     DocumentReference documentReferencePlanetMarket =
                                             firebaseFirestore
                                                     .collection("Objects")
-                                                    .document(user.getMoveToObjectName());
+                                                    .document(user.getLocationName());
                                     DocumentSnapshot documentReferencePlanetMarketSnapshot =
                                             transaction.get(documentReferencePlanetMarket);
                                     Log.i(
@@ -130,12 +130,12 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                                     objectModelList.add(objectModel);
                                     transaction.update(
                                             documentReferenceInventory,
-                                            user.getMoveToObjectName(),
+                                            user.getLocationName(),
                                             user.getSectors());
                                     transaction.update(
                                             documentReferenceUser,
-                                            "moveToObjectName",
-                                            user.getMoveToObjectName());
+                                            "locationName",
+                                            user.getLocationName());
                                     transaction.update(
                                             documentReferencePlanetMarket,
                                             "sectors",
@@ -224,10 +224,10 @@ public class SectorsPlanetFragment extends Fragment implements SectorsPlanetAdap
                                                                 .collection("Objects")
                                                                 .document(
                                                                         userList.get(0)
-                                                                                .getMoveToObjectName());
+                                                                                .getLocationName());
                                                 transaction.update(
                                                         documentReferenceInventory,
-                                                        userList.get(0).getMoveToObjectName(),
+                                                        userList.get(0).getLocationName(),
                                                         userList.get(0).getSectors() + 1);
                                                 transaction.update(
                                                         documentReferenceUser,

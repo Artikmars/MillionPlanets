@@ -102,7 +102,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     }
 
     override fun setFightType() {
-        gate_action.text = resources.getString(R.string.fight_with, presenter.getUserList()?.moveToObjectName)
+        gate_action.text = resources.getString(R.string.fight_with, presenter.getUserList()?.locationName)
     }
 
     override fun onStart() {
@@ -115,7 +115,7 @@ class GateActivity : BaseActivity(), GateActivityView {
             if (doc!!.exists()) {
                 presenter.initUserList(doc)
                 planetDocument = firebaseFirestore.collection("Objects")
-                        .document(presenter.getUserList()?.moveToObjectName!!)
+                        .document(presenter.getUserList()?.locationName!!)
                 presenter.setObjectType()
             }
         }
@@ -138,7 +138,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         gate_fuel.text = userList.fuel.toString()
         gate_money.text = userList.money.toString()
 
-        when (userList.moveToObjectType) {
+        when (userList.locationType) {
             "planet" -> gate_action.text = resources.getString(R.string.land)
             "user" -> gate_action.text = resources.getString(R.string.fight)
             "fuel" -> gate_action.text = resources.getString(R.string.get_fuel)
@@ -215,7 +215,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         debris["type"] = "debris"
         debris["iron"] = RandomUtils.getRandomDebrisIron()
 
-        val collectionReferencePlanet = firebaseFirestore?.collection("Objects")
+        val collectionReferencePlanet = firebaseFirestore.collection("Objects")
         collectionReferencePlanet.document("Debris-" + RandomUtils.getRandomDebrisName(4))
                 .set(debris)
     }
@@ -245,7 +245,7 @@ class GateActivity : BaseActivity(), GateActivityView {
                 } else {
 
                     planetDocument = firebaseFirestore.collection("Objects")
-                            .document(presenter.getUserList()!!.moveToObjectName!!)
+                            .document(presenter.getUserList()!!.locationName!!)
                     planetDocument!!.update("iron", presenter.getObjectModel()!!.debrisIronAmount - maxTimeInMilliseconds / 1000)
                     Toast.makeText(this@GateActivity, "Mining is over. Cargo is full", Toast.LENGTH_SHORT).show()
                 }
@@ -259,7 +259,7 @@ class GateActivity : BaseActivity(), GateActivityView {
     override fun mineDebris() {
 
         debrisIsOver = false
-        maxTimeInMilliseconds = (1000 * (presenter.getUserList()!!.cargoCapacity - presenter.getUserList()!!.resource_iron)).toLong()
+        maxTimeInMilliseconds = (1000 * (presenter.getUserList()!!.cargoCapacity - presenter.getUserList()!!.resource_iron))
 
         // If the iron amount on debris less than an amount that is needed to fill up fully the cargoCapacity
 

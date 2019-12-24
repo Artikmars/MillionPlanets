@@ -83,22 +83,22 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
 
                                     DocumentSnapshot documentSnapshot1 =
                                             transaction.get(documentReferenceUser);
-                                    user.setMoveToObjectName(
-                                            documentSnapshot1.getString("moveToObjectName"));
+                                    user.setLocationName(
+                                            documentSnapshot1.getString("locationName"));
                                     user.setMoney(documentSnapshot1.getLong("money").intValue());
                                     Log.i(
                                             "myTags",
-                                            "apply: user.getName: " + user.getMoveToObjectName());
+                                            "apply: user.getName: " + user.getLocationName());
                                     DocumentSnapshot documentSnapshotInventory =
                                             transaction.get(documentReferenceInventory);
                                     user.setSectors(
                                             documentSnapshotInventory
-                                                    .getLong(user.getMoveToObjectName())
+                                                    .getLong(user.getLocationName())
                                                     .intValue());
                                     DocumentReference documentReferencePlanetMarket =
                                             firebaseFirestore
                                                     .collection("Objects")
-                                                    .document(user.getMoveToObjectName());
+                                                    .document(user.getLocationName());
                                     DocumentSnapshot documentSnapshot2 =
                                             transaction.get(documentReferencePlanetMarket);
                                     objectModel.setPlanetSectorsPrice(
@@ -119,12 +119,12 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
                                     objectModelList.add(objectModel);
                                     transaction.update(
                                             documentReferenceInventory,
-                                            user.getMoveToObjectName(),
+                                            user.getLocationName(),
                                             user.getSectors());
                                     transaction.update(
                                             documentReferenceUser,
-                                            "moveToObjectName",
-                                            user.getMoveToObjectName());
+                                            "locationName",
+                                            user.getLocationName());
                                     transaction.update(
                                             documentReferencePlanetMarket,
                                             "sectors",
@@ -202,10 +202,10 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
                                                                 .collection("Objects")
                                                                 .document(
                                                                         userList.get(0)
-                                                                                .getMoveToObjectName());
+                                                                                .getLocationName());
                                                 transaction.update(
                                                         documentReferenceInventory,
-                                                        userList.get(0).getMoveToObjectName(),
+                                                        userList.get(0).getLocationName(),
                                                         0);
                                                 transaction.update(
                                                         documentReferenceUser,

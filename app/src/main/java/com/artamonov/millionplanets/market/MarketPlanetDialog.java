@@ -97,9 +97,9 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                                 + user.getResource_iron());
                                                 DocumentSnapshot documentSnapshot1 =
                                                         transaction.get(documentReferenceUser);
-                                                user.setMoveToObjectName(
+                                                user.setLocationName(
                                                         documentSnapshot1.getString(
-                                                                "moveToObjectName"));
+                                                                "locationName"));
                                                 user.setMoney(
                                                         documentSnapshot1
                                                                 .getLong("money")
@@ -115,8 +115,7 @@ public class MarketPlanetDialog extends AppCompatDialogFragment {
                                                 DocumentReference documentReferencePlanetMarket =
                                                         firebaseFirestore
                                                                 .collection("Objects")
-                                                                .document(
-                                                                        user.getMoveToObjectName());
+                                                                .document(user.getLocationName());
                                                 DocumentSnapshot documentSnapshot2 =
                                                         transaction.get(
                                                                 documentReferencePlanetMarket);

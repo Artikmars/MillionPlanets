@@ -208,8 +208,8 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     override fun onItemClick(pos: Int) {
 
         val moveToObject = HashMap<String, Any>()
-        moveToObject["moveToObjectName"] = objectModelList!![pos].name
-        moveToObject["moveToObjectType"] = objectModelList!![pos].type
+        moveToObject["locationName"] = objectModelList!![pos].name
+        moveToObject["locationType"] = objectModelList!![pos].type
         moveToObject["moveToObjectDistance"] = objectModelList!![pos].distance!!
         //  moveToObject.put("fuel", userList.getFuel() - objectModelList.get(pos).getDistance());
         documentReference!!.update(moveToObject)

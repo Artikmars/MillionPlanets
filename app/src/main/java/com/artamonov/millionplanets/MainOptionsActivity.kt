@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.inventory.InventoryActivity
@@ -20,32 +19,10 @@ class MainOptionsActivity : BaseActivity() {
 
     internal var userList = User()
     private var progressDialog: ProgressDialog? = null
-    private var tvPosition: TextView? = null
-    private var tvShip: TextView? = null
-    private var tvHp: TextView? = null
-    private var tvShield: TextView? = null
-    private var tvCargo: TextView? = null
-    private var tv_ScannerCapacity: TextView? = null
-    private var tvFuel: TextView? = null
-    private var tvMoney: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_options)
-
-        tvPosition = findViewById(R.id.coordinates)
-        tvShip = findViewById(R.id.ship)
-        tvHp = findViewById(R.id.hp)
-        tvShield = findViewById(R.id.shield)
-        tvCargo = findViewById(R.id.cargo)
-        tv_ScannerCapacity = findViewById(R.id.scanner_capacity)
-        tvFuel = findViewById(R.id.fuel)
-        tvMoney = findViewById(R.id.money)
-
-        /*  progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();*/
 
         val parentLayout = findViewById<View>(android.R.id.content)
         Snackbar.make(
@@ -107,10 +84,7 @@ class MainOptionsActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         progressDialog = ProgressDialog(this)
-        // progressDialog.setMessage("Loading Data . . .");
-        // progressDialog.setTitle("In Progress");
         progressDialog?.setCancelable(false)
-        // progressDialog.setMax(100);
         progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progressDialog?.show()
         createDocumentReference()
@@ -165,30 +139,19 @@ class MainOptionsActivity : BaseActivity() {
     }
 
     private fun setDefaultValues(doc: DocumentSnapshot) {
-        userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x")!!
-        userList.y = doc.getLong("y")!!
-        userList.sumXY = doc.getLong("sumXY")!!
-        userList.hp = doc.getLong("hp")!!
-        userList.cargoCapacity = doc.getLong("cargoCapacity") ?: 0
-        userList.fuel = doc.getLong("fuel")!!
-        userList.scanner_capacity = doc.getLong("scanner_capacity")!!
-        userList.shield = doc.getLong("shield")!!
-        userList.money = doc.getLong("money")!!
-        userList.moveToObjectName = doc.getString("moveToObjectName")
-        userList.moveToObjectType = doc.getString("moveToObjectType")
+        userList = doc.toObject(User::class.java)!!
 
-        tvPosition!!.text = String.format(
+        coordinates.text = String.format(
                 resources.getString(R.string.current_coordinate),
                 userList.x,
                 userList.y)
-        tvShip!!.text = userList.ship
-        tvHp!!.text = userList.hp.toString()
-        tvShield!!.text = userList.shield.toString()
-        tvCargo!!.text = userList.cargoCapacity.toString()
-        tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
-        tvFuel!!.text = userList.fuel.toString()
-        tvMoney!!.text = userList.money.toString()
+        ship.text = userList.ship
+        hp.text = userList.hp.toString()
+        shield.text = userList.shield.toString()
+        cargo.text = userList.cargoCapacity.toString()
+        scanner_capacity.text = userList.scanner_capacity.toString()
+        fuel.text = userList.fuel.toString()
+        money.text = userList.money.toString()
 
         progressDialog?.dismiss()
     }
