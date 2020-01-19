@@ -61,8 +61,8 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
         return weaponList[position].weaponId!!
     }
 
-    override fun getCargoItem(position: Int): Long {
-        return cargoList[position].itemId!!
+    override fun getCargoItem(position: Int): Item {
+        return cargoList[position]
     }
 
     override fun getObjectModel(): ObjectModel? {
@@ -78,6 +78,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
         userList = doc.toObject(User::class.java)!!
         weaponList = userList.weapon!!
         cargoList = userList.cargo!!
+        getView.updateCargoCapacityCounter(userList)
     }
 
     override fun isInstalled(position: Int): Boolean {

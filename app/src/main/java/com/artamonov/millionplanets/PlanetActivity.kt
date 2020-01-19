@@ -92,18 +92,16 @@ class PlanetActivity : BaseActivity() {
                 planetDocumentReference!!
                         .get()
                         .addOnSuccessListener { documentSnapshot ->
-                            objectModelList.planetClass = documentSnapshot.getString("class")
-                            objectModelList.planetSize = documentSnapshot.getString("size")
-                            objectModelList.planetSectors = documentSnapshot
-                                    .getLong("sectors")!!
-                                    .toInt()
-                            planet_class.text = objectModelList.planetClass
-                            planet_sectors.text = objectModelList
-                                    .planetSectors.toString()
-                            shipyard_hp.text = objectModelList.planetSize
-                            planet_money.text = userList.money.toString()
+                            if (documentSnapshot.exists()) {
+                                objectModelList = documentSnapshot.toObject(ObjectModel::class.java)!!
+                                planet_class.text = objectModelList.planetClass
+                                planet_sectors.text = objectModelList
+                                        .planetSectors.toString()
+                                shipyard_hp.text = objectModelList.planetSize
+                                planet_money.text = userList.money.toString()
 
-                            setObjectsAccessLevel()
+                                setObjectsAccessLevel()
+                            }
                         }
             }
         }

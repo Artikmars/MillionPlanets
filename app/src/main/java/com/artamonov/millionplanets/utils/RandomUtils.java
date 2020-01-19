@@ -15,7 +15,7 @@ public class RandomUtils {
 
     public static int getRandomCoordinate() {
         Random r = new Random();
-        return r.nextInt(11);
+        return r.nextInt(600 - 500) + 500;
     }
 
     public static int getRandomDebrisIron() {

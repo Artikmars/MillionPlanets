@@ -1,9 +1,10 @@
 package com.artamonov.millionplanets.utils
 
-import com.artamonov.millionplanets.model.Module
-import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.model.Module
+import com.artamonov.millionplanets.model.ResourceType
 import com.artamonov.millionplanets.model.Weapon
+import com.artamonov.millionplanets.model.PlanetType
 
 object Utils {
     private val fighter = User()
@@ -27,13 +28,18 @@ object Utils {
         return null
     }
 
-    fun getResourceItemName(position: Long): Item? {
+    fun getResourceItemNameById(id: Long): String? {
 
-        when (position.toInt()) {
-            0 -> return Item("Iron")
-            1 -> return Item("Fuel")
-            2 -> return Item("Food")
-            3 -> return Item("Water")
+        when (id.toInt()) {
+            0 -> return ResourceType.DIAMOND
+            1 -> return ResourceType.FUEL
+            2 -> return ResourceType.FOOD
+            3 -> return ResourceType.GOLD
+            4 -> return ResourceType.IRON
+            5 -> return ResourceType.PETROL
+            6 -> return ResourceType.WOOD
+            7 -> return ResourceType.URANIUM
+            8 -> return ResourceType.WATER
         }
         return null
     }
@@ -55,8 +61,17 @@ object Utils {
         return null
     }
 
+    fun getCurrentCargoCapacity(user: User): Long {
+        return user.cargo?.sumBy { it.itemAmount!!.toInt() }!!.toLong()
+    }
+
+//    fun getCargoItemByResourceId(user: User, resourceId: Int) : Item {
+//        return user.cargo?.filter { it.itemId ==
+//                resourceId.toLong() }!![0]
+//    }
+
     fun getAllWeapons(): MutableList<Module> {
-        val weapons: MutableList<Module> = mutableListOf()
+        val weapons = mutableListOf<Module>()
         weapons.add(0, Module("Light Laser", "LASER", "mk I", 25, 0))
         weapons.add(1, Module("Medium Laser", "LASER", "mk II", 40, 5000))
         weapons.add(2, Module("Heavy Laser", "LASER", "mk III", 60, 12000))
@@ -72,6 +87,8 @@ object Utils {
 
     fun getCurrentShipInfo(position: Int): User? {
 
+        val weaponList = mutableListOf<Weapon>()
+        weaponList.add(Weapon(0, true))
         when (position) {
             0 -> {
                 fighter.cargoCapacity = 10
@@ -84,6 +101,7 @@ object Utils {
                 fighter.shipPrice = 0
                 fighter.shipClass = "Warrior"
                 fighter.weaponSlots = 3
+                fighter.weapon = weaponList
                 return fighter
             }
             1 -> {
@@ -97,6 +115,8 @@ object Utils {
                 trader.shipPrice = 50000
                 trader.ship = "Trader"
                 trader.shipClass = "Nightfall"
+                trader.weapon = weaponList
+
                 return trader
             }
             2 -> {
@@ -110,6 +130,8 @@ object Utils {
                 rs.shipPrice = 100000
                 rs.ship = "Research Spaceship"
                 rs.shipClass = "Interstellar"
+                rs.weapon = weaponList
+
                 return rs
             }
         }
@@ -171,14 +193,32 @@ object Utils {
         return 0L
     }
 
-    fun getPlanetPricesByType(planetType: String): Long {
+    fun getResourceTypeAmountByPlanetType(@PlanetType.AnnotationPlanetType planetType: String): Int {
+
         when (planetType) {
-            "agrocultural" -> {
+            PlanetType.DESERT -> {
+                return 9
             }
-            "water" -> {
+            PlanetType.EARTH -> {
+                return 9
+            }
+            PlanetType.FOREST -> {
+                return 9
+            }
+            PlanetType.ICE -> {
+                return 9
+            }
+            PlanetType.MOUNTAIN -> {
+                return 9
+            }
+            PlanetType.OCEAN -> {
+                return 9
+            }
+            PlanetType.TOXIC -> {
+                return 9
             }
         }
-        return 0L
+        return 9
     }
 
     fun getFilteredInstalledWeaponList(weapon: List<Weapon>): List<Weapon> {

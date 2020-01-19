@@ -1,12 +1,12 @@
 package com.artamonov.millionplanets.model;
 
 public class ObjectModel {
-    Integer sumXY;
+    private Long sumXY;
     private String type;
     private String name;
     private Integer distance;
-    private Integer x;
-    private Integer y;
+    private Long x;
+    private Long y;
     private String planetClass;
     private int planetSectors;
     private int planetSectorsPrice;
@@ -91,27 +91,27 @@ public class ObjectModel {
         this.planetSize = planetSize;
     }
 
-    public Integer getX() {
+    public Long getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Long x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Long getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Long y) {
         this.y = y;
     }
 
-    public Integer getSumXY() {
+    public Long getSumXY() {
         return sumXY;
     }
 
-    public void setSumXY(Integer sumXY) {
+    public void setSumXY(Long sumXY) {
         this.sumXY = sumXY;
     }
 

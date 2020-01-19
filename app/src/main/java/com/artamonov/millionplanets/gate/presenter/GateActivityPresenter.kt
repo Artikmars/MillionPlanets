@@ -7,8 +7,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 interface GateActivityPresenter<V : GateActivityView> {
 
-    fun getFuel(fuel: Int, money: Int)
-
     fun getObjectModel(): ObjectModel?
 
     fun getUserIron(documentSnapshot: DocumentSnapshot?)
@@ -19,11 +17,7 @@ interface GateActivityPresenter<V : GateActivityView> {
 
     fun initFirebase()
 
-    fun initUserList(doc: DocumentSnapshot)
-
     fun setObjectType()
 
-    fun prepareData()
-
-    fun updateIron(i: Int)
+    fun updateIron(newAmount: Int)
 }

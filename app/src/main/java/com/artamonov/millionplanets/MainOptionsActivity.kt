@@ -10,6 +10,7 @@ import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.main_options.*
@@ -32,6 +33,12 @@ class MainOptionsActivity : BaseActivity() {
                 .show()
 
         scan.setOnClickListener {
+            if (cargoIsOverloaded()) {
+                Snackbar.make(parentLayout,
+                        "Cargo is overloaded! Please, drop extra items through Inventory menu.",
+                        Snackbar.LENGTH_LONG)
+                        .show()
+                return@setOnClickListener }
             val intent = Intent(this, ScanResultActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -79,6 +86,10 @@ class MainOptionsActivity : BaseActivity() {
                 }
             }
         });*/
+    }
+
+    private fun cargoIsOverloaded(): Boolean {
+        return Utils.getCurrentCargoCapacity(userList) > userList.cargoCapacity
     }
 
     override fun onStart() {

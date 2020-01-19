@@ -5,11 +5,13 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 interface GateActivityView {
 
-    fun buyFuel(fuel: Long, money: Long, ship: String?)
+    fun debrisIsRemoved()
 
     fun mineDebris()
 
     fun mineIron()
+
+    fun openFightActivity(enemyUsername: String?)
 
     fun openPlanetActivity()
 
@@ -21,5 +23,9 @@ interface GateActivityView {
 
     fun setUserIron(userList: User, documentSnapshot: DocumentSnapshot?)
 
-    fun updateIron(counter: Int)
+    fun showCapacityError()
+
+    fun showNotEnoughMoneyToBuyFuelWarning()
+
+    fun showUpdateIronToast(counter: Int, totalAmount: Long)
 }

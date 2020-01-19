@@ -1,14 +1,18 @@
 package com.artamonov.millionplanets.gate.presenter
 
 import com.artamonov.millionplanets.gate.GateActivityView
+import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.utils.RandomUtils
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.HashMap
 
 class GateActivityPresenterImpl(private var getView: GateActivityView) : GateActivityPresenter<GateActivityView> {
 
@@ -31,66 +35,106 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     override fun getObjectModel(): ObjectModel? {
         return objectModel
     }
+
     override fun initData() {
         userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser!!.displayName!!)
-        firebaseFirestore.runTransaction { transaction ->
-            val documentSnapshot = transaction.get(userDocument!!)
-            userList.locationName = documentSnapshot.getString("locationName")
-            if (userList.locationName != null) {
-                planetDocument = firebaseFirestore.collection("Objects")
-                        .document(userList.locationName!!)
-                val documentSnapshot2 = transaction.get(planetDocument!!)
-                objectModel.debrisIronAmount = documentSnapshot2.getLong("iron")!!.toInt()
-                transaction.update(userDocument!!, "locationName", userList.locationName)
-                transaction.update(planetDocument!!, "iron", objectModel.debrisIronAmount) }
-            null
+                .document(firebaseUser?.displayName!!)
+        userDocument!!.get().addOnSuccessListener {
+            doc ->
+            userList = doc.toObject(User::class.java)!!
+            getView.setUserData(userList)
+            planetDocument = firebaseFirestore.collection("Objects")
+                    .document(userList.locationName!!)
+            planetDocument!!.get().addOnSuccessListener {
+                doc2 ->
+                objectModel = doc2.toObject(ObjectModel::class.java)!!
+            }
         }
     }
 
-    override fun updateIron(i: Int) {
-        getView.updateIron(i) }
+    override fun updateIron(newAmount: Int) {
 
-    override fun initUserList(doc: DocumentSnapshot) {
-        userList = doc.toObject(User::class.java)!!
-        getView.setUserData(userList)
+        var totalAmount: Long? = null
+        val batch = firebaseFirestore.batch()
+        val item = userList.cargo?.find { it.itemId == 4L }
+            item?.let { totalAmount = item.itemAmount!! + newAmount
+                if (totalAmount!! > userList.cargoCapacity) { getView.showCapacityError(); return }
+                if (userList.locationType == SpaceObjectType.DEBRIS) {
+                    if (totalAmount!! > objectModel.ironAmount) {
+                        item.itemAmount = item.itemAmount!! +
+                                objectModel.ironAmount
+                        removeCurrentDebris()
+                        createNewDebris()
+                    } else {
+                        item.itemAmount = item.itemAmount!! + newAmount
+                        batch.update(planetDocument!!, "ironAmount", objectModel.ironAmount -
+                                newAmount)
+                    }
+                    batch.update(userDocument!!, "cargo", userList.cargo)
+                    batch.commit()
+                    getView.showUpdateIronToast(newAmount, totalAmount!!)
+                    return
+                }
+        item.itemAmount = item.itemAmount!! + newAmount
+        batch.update(userDocument!!, "cargo", userList.cargo)
+        batch.commit()
+        getView.showUpdateIronToast(newAmount, totalAmount!!)
+            return
+        }
+
+        val iron = Item(4, newAmount.toLong())
+        userList.cargo?.add(iron)
+        batch.update(userDocument!!, "cargo", userList.cargo)
+        batch.commit()
+        getView.showUpdateIronToast(newAmount, totalAmount ?: newAmount.toLong())
+    }
+    private fun removeCurrentDebris() {
+        planetDocument!!.delete().addOnSuccessListener {
+            getView.debrisIsRemoved()
+        }
+    }
+
+    private fun createNewDebris() {
+        val debris = HashMap<String, Any>()
+        val x = RandomUtils.getRandomCoordinate()
+        val y = RandomUtils.getRandomCoordinate()
+        debris["x"] = x
+        debris["y"] = y
+        debris["sumXY"] = x + y
+        debris["type"] = "debris"
+        debris["ironAmount"] = RandomUtils.getRandomDebrisIron()
+
+        val collectionReferencePlanet = firebaseFirestore.collection("Objects")
+        collectionReferencePlanet.document("Debris-" + RandomUtils.getRandomDebrisName(4))
+                .set(debris)
     }
 
     override fun getUserIron(documentSnapshot: DocumentSnapshot?) {
         getView.setUserIron(userList, documentSnapshot)
     }
 
-    override fun getFuel(fuel: Int, money: Int) {
+    private fun getFuel() {
         val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
         val price = fuelToFill * 1000
         if (userList.money >= price) {
-            getView.buyFuel(Utils.getShipFuelInfo(userList.ship!!), userList.money - price, userList.ship)
-        } }
-
-    override fun setObjectType() {
-        when (userList.locationType) {
-            "planet" -> {
-                getView.openPlanetActivity()
-            }
-            "user" -> getView.setFightType()
-            "fuel" -> getView.buyFuel(userList.fuel, userList.money, userList.ship)
-            "debris" -> getView.mineDebris()
-            "meteorite_field" -> getView.mineIron()
+            userDocument!!.update("fuel", Utils.getShipFuelInfo(userList.ship!!))
+            userDocument!!.update("money", userList.money - price)
+            initData()
+        } else {
+            getView.showNotEnoughMoneyToBuyFuelWarning()
         }
     }
 
-    override fun prepareData() {
-        firebaseFirestore.runTransaction { transaction ->
-            val documentSnapshot = transaction.get(userDocument!!)
-            userList.locationName = documentSnapshot.getString("locationName")
-            if (userList.locationName != null) {
-                planetDocument = firebaseFirestore.collection("Objects")
-                        .document(userList.locationName!!)
-                val documentSnapshot2 = transaction.get(planetDocument!!)
-                objectModel.debrisIronAmount = documentSnapshot2.getLong("iron")!!.toInt()
-                transaction.update(userDocument!!, "locationName", userList.locationName)
-                transaction.update(planetDocument!!, "iron", objectModel.debrisIronAmount) }
-            null
+    override fun setObjectType() {
+        when (userList.locationType) {
+            SpaceObjectType.PLANET -> getView.openPlanetActivity()
+            SpaceObjectType.USER -> {
+                getView.setFightType()
+                getView.openFightActivity(userList.locationName)
+            }
+            SpaceObjectType.FUEL -> getFuel()
+            SpaceObjectType.DEBRIS -> getView.mineDebris()
+            SpaceObjectType.METEORITE_FIELD -> getView.mineIron()
         }
     }
 }

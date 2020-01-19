@@ -1,20 +1,20 @@
 package com.artamonov.millionplanets.inventory
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenter
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenterImpl
 import com.artamonov.millionplanets.model.Item
+import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.inventory.*
 
 class InventoryActivity : BaseActivity(), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
-InventoryCargoAdapter.ItemClickListener {
+InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
 
     private var documentReference: DocumentReference? = null
     internal var userList: User? = User()
@@ -71,7 +71,7 @@ InventoryCargoAdapter.ItemClickListener {
                         return presenter.getCargoList()
                     }
 
-                    override fun get(position: Int): Long {
+                    override fun get(position: Int): Item {
                         return presenter.getCargoItem(position)
                     }
                 }, this@InventoryActivity)
@@ -85,8 +85,8 @@ InventoryCargoAdapter.ItemClickListener {
     override fun onDialogCreate(position: Int) {
         if (presenter.getResourceAmount(position) != 0L) {
             val fragment = NumberPickerDialog
-                    .newInstance(presenter.getResourceAmount(position)!!.toInt(),
-                            position)
+                    .newInstance(NumberPickerDialogType.INVENTORY, presenter.getResourceAmount(position)!!.toInt(),
+                            presenter.getCargoItem(position).itemId!!.toInt(), this)
             fragment.show(supportFragmentManager)
         }
     }
@@ -106,13 +106,20 @@ InventoryCargoAdapter.ItemClickListener {
         }
     }
 
+    override fun updateCargoCapacityCounter(user: User) {
+        val currentCargoCapacity = user.cargo?.sumBy { it.itemAmount!!.toInt() }
+        inventory_capacity_label.text = currentCargoCapacity.toString() + "/" + user.cargoCapacity
+        if (currentCargoCapacity!! > user.cargoCapacity) {
+            inventory_capacity_label.setTextColor(resources.getColor(R.color.red))
+        } else {
+            inventory_capacity_label.setTextColor(resources.getColor(R.color.white))
+        }
+    }
+
     override fun updateData() {
         val batch = firebaseFirestore.batch()
         batch.update(documentReference!!, "weapon", presenter.getWeaponList())
         batch.commit()
-                .addOnCompleteListener {
-                    Toast.makeText(applicationContext, "Success", Toast.LENGTH_LONG).show()
-                }
     }
 
     override fun setProgressBar() {
@@ -122,6 +129,11 @@ InventoryCargoAdapter.ItemClickListener {
         private val TAG = "myLogs"
         const val ENEMY_USERNAME = "ENEMY_USERNAME"
         const val RESOURCE_AMOUNT = "RESOURCE_AMOUNT"
-        const val RESOURCE_POSITION = "RESOURCE_POSITION"
+        const val RESOURCE_ID = "RESOURCE_ID"
+        const val NUMBER_PICKER_DIALOG_TYPE = "NUMBER_PICKER_DIALOG_TYPE"
+    }
+
+    override fun onDismiss() {
+        updateData()
     }
 }

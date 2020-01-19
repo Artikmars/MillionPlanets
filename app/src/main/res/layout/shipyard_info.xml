@@ -365,7 +365,7 @@
         app:layout_constraintTop_toBottomOf="@+id/shipyard_name" />
 
     <Button
-        android:id="@+id/planet_get_fuel"
+        android:id="@+id/shipyard_go_back"
         style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -374,7 +374,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="onGoBackToMainOptions"
         android:text="@string/back_to_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

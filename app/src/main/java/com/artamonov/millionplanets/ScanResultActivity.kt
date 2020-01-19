@@ -4,9 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +17,8 @@ import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.move.MoveActivity
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.fragment_scan_result.*
+import kotlinx.android.synthetic.main.fragment_scan_result.scan_result_list
+import kotlinx.android.synthetic.main.scan_result.*
 import java.util.ArrayList
 import java.util.Comparator
 import java.util.HashMap
@@ -28,14 +28,6 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
 
     internal var objectModelList: MutableList<ObjectModel>? = null
     internal var userList = User()
-    private var tvPosition: TextView? = null
-    private var tvShip: TextView? = null
-    private var tvHp: TextView? = null
-    private var tvShield: TextView? = null
-    private var tvCargo: TextView? = null
-    private var tv_ScannerCapacity: TextView? = null
-    private var tvFuel: TextView? = null
-    private var tvMoney: TextView? = null
     private var documentReference: DocumentReference? = null
 
     override fun onStart() {
@@ -45,26 +37,17 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                 this
         ) { doc, _ ->
             if (doc!!.exists()) {
-                userList.ship = doc.getString("ship")
-                userList.x = doc.getLong("x")!!
-                userList.y = doc.getLong("y")!!
-                userList.sumXY = doc.getLong("sumXY")!!
-                userList.hp = doc.getLong("hp")!!
-                userList.cargoCapacity = doc.getLong("cargoCapacity")!!
-                userList.fuel = doc.getLong("fuel")!!
-                userList.scanner_capacity = doc.getLong("scanner_capacity")!!
-                userList.shield = doc.getLong("shield")!!
-                userList.money = doc.getLong("money")!!
-                tvPosition!!.text = String.format(
+                userList = doc.toObject(User::class.java)!!
+                scan_coordinates.text = String.format(
                         resources.getString(R.string.current_coordinate),
                         userList.x,
                         userList.y)
-                tvShip!!.text = userList.ship
-                tvHp!!.text = userList.hp.toString()
-                tvShield!!.text = userList.shield.toString()
-                tvCargo!!.text = userList.cargoCapacity.toString()
-                tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
-                tvFuel!!.text = userList.fuel.toString()
+                scan_ship.text = userList.ship
+                scan_hp.text = userList.hp.toString()
+                scan_shield.text = userList.shield.toString()
+                scan_cargo.text = userList.cargoCapacity.toString()
+                scan_scanner_capacity.text = userList.scanner_capacity.toString()
+                scan_fuel.text = userList.fuel.toString()
             }
         }
     }
@@ -79,48 +62,27 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();*/
 
-        tvPosition = findViewById(R.id.scan_coordinates)
-        tvShip = findViewById(R.id.scan_ship)
-        tvHp = findViewById(R.id.scan_hp)
-        tvShield = findViewById(R.id.scan_shield)
-        tvCargo = findViewById(R.id.scan_cargo)
-        tv_ScannerCapacity = findViewById(R.id.scan_scanner_capacity)
-        tvFuel = findViewById(R.id.scan_fuel)
-        tvMoney = findViewById(R.id.scan_money)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         documentReference!!.addSnapshotListener(
                 this
         ) { doc, _ ->
             if (doc!!.exists()) {
-                userList.ship = doc.getString("ship")
-                userList.x = doc.getLong("x")!!
-                userList.y = doc.getLong("y")!!
-                userList.sumXY = doc.getLong("sumXY")!!
-                userList.hp = doc.getLong("hp")!!
-                userList.cargoCapacity = doc.getLong("cargoCapacity")!!
-                userList.fuel = doc.getLong("fuel")!!
-                userList.scanner_capacity = doc.getLong("scanner_capacity")!!
-                userList.shield = doc.getLong("shield")!!
-                userList.money = doc.getLong("money")!!
-                tvPosition!!.text = String.format(
+                userList = doc.toObject(User::class.java)!!
+
+                scan_coordinates.text = String.format(
                         resources.getString(R.string.current_coordinate),
                         userList.x,
                         userList.y)
-                tvShip!!.text = userList.ship
-                tvHp!!.text = userList.hp.toString()
-                tvShield!!.text = userList.shield.toString()
-                tvCargo!!.text = userList.cargoCapacity.toString()
-                tv_ScannerCapacity!!.text = userList.scanner_capacity.toString()
-                tvFuel!!.text = userList.fuel.toString()
-                tvMoney!!.text = userList.money.toString()
+                scan_ship.text = userList.ship
+                scan_hp.text = userList.hp.toString()
+                scan_shield.text = userList.shield.toString()
+                scan_cargo.text = userList.cargoCapacity.toString()
+                scan_scanner_capacity.text = userList.scanner_capacity.toString()
+                scan_fuel.text = userList.fuel.toString()
+                scan_money.text = userList.money.toString()
 
                 val objectRef = firebaseFirestore.collection("Objects")
-                Log.i(
-                        "myLogs",
-                        "sumXY: + " + (userList.sumXY + userList.scanner_capacity))
-                Log.i(
-                        "myLogs",
-                        "sumXY: - " + (userList.sumXY - userList.scanner_capacity))
+
                 objectRef
                         .whereLessThanOrEqualTo(
                                 "sumXY",
@@ -132,18 +94,13 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
                         .addOnSuccessListener { queryDocumentSnapshots ->
                             objectModelList = ArrayList()
                             for (document in queryDocumentSnapshots) {
-                                Log.i(
-                                        "myLogs",
-                                        "document.getId: " + document.id)
-                                val objectModel = ObjectModel()
+
+                                val objectModel = document.toObject(ObjectModel::class.java)
                                 objectModel.name = document.id
-                                objectModel.type = document.getString("type")
-                                objectModel.x = document.getLong("x")!!.toInt()
-                                objectModel.y = document.getLong("y")!!.toInt()
 
                                 //  Distinguish between (2;8) and (3;7)
                                 if (document.getLong("sumXY")!! == userList.sumXY) {
-                                    objectModel.distance = Math.abs(
+                                    objectModel.distance = abs(
                                             document.getLong("x")!!.toInt() - userList
                                                     .x.toInt())
                                 } else {
@@ -249,8 +206,6 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             intent.putExtra("objectDistance", objectModel.distance)
             intent.putExtra("objectX", objectModel.x)
             intent.putExtra("objectY", objectModel.y)
-            Log.i("myLogs", "onItemClick in ScanResult: x: " + objectModel.x!!)
-            Log.i("myLogs", "onItemClick in ScanResult: y: " + objectModel.y!!)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(

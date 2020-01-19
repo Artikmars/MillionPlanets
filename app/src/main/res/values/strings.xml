@@ -46,6 +46,7 @@
 
     //Fight
     <string name="retreat">Retreat</string>
+    <string name="leave">Leave</string>
     <string name="ship">Ship</string>
     <string name="hp">Hp</string>
     <string name="shield">Shield</string>

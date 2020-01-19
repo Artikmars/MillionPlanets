@@ -5,8 +5,7 @@ import java.io.Serializable
 class User : Serializable {
 
     var cargoCapacity: Long = 0
-    var cargo: List<Item>? = listOf()
-    var damage: List<Long>? = null
+    var cargo: MutableList<Item>? = mutableListOf()
     var email: String? = null
     var fuel: Long = 0
     var jump: Long = 0
@@ -41,7 +40,6 @@ class User : Serializable {
     constructor(
         ship: String?,
         shield: Long,
-        damage: List<Long>?,
         weapon: List<Weapon>?,
         cargoCapacity: Long,
         scanner_capacity: Long,
@@ -54,7 +52,6 @@ class User : Serializable {
     ) {
         this.ship = ship
         this.shield = shield
-        this.damage = damage
         this.weapon = weapon
         this.cargoCapacity = cargoCapacity
         this.scanner_capacity = scanner_capacity

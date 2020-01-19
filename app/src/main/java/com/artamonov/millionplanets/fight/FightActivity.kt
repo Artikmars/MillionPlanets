@@ -17,6 +17,8 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenter
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenterImpl
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
+import com.artamonov.millionplanets.inventory.InventoryActivity
+import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Utils
 import kotlinx.android.synthetic.main.activity_fight.*
@@ -29,6 +31,8 @@ class FightActivity : BaseActivity(), FightActivityView {
     private var enemyUsername: String? = null
     private var countDownTimer: CountDownTimer? = null
     private var remainedSecs: Long = 0
+    private var user: User = User()
+    private var enemy: User = User()
 
     lateinit var presenter: FightActivityPresenter<FightActivityView>
 
@@ -64,12 +68,13 @@ class FightActivity : BaseActivity(), FightActivityView {
                 .document(firebaseUser!!.displayName!!)
         userDocument!!.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {
+                user = doc.toObject(User::class.java)!!
                 presenter.setUserList(doc)
                 enemyDocument = firebaseFirestore.collection("Objects")
                         .document(presenter.userList.locationName!!)
-                enemyDocument!!.addSnapshotListener(this) { doc, _ ->
-                    if (doc!!.exists()) {
-                        presenter.setEnemyList(doc)
+                enemyDocument!!.addSnapshotListener(this) { doc2, _ ->
+                    if (doc2!!.exists()) {
+                        presenter.setEnemyList(doc2)
                     }
                 }
             }
@@ -80,7 +85,7 @@ class FightActivity : BaseActivity(), FightActivityView {
         ship_you.text = userList.ship
         hp_you.text = userList.hp.toString()
         shield_you.text = userList.shield.toString()
-        weapon_you.text = userList.damage?.size.toString() + "/3"
+        weapon_you.text = userList.weapon?.size.toString() + "/3"
     }
 
     override fun setEnemyData(enemyList: User) {
@@ -88,7 +93,7 @@ class FightActivity : BaseActivity(), FightActivityView {
         ship_enemy.text = enemyList.ship
         hp_enemy.text = enemyList.hp.toString()
         shield_enemy.text = enemyList.shield.toString()
-        weapon_enemy.text = enemyList.damage?.size.toString() + "/3"
+        weapon_enemy.text = enemyList.weapon?.size.toString() + "/3"
     }
 
     override fun showYouWonMessage() {
@@ -125,28 +130,69 @@ class FightActivity : BaseActivity(), FightActivityView {
         }.start()
     }
 
-    override fun calculateLoot(usernameWhoGetLoot: String, usernameWhoLoseLoot: String, ship: String) {
-        val iron: Long = Utils.getCurrentShipInfo(ship).hp
-        var result: Long
-        val userInventory = firebaseFirestore.collection("Inventory")
-                .document(usernameWhoGetLoot)
-        userInventory.get().addOnSuccessListener { documentSnapshot ->
-            val currentIron = documentSnapshot?.getLong("Iron")
-            result = currentIron!! + iron
-            if (result < 0) result = 0
-            userInventory.update("Iron", result)
-            val enemyInventory = firebaseFirestore.collection("Inventory")
-                    .document(usernameWhoLoseLoot)
-            enemyInventory.get().addOnSuccessListener { enemyDocumentSnapshot ->
-                val currentEnemyIron = enemyDocumentSnapshot.getLong("Iron")
-                var enemyResult = currentEnemyIron!! - iron
-                if (enemyResult < 0) enemyResult = 0
-                enemyInventory.update("Iron", enemyResult)
+    override fun calculateLoot(usernameWhoGetLoot: String, usernameWhoLoseLoot: String, enemyShip: String) {
+        val lootedIron: Long = Utils.getCurrentShipInfo(enemyShip).hp
+        enemyDocument!!.get().addOnSuccessListener { documentSnapshot ->
+            enemy = documentSnapshot.toObject(User::class.java)!!
 
-                fight.visibility = View.GONE
-                retreat.text = "Leave"
-                presenter.setLootTransferFinished(true)
-            } } }
+            // user.cargo?.let { list1 -> enemy.cargo?.let(list1::addAll) }
+            for (item in enemy.cargo!!) {
+                val cargoItem = user.cargo?.find { it.itemId == item.itemId }
+                if (cargoItem != null) {
+                    user.cargo?.find { it.itemId == item.itemId }?.itemAmount?.plus(item.itemAmount!!)
+                } else {
+                    user.cargo?.add(Item(itemId = item.itemId, itemAmount = item.itemAmount))
+                }
+            }
+
+            enemy.cargo = mutableListOf()
+
+            lootIron(lootedIron)
+
+            val batch = firebaseFirestore.batch()
+            batch.update(userDocument!!, "cargo", user.cargo)
+            batch.update(enemyDocument!!, "cargo", enemy.cargo)
+            batch.commit()
+
+            fight.visibility = View.GONE
+            retreat.text = resources.getString(R.string.leave)
+            presenter.setLootTransferFinished(true)
+            checkIfCargoCapacityIsExceed()
+            }
+    }
+
+    private fun lootIron(lootedIron: Long) {
+
+        val item = user.cargo?.find { it.itemId == 4L }
+        item?.let {
+            val index = user.cargo?.indexOfFirst { it.itemId == 4L }
+            user.cargo!![index!!].itemAmount = item.itemAmount!! + lootedIron
+            return
+            }
+
+        val iron = Item(4, lootedIron)
+        user.cargo?.add(iron)
+        enemy.cargo = null
+    }
+
+    private fun checkIfCargoCapacityIsExceed() {
+        val sum = user.cargo?.sumBy { it.itemAmount!!.toInt() }
+        sum?.let {
+            if (sum > user.cargoCapacity) {
+                openInventoryActivity()
+            }
+        }
+    }
+
+    private fun openInventoryActivity() {
+        val intent = Intent(this, InventoryActivity::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        } else {
+            startActivity(intent)
+        }
+        finish()
+    }
 
     override fun showLootSnackbar(isYouWon: Boolean, ship: String) {
         if (isYouWon) {

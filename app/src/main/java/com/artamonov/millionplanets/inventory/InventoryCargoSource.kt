@@ -6,7 +6,7 @@ interface InventoryCargoSource {
 
     fun getCargoList(): List<Item>?
 
-    fun get(position: Int): Long
+    fun get(position: Int): Item
 
     fun getCount(): Int
 

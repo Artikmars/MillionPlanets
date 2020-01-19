@@ -56,6 +56,10 @@ class ShipyardInfoActivity : BaseActivity() {
 //                 shipToBuy!!.weaponSlots
 //                )
 
+        shipyard_go_back.setOnClickListener {
+            finish()
+        }
+
         shipyard_btn_buy.setOnClickListener {
             if (!ifEnoughMoney()) {
                 Toast.makeText(this, "Not enough money to buy the ship!", Toast.LENGTH_SHORT).show()
@@ -72,6 +76,7 @@ class ShipyardInfoActivity : BaseActivity() {
                 userList?.fuel = shipToBuy!!.fuel
                 userList?.scanner_capacity = shipToBuy!!.scanner_capacity
                 userList?.weaponSlots = shipToBuy!!.weaponSlots
+                userList?.weapon = shipToBuy!!.weapon
                 userList?.ship = shipToBuy!!.ship!!
                 userList?.shipClass = shipToBuy!!.shipClass!!
                 userList?.shipPrice = shipToBuy!!.shipPrice
@@ -169,7 +174,6 @@ class ShipyardInfoActivity : BaseActivity() {
         ) { doc, e ->
             if (doc!!.exists()) {
                 userList = doc.toObject(User::class.java)
-                userList
                 shipyard_your_ship.text = userList!!.ship
                 shipyardinfo_user_cash.text = userList!!.money.toString()
                 showDiffStats(shipToBuy!!, userList!!)

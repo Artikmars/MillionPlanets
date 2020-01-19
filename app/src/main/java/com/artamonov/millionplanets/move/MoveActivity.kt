@@ -63,8 +63,8 @@ class MoveActivity : BaseActivity(), MoveActivityView {
         objectModel.type = intent.getStringExtra("objectType")
         objectModel.name = intent.getStringExtra("objectName")
         objectModel.distance = intent.getIntExtra("objectDistance", 0)
-        objectModel.x = intent.getIntExtra("objectX", 0)
-        objectModel.y = intent.getIntExtra("objectY", 0)
+        objectModel.x = intent.getLongExtra("objectX", 0)
+        objectModel.y = intent.getLongExtra("objectY", 0)
         objectModelList.add(objectModel)
 
         val scanResultAdapter = ScanResultAdapter(objectModelList)

@@ -1,41 +1,26 @@
 package com.artamonov.millionplanets.market;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.model.ObjectModel;
+import com.artamonov.millionplanets.model.PlanetType;
 import com.artamonov.millionplanets.model.User;
-import java.util.List;
+import com.artamonov.millionplanets.utils.Price;
+import com.artamonov.millionplanets.utils.Utils;
 
 public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapter.ViewHolder> {
 
-    // private static ItemClickListener listener;
     private static DialogListener dialogListener;
-    private List<User> userList;
-    private List<ObjectModel> objectModelList;
-    private Context context;
-    private NumberPicker numberPicker;
-    private boolean isPlanetTab;
+    public User user;
+    private @PlanetType.AnnotationPlanetType String planetType;
 
-    public MarketPlanetAdapter(
-            List<User> userList, List<ObjectModel> objectModelList, DialogListener listener) {
-        this.userList = userList;
-        dialogListener = listener;
-        this.objectModelList = objectModelList;
-        //   this.isPlanetTab = isPlanetTab;
-    }
-
-    public MarketPlanetAdapter(
-            List<User> userList, Context context, MarketPlanetAdapter.DialogListener listener) {
-        this.userList = userList;
-        this.context = context;
+    public MarketPlanetAdapter(User user, String planetType, DialogListener listener) {
+        this.user = user;
+        this.planetType = planetType;
         dialogListener = listener;
     }
 
@@ -51,49 +36,35 @@ public class MarketPlanetAdapter extends RecyclerView.Adapter<MarketPlanetAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MarketPlanetAdapter.ViewHolder holder, int position) {
-        Log.i("myTags", "onBindViewHolder pos: " + position);
-        User user = userList.get(position);
-        ObjectModel objectModel = objectModelList.get(position);
-        //        holder.resourceName.setText(objectModel.getResourceName());
-        holder.resourceName.setText("Iron");
-        holder.resourceAmount.setText(Integer.toString(objectModel.getIronAmount()));
-        holder.resourcePrice.setText(Integer.toString(objectModel.getPrice_sell_iron()));
+        holder.resourceName.setText(Utils.INSTANCE.getResourceItemNameById(position));
+        holder.resourcePrice.setText(String.valueOf(Price.INSTANCE.getPlayerBuyPrice(position)));
     }
 
     @Override
     public int getItemCount() {
-        Log.i("myTags", "getItemCount size: " + userList.size());
-        return userList.size();
+        return Utils.INSTANCE.getResourceTypeAmountByPlanetType(planetType);
     }
 
-    /*public interface ItemClickListener {
-        void onItemClick(int position);
-    }*/
-
     public interface DialogListener {
-        void onDialogCreate();
-        //  void onDialogSubmit();
+        void onDialogCreate(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView resourceAmount;
         private final TextView resourceName;
         private final TextView resourcePrice;
-        //  private final ConstraintLayout constraintLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
             resourceName = itemView.findViewById(R.id.resource_name);
             resourceAmount = itemView.findViewById(R.id.resource_amount);
             resourcePrice = itemView.findViewById(R.id.resource_price);
-            //  constraintLayout = itemView.findViewById(R.id.dialog_market_you_layout);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            // int position = getAdapterPosition();
-            dialogListener.onDialogCreate();
+            dialogListener.onDialogCreate(getAdapterPosition());
         }
     }
 }

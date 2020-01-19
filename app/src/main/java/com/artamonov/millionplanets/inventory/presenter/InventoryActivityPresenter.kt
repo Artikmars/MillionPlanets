@@ -17,7 +17,7 @@ interface InventoryActivityPresenter<V : InventoryActivityView> {
 
     fun getUserList(): User
 
-    fun getCargoItem(position: Int): Long
+    fun getCargoItem(position: Int): Item
 
     fun getWeaponItem(position: Int): Long
 

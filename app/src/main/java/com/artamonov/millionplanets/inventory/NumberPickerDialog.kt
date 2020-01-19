@@ -6,17 +6,22 @@ import android.os.Bundle
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.artamonov.millionplanets.model.Item
+import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.utils.Price
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
-class NumberPickerDialog : DialogFragment() {
+class NumberPickerDialog(private val listener: NumberPickerDialogListener) : DialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     var firebaseUser = FirebaseAuth.getInstance().currentUser
 
     private var currentAmount: Int? = null
-    private var position: Int? = null
+    private var resourceId: Int? = null
+    private var resourceIndex: Int? = null
+    private var type: String? = null
     private var documentReferenceUser: DocumentReference? = null
 
     fun show(fragmentManager: FragmentManager?) {
@@ -26,7 +31,8 @@ class NumberPickerDialog : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentAmount = arguments!!.getInt(InventoryActivity.RESOURCE_AMOUNT)
-        position = arguments!!.getInt(InventoryActivity.RESOURCE_POSITION)
+        resourceId = arguments!!.getInt(InventoryActivity.RESOURCE_ID)
+        type = arguments!!.getString(InventoryActivity.NUMBER_PICKER_DIALOG_TYPE)
         documentReferenceUser = firebaseFirestore.collection("Objects")
                 .document(firebaseUser?.displayName!!)
     }
@@ -37,39 +43,100 @@ class NumberPickerDialog : DialogFragment() {
         numberPicker.maxValue = currentAmount ?: 1
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Choose Value")
-        builder.setMessage("Choose amount of the resource you want to drop :")
-        builder.setPositiveButton("OK") { _, _ ->
-            firebaseFirestore.runTransaction { transaction ->
-                val documentSnapshot = transaction[documentReferenceUser!!]
-                val userList = documentSnapshot.toObject(User::class.java)!!
-                userList.cargo?.get(position!!)?.itemAmount = numberPicker.maxValue -
-                        numberPicker.value.toLong()
-                transaction.set(documentReferenceUser!!, userList)
-                dismiss()
+
+        when (type) {
+            NumberPickerDialogType.INVENTORY ->
+            {
+                builder.setMessage("Choose amount of the resource you want to drop :")
+                builder.setPositiveButton("OK") { _, _ ->
+                    firebaseFirestore.runTransaction { transaction ->
+                        val documentSnapshot = transaction[documentReferenceUser!!]
+                        val userList = documentSnapshot.toObject(User::class.java)!!
+                        resourceIndex = userList.cargo?.indexOfFirst { it.itemId == resourceId?.toLong() }
+                        userList.cargo?.get(resourceIndex!!)?.itemAmount = numberPicker.maxValue -
+                                numberPicker.value.toLong()
+                        transaction.set(documentReferenceUser!!, userList)
+                        listener.onDismiss()
+                        dismiss()
+                    }
+                }
             }
-            //                valueChangeListener.onValueChange(numberPicker,
-//                        numberPicker.getValue(), numberPicker.getValue());
+            NumberPickerDialogType.MARKET_PLAYER_SELLS -> {
+                builder.setMessage("Choose amount of the resource you want to sell :")
+                builder.setPositiveButton("OK") { _, _ ->
+                    firebaseFirestore.runTransaction { transaction ->
+                        val documentSnapshot = transaction[documentReferenceUser!!]
+                        val userList = documentSnapshot.toObject(User::class.java)!!
+                        resourceIndex = userList.cargo?.indexOfFirst { it.itemId == resourceId?.toLong() }
+                        userList.cargo?.get(resourceIndex!!)?.itemAmount = numberPicker.maxValue -
+                                        numberPicker.value.toLong()
+                        userList.money = userList.money + Price.getPlayerSellPrice(resourceId?.toLong()) *
+                                numberPicker.value.toLong()
+                        if (numberPicker.value == numberPicker.maxValue) {
+                        userList.cargo?.removeAt(resourceIndex!!)
+                        }
+                        transaction.set(documentReferenceUser!!, userList)
+                        listener.onDismiss()
+                        dismiss()
+                    }
+                }
+            }
+            NumberPickerDialogType.MARKET_PLAYER_BUYS -> {
+                builder.setMessage("Choose amount of the resource you want to buy :")
+                builder.setPositiveButton("OK") { _, _ ->
+                    firebaseFirestore.runTransaction { transaction ->
+                        val documentSnapshot = transaction[documentReferenceUser!!]
+                        val userList = documentSnapshot.toObject(User::class.java)!!
+
+                        val item = userList.cargo?.find { it.itemId == resourceId?.toLong() }
+                        item?.let {
+                            userList.cargo?.get(resourceIndex!!)?.itemAmount =
+                                    userList.cargo?.get(resourceIndex!!)?.itemAmount!! +
+                                            numberPicker.value.toLong()
+                            userList.money = userList.money - Price.getPlayerBuyPrice(resourceId) *
+                                    numberPicker.value.toLong()
+                            transaction.set(documentReferenceUser!!, userList)
+                            listener.onDismiss()
+                            dismiss()
+                            return@runTransaction
+                        }
+
+                        val newItem = Item(resourceId?.toLong(), numberPicker.value.toLong())
+                        userList.cargo!!.add(newItem)
+                        userList.money = userList.money - Price.getPlayerBuyPrice(resourceId) *
+                                numberPicker.value.toLong()
+                        transaction.set(documentReferenceUser!!, userList)
+                        listener.onDismiss()
+                        dismiss()
+                    }
+                }
+            }
         }
+
         builder.setNegativeButton("CANCEL") { _, _ -> dismiss() }
         builder.setView(numberPicker)
         return builder.create()
-    } //    public NumberPicker.OnValueChangeListener getValueChangeListener() {
+    }
 
-    //        return valueChangeListener;
-//    }
-//
-//    public void setValueChangeListener(NumberPicker.OnValueChangeListener valueChangeListener) {
-//        this.valueChangeListener = valueChangeListener;
-//    }
+    interface NumberPickerDialogListener {
+        fun onDismiss()
+    }
+
     companion object {
 
         private val TAG = "AttachmentPhotoDialogFragment"
 
-        fun newInstance(currentAmount: Int, position: Int): NumberPickerDialog {
+        fun newInstance(
+            @NumberPickerDialogType.AnnotationNumberPickerDialogType type: String,
+            currentAmount: Int,
+            itemId: Int,
+            listener: NumberPickerDialogListener
+        ): NumberPickerDialog {
             val args = Bundle()
+            args.putString(InventoryActivity.NUMBER_PICKER_DIALOG_TYPE, type)
             args.putInt(InventoryActivity.RESOURCE_AMOUNT, currentAmount)
-            args.putInt(InventoryActivity.RESOURCE_POSITION, position)
-            val fragment = NumberPickerDialog()
+            args.putInt(InventoryActivity.RESOURCE_ID, itemId)
+            val fragment = NumberPickerDialog(listener)
             fragment.arguments = args
             return fragment
         }
