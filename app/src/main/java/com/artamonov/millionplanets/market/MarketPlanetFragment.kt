@@ -43,15 +43,13 @@ NumberPickerDialog.NumberPickerDialogListener {
         }
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            firebaseFirestore = FirebaseFirestore.getInstance()
-            val firebaseUser = FirebaseAuth.getInstance().currentUser
-            documentReferenceUser = firebaseFirestore!!.collection("Objects")
-                    .document(firebaseUser!!.displayName!!)
-            updateList()
-        }
+    override fun onResume() {
+        super.onResume()
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        documentReferenceUser = firebaseFirestore!!.collection("Objects")
+                .document(firebaseUser!!.displayName!!)
+        updateList()
     }
 
     private fun setAdapter() {

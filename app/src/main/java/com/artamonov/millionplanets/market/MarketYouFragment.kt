@@ -50,6 +50,11 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
             });*/
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateList()
+    }
+
     private fun setAdapter() {
         marketYouAdapter = MarketYouAdapter(cargoList!!, this)
         rvMarketYou.layoutManager = LinearLayoutManager(activity)
