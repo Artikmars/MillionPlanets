@@ -86,9 +86,6 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
                                     user.setLocationName(
                                             documentSnapshot1.getString("locationName"));
                                     user.setMoney(documentSnapshot1.getLong("money").intValue());
-                                    Log.i(
-                                            "myTags",
-                                            "apply: user.getName: " + user.getLocationName());
                                     DocumentSnapshot documentSnapshotInventory =
                                             transaction.get(documentReferenceInventory);
                                     user.setSectors(
@@ -105,14 +102,6 @@ public class SectorsYouFragment extends Fragment implements SectorsYouAdapter.Di
                                             documentSnapshot2.getLong("sectors_price").intValue());
                                     objectModel.setPlanetSectors(
                                             documentSnapshot2.getLong("sectors").intValue());
-                                    Log.i(
-                                            "myTags",
-                                            "apply: setPrice_buy_iron: "
-                                                    + objectModel.getPrice_buy_iron());
-                                    Log.i(
-                                            "myTags",
-                                            "apply: setPrice_sell_iron: "
-                                                    + objectModel.getPrice_sell_iron());
                                     userList = new ArrayList<>();
                                     userList.add(user);
                                     objectModelList = new ArrayList<>();

@@ -69,6 +69,12 @@ class PlanetActivity : BaseActivity() {
             }
         }
         planet_take_off.setOnClickListener {
+            val intent = Intent(this, ScanResultActivity::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            } else {
+                startActivity(intent)
+            }
             finish()
         }
         }
