@@ -86,6 +86,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
                     movedPosition["sumXY"] = x + y
                     documentReference!!.update(movedPosition)
                     startActivity(Intent(applicationContext, GateActivity::class.java))
+                    finish()
                 }
             }
         }

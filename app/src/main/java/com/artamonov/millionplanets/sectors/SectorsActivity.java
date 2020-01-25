@@ -2,7 +2,6 @@ package com.artamonov.millionplanets.sectors;
 
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -28,8 +27,8 @@ public class SectorsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sectors);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //        Toolbar toolbar = findViewById(R.id.toolbar);
+        //        setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectorsPagerAdapter(getSupportFragmentManager());

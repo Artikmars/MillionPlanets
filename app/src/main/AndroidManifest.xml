@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.ModulesListActivity"></activity>
+        <activity android:name=".modules.ModulesListActivity"
+            android:parentActivityName=".PlanetActivity">
+
+        </activity>
         <activity
             android:name=".modules.ModulesInfoActivity"
             android:parentActivityName=".modules.ModulesActivity" />
@@ -57,26 +60,29 @@
         <activity
             android:name=".move.MoveActivity"
             android:parentActivityName=".ScanResultActivity" />
-        <activity android:name=".gate.GateActivity" />
+        <activity android:name=".gate.GateActivity"
+            android:parentActivityName=".ScanResultActivity"/>
         <activity
             android:name=".PlanetActivity"
             android:parentActivityName=".MainOptionsActivity" />
         <activity
             android:name=".market.MarketActivity"
             android:label="@string/title_activity_market"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".PlanetActivity" />
         <activity
             android:name=".sectors.SectorsActivity"
             android:label="@string/title_activity_market"
-            android:parentActivityName=".PlanetActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".PlanetActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bbc9e5e6abfd52ec0b50443ba55e59f5c5e3f9f2" />
 
-        <activity android:name=".shipyard.ShipyardActivity" />
-        <activity android:name=".shipyard.ShipyardInfoActivity" />
+        <activity android:name=".shipyard.ShipyardActivity"
+            android:parentActivityName=".PlanetActivity"
+            />
+        <activity android:name=".shipyard.ShipyardInfoActivity"
+            android:parentActivityName=".shipyard.ShipyardActivity"/>
     </application>
 
 </manifest>
