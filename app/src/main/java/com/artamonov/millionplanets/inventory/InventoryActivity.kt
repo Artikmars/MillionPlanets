@@ -10,8 +10,10 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.inventory.*
+import kotlinx.android.synthetic.main.main_options.*
 
 class InventoryActivity : BaseActivity(), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
 InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
@@ -91,6 +93,12 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
         }
     }
 
+    private fun onDialogCreate() {
+            val fragment = NumberPickerDialog
+                    .newInstance(NumberPickerDialogType.GET_FUEL, presenter.getAvailablePetrolAmountToBeFilled()?.toInt(), 5, this)
+            fragment.show(supportFragmentManager)
+    }
+
     override fun onStart() {
         super.onStart()
         presenter.initFirebase()
@@ -102,6 +110,18 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
                 presenter.initUserList(doc)
                 setUpWeaponsAdapter()
                 setUpCargoAdapter()
+                setGetFuelButtonVisibility()
+                inventory_fuel.text = presenter.getUserList().fuel.toString()
+            }
+        }
+    }
+
+    private fun setGetFuelButtonVisibility() {
+        inventory_get_fuel.setOnClickListener {
+            if (presenter.isPetrolAvailable() && !presenter.isFuelFull()) {
+                    onDialogCreate() } else {
+                Snackbar.make(findViewById(android.R.id.content), "Fuel can not be refilled", Snackbar.LENGTH_SHORT)
+                        .show()
             }
         }
     }
@@ -135,5 +155,6 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
 
     override fun onDismiss() {
         updateData()
+        setGetFuelButtonVisibility()
     }
 }

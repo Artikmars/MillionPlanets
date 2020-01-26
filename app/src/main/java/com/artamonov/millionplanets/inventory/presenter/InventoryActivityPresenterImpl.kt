@@ -5,6 +5,7 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
+import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -92,5 +93,17 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun getResourceAmount(position: Int): Long? {
         return cargoList[position].itemAmount
+    }
+
+    override fun getAvailablePetrolAmountToBeFilled(): Long? {
+        return Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
+    }
+
+    override fun isPetrolAvailable(): Boolean {
+        return cargoList.find { it.itemId == 5L } != null
+    }
+
+    override fun isFuelFull(): Boolean {
+        return userList.fuel >= Utils.getShipFuelInfo(userList.ship!!)
     }
 }

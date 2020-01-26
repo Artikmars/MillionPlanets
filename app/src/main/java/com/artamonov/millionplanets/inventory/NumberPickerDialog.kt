@@ -53,10 +53,21 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
                 resourceIndex = userList.cargo?.indexOfFirst { it.itemId == resourceId?.toLong() }
 
                 when (type) {
-                    NumberPickerDialogType.INVENTORY ->
-                    {
+                    NumberPickerDialogType.GET_FUEL -> {
+                        userList.fuel = userList.fuel + numberPicker.value.toLong()
+                        userList.cargo?.get(resourceIndex!!)?.itemAmount =
+                                userList.cargo?.get(resourceIndex!!)?.itemAmount!! - numberPicker.value.toLong()
+                        if (numberPicker.value == numberPicker.maxValue) {
+                            userList.cargo?.removeAt(resourceIndex!!)
+                        }
+                        updateData(transaction, userList)
+                    }
+                    NumberPickerDialogType.INVENTORY -> {
                         userList.cargo?.get(resourceIndex!!)?.itemAmount = numberPicker.maxValue -
                                 numberPicker.value.toLong()
+                        if (numberPicker.value == numberPicker.maxValue) {
+                            userList.cargo?.removeAt(resourceIndex!!)
+                        }
                         updateData(transaction, userList)
                     }
                     NumberPickerDialogType.MARKET_PLAYER_SELLS -> {
@@ -70,7 +81,6 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
                         updateData(transaction, userList)
                     }
                     NumberPickerDialogType.MARKET_PLAYER_BUYS -> {
-
                         val item = userList.cargo?.find { it.itemId == resourceId?.toLong() }
                         item?.let {
                             userList.cargo?.get(resourceIndex!!)?.itemAmount =
@@ -124,14 +134,14 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
 
         fun newInstance(
             @NumberPickerDialogType.AnnotationNumberPickerDialogType type: String,
-            currentAmount: Int,
-            itemId: Int,
+            currentAmount: Int?,
+            itemId: Int?,
             listener: NumberPickerDialogListener
         ): NumberPickerDialog {
             val args = Bundle()
             args.putString(InventoryActivity.NUMBER_PICKER_DIALOG_TYPE, type)
-            args.putInt(InventoryActivity.RESOURCE_AMOUNT, currentAmount)
-            args.putInt(InventoryActivity.RESOURCE_ID, itemId)
+            currentAmount?.let { args.putInt(InventoryActivity.RESOURCE_AMOUNT, currentAmount) }
+            itemId?.let { args.putInt(InventoryActivity.RESOURCE_ID, itemId) }
             val fragment = NumberPickerDialog(listener)
             fragment.arguments = args
             return fragment

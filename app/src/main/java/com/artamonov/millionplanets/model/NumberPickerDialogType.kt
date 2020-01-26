@@ -3,11 +3,12 @@ package com.artamonov.millionplanets.model
 import androidx.annotation.StringDef
 
 object NumberPickerDialogType {
-    const val MARKET_PLAYER_SELLS = "MARKET_PLAYER_SELLS"
-    const val MARKET_PLAYER_BUYS = "MARKET_PLAYER_BUYS"
+    const val GET_FUEL = "GET_FUEL"
     const val INVENTORY = "INVENTORY"
+    const val MARKET_PLAYER_BUYS = "MARKET_PLAYER_BUYS"
+    const val MARKET_PLAYER_SELLS = "MARKET_PLAYER_SELLS"
 
-    @StringDef(MARKET_PLAYER_SELLS, MARKET_PLAYER_BUYS, INVENTORY)
+    @StringDef(GET_FUEL, INVENTORY, MARKET_PLAYER_BUYS, MARKET_PLAYER_SELLS)
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     annotation class AnnotationNumberPickerDialogType
 }

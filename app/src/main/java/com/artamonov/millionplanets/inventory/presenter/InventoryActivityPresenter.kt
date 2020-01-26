@@ -11,6 +11,8 @@ interface InventoryActivityPresenter<V : InventoryActivityView> {
 
     fun getCargoAmount(): Int
 
+    fun getAvailablePetrolAmountToBeFilled(): Long?
+
     fun getWeaponAmount(): Int
 
     fun getObjectModel(): ObjectModel?
@@ -33,7 +35,11 @@ interface InventoryActivityPresenter<V : InventoryActivityView> {
 
     fun initUserList(doc: DocumentSnapshot)
 
+    fun isFuelFull(): Boolean
+
     fun isInstalled(position: Int): Boolean
+
+    fun isPetrolAvailable(): Boolean
 
     fun setEnabled(position: Int, state: Boolean)
 }

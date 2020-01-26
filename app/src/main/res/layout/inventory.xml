@@ -9,7 +9,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inventory"
-        android:layout_width="match_parent"
+        android:layout_width="403dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,14 +23,14 @@
         android:layout_marginTop="36dp"
         android:text="@string/cargo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.382"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_inventory" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cargo"
-        android:layout_width="match_parent"
-        android:layout_height="217dp"
+        android:layout_width="405dp"
+        android:layout_height="200dp"
         android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventory_cargo_label" />
@@ -39,7 +39,7 @@
         android:id="@+id/inventory_arming_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="15dp"
         android:text="@string/arming"
         style="@style/UserInfo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,5 +58,41 @@
         app:layout_constraintStart_toEndOf="@+id/inventory_cargo_label"
         app:layout_constraintTop_toBottomOf="@+id/rv_inventory"
         tools:layout_editor_absoluteY="408dp" />
+
+    <Button
+        android:id="@+id/inventory_get_fuel"
+        style="@style/Button"
+        android:layout_width="169dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:text="@string/get_fuel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_cargo" />
+
+    <TextView
+        android:id="@+id/inventory_fuel_label"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:text="@string/user_fuel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inventory_get_fuel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/inventory_fuel"
+        style="@style/UserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        tools:text="150"
+        app:layout_constraintStart_toEndOf="@+id/inventory_fuel_label"
+        app:layout_constraintTop_toBottomOf="@+id/inventory_get_fuel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
