@@ -55,13 +55,13 @@
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ScanResultActivity"
+            android:name=".scanresult.ScanResultActivity"
             android:parentActivityName=".MainOptionsActivity" />
         <activity
             android:name=".move.MoveActivity"
-            android:parentActivityName=".ScanResultActivity" />
+            android:parentActivityName=".scanresult.ScanResultActivity" />
         <activity android:name=".gate.GateActivity"
-            android:parentActivityName=".ScanResultActivity"/>
+            android:parentActivityName=".scanresult.ScanResultActivity"/>
         <activity
             android:name=".PlanetActivity"
             android:parentActivityName=".MainOptionsActivity" />

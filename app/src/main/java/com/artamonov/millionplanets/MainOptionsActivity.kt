@@ -10,7 +10,8 @@ import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.scanresult.ScanResultActivity
+import com.artamonov.millionplanets.utils.extensions.getCurrentCargoCapacity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.main_options.*
@@ -89,7 +90,7 @@ class MainOptionsActivity : BaseActivity() {
     }
 
     private fun cargoIsOverloaded(): Boolean {
-        return Utils.getCurrentCargoCapacity(userList) > userList.cargoCapacity
+        return userList.getCurrentCargoCapacity() > userList.cargoCapacity
     }
 
     override fun onStart() {

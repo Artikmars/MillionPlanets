@@ -11,11 +11,11 @@ import com.artamonov.millionplanets.market.MarketActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.modules.ModulesListActivity
+import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.sectors.SectorsActivity
 import com.artamonov.millionplanets.shipyard.ShipyardActivity
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.gate.*
 import kotlinx.android.synthetic.main.planet.*
 
 class PlanetActivity : BaseActivity() {

@@ -44,27 +44,6 @@ object Utils {
         return null
     }
 
-    fun getCurrentModuleInfo(position: Int): Module? {
-
-        when (position) {
-            1 -> return Module("Light Laser", "LASER", "mk I", 25, 0)
-            2 -> return Module("Medium Laser", "LASER", "mk II", 40, 5000)
-            3 -> return Module("Heavy Laser", "LASER", "mk III", 60, 12000)
-            4 -> return Module("Military Laser", "LASER", "ft I", 80, 15000)
-            5 -> return Module("Heavy Military Laser", "LASER", "ft II", 100, 20000)
-            6 -> return Module("Light Gun", "GUN", "mk I", 50, 2500)
-            7 -> return Module("Medium Gun", "GUN", "mk II", 80, 5000)
-            8 -> return Module("Heavy Gun", "GUN", "mk III", 120, 7500)
-            9 -> return Module("Military Gun", "GUN", "ft I", 160, 10000)
-            10 -> return Module("Heavy Military Gun", "GUN", "ft II", 200, 12000)
-        }
-        return null
-    }
-
-    fun getCurrentCargoCapacity(user: User): Long {
-        return user.cargo?.sumBy { it.itemAmount!!.toInt() }!!.toLong()
-    }
-
 //    fun getCargoItemByResourceId(user: User, resourceId: Int) : Item {
 //        return user.cargo?.filter { it.itemId ==
 //                resourceId.toLong() }!![0]

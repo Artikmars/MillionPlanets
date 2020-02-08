@@ -12,6 +12,8 @@ class User : Serializable {
     var hp: Long = 0
     var money: Long = 0
     var moveToObjectDistance: Long = 0
+    var moveToLocationName: String? = null
+    var moveToLocationType: String? = null
     var locationName: String? = null
     var locationType: String? = null
     var nickname: String? = null

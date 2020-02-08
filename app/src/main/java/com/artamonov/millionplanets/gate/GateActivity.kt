@@ -15,7 +15,7 @@ import java.util.TimerTask
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenter
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenterImpl
-import com.artamonov.millionplanets.ScanResultActivity
+import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.fight.FightActivity
 import com.artamonov.millionplanets.model.User
 import com.google.android.material.snackbar.Snackbar
@@ -48,11 +48,10 @@ class GateActivity : BaseActivity(), GateActivityView {
         val intent = Intent(this, PlanetActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-            finish()
         } else {
             startActivity(intent)
-            finish()
         }
+        finish()
     }
 
     override fun openFightActivity(enemyUsername: String?) {
@@ -63,6 +62,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         } else {
             startActivity(intent)
         }
+        finish()
     }
 
     override fun setFightType() {
@@ -181,6 +181,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         } else {
             startActivity(intent)
         }
+        finish()
     }
 
 //    private fun startTimer(finish: Long, debrisIsOver: Boolean) {

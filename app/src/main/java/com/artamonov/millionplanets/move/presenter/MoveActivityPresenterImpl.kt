@@ -24,18 +24,7 @@ class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveAct
     }
 
     override fun setUserList(doc: DocumentSnapshot) {
-        userList.ship = doc.getString("ship")
-        userList.x = doc.getLong("x") ?: 0
-        userList.y = doc.getLong("y") ?: 0
-        userList.sumXY = doc.getLong("sumXY") ?: 0
-        userList.hp = doc.getLong("hp") ?: 0
-        userList.cargoCapacity = doc.getLong("cargoCapacity") ?: 0
-        userList.fuel = doc.getLong("fuel") ?: 0
-        userList.scanner_capacity = doc.getLong("scanner_capacity") ?: 0
-        userList.shield = doc.getLong("shield") ?: 0
-        userList.money = doc.getLong("money") ?: 0
-        userList.locationName = doc.getString("locationName")
-        userList.moveToObjectDistance = doc.getLong("moveToObjectDistance")!!
+        userList = doc.toObject(User::class.java)!!
     }
 
     override fun ifEnoughFuelToJump() {

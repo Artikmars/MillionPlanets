@@ -73,9 +73,9 @@ class MoveActivity : BaseActivity(), MoveActivityView {
         move_jump.setOnClickListener {
             presenter.ifEnoughFuelToJump()
 
-            if (presenter.userList.locationName != null) {
+            if (presenter.userList.moveToLocationName != null) {
                 val docRefForMovedObject = firebaseFirestore.collection("Objects")
-                        .document(presenter.userList.locationName!!)
+                        .document(presenter.userList.moveToLocationName!!)
                 docRefForMovedObject.get().addOnSuccessListener { documentSnapshot ->
                     val x = documentSnapshot.getLong("x")!!.toInt()
                     val y = documentSnapshot.getLong("y")!!.toInt()
@@ -84,6 +84,8 @@ class MoveActivity : BaseActivity(), MoveActivityView {
                     movedPosition["y"] = y
                     movedPosition["fuel"] = presenter.userList.fuel - presenter.userList.moveToObjectDistance
                     movedPosition["sumXY"] = x + y
+                    movedPosition["locationName"] = presenter.userList.moveToLocationName!!
+                    movedPosition["locationType"] = presenter.userList.moveToLocationType!!
                     documentReference!!.update(movedPosition)
                     startActivity(Intent(applicationContext, GateActivity::class.java))
                     finish()
