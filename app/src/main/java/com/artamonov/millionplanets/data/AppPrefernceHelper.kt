@@ -3,8 +3,8 @@ package com.artamonov.millionplanets.data
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.securepreferences.SecurePreferences
@@ -58,7 +58,7 @@ class AppPreferenceHelper @Inject constructor(
             gson.fromJson(userProfileJson, GoogleSignInAccount::class.java)
         } catch (jse: JsonSyntaxException) {
             jse.printStackTrace()
-            Crashlytics.logException(jse)
+            FirebaseCrashlytics.getInstance().recordException(jse)
             null
         }
     }

@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.data.AppPreferenceHelper
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -26,7 +24,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 //        if (firebaseAuth.currentUser != null) {
 //            continue_btn.visibility = View.VISIBLE

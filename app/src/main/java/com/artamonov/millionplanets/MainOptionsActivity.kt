@@ -13,6 +13,7 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.utils.extensions.getCurrentCargoCapacity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.main_options.*
 import java.util.HashMap
@@ -166,5 +167,6 @@ class MainOptionsActivity : BaseActivity() {
         money.text = userList.money.toString()
 
         progressDialog?.dismiss()
+        FirebaseCrashlytics.getInstance().log(userList.toString())
     }
 }
