@@ -14,8 +14,7 @@ class AppPreferenceHelper @Inject constructor(
     private val prefs: SecurePreferences,
     private val sharedPrefs: SharedPreferences,
     private val gson: Gson
-) :
-        PreferenceHelper {
+) : PreferenceHelper {
 
     companion object {
         private val USERNAME = "USERNAME"

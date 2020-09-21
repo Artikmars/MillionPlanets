@@ -4,7 +4,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -102,7 +101,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             }
         })
 
-        fun onGoBackToMainOptions(view: View) {
+        back_to_menu.setOnClickListener {
             finish()
         }
     }

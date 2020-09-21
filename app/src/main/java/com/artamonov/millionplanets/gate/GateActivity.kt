@@ -283,6 +283,7 @@ class GateActivity : BaseActivity(), GateActivityView {
         } else {
             startActivity(intent)
         }
+        finish()
     }
 
     override fun setProgressBar() {
