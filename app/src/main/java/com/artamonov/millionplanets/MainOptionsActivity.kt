@@ -15,17 +15,16 @@ import com.artamonov.millionplanets.utils.extensions.getCurrentCargoCapacity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.android.synthetic.main.main_options.*
+import kotlinx.android.synthetic.main.main_options_activity.*
 import java.util.HashMap
 
-class MainOptionsActivity : BaseActivity() {
+class MainOptionsActivity : BaseActivity(R.layout.main_options_activity) {
 
     internal var userList = User()
     private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_options)
 
         val parentLayout = findViewById<View>(android.R.id.content)
         Snackbar.make(

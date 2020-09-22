@@ -12,10 +12,10 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.shipyard.*
+import kotlinx.android.synthetic.main.shipyard_activity.*
 import java.util.ArrayList
 
-class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
+class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapter.ItemClickListener {
     override fun onStart() {
         super.onStart()
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
@@ -53,7 +53,6 @@ class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.shipyard)
 
         rvShipyard = findViewById(R.id.rvShipyard)
         rvShipyard!!.layoutManager = LinearLayoutManager(this)

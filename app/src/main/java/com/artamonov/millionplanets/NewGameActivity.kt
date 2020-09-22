@@ -13,16 +13,11 @@ import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.create_player_activity.*
 import java.util.HashMap
 
-class NewGameActivity : BaseActivity() {
+class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
     private lateinit var username: String
     private var documentReferenceInventory: DocumentReference? = null
     private var documentReferenceObjects: DocumentReference? = null
     private var user: User? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.create_player_activity)
-    }
 
     fun onGoToSpace(view: View) {
         if (!nicknameIsValid()) {

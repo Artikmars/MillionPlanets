@@ -21,10 +21,10 @@ import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Utils
-import kotlinx.android.synthetic.main.activity_fight.*
-import kotlinx.android.synthetic.main.move.progressBar
+import kotlinx.android.synthetic.main.fight_activity.*
+import kotlinx.android.synthetic.main.move_activity.progressBar
 
-class FightActivity : BaseActivity(), FightActivityView {
+class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     private var parentLayout: View? = null
     private var userDocument: DocumentReference? = null
     private var enemyDocument: DocumentReference? = null
@@ -38,7 +38,6 @@ class FightActivity : BaseActivity(), FightActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fight)
         presenter = FightActivityPresenterImpl(this)
 
         if (intent != null) {

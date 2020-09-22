@@ -11,15 +11,14 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.UserProfileChangeRequest
-import kotlinx.android.synthetic.main.registration.*
+import kotlinx.android.synthetic.main.registration_activity.*
 import java.util.HashMap
 
-class RegistrationActivity : BaseActivity() {
+class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
     var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.registration)
         progressDialog = ProgressDialog(this)
 
         register_login_firebase.setOnClickListener {

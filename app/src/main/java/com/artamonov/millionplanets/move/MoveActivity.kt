@@ -23,9 +23,9 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
-import kotlinx.android.synthetic.main.move.*
+import kotlinx.android.synthetic.main.move_activity.*
 
-class MoveActivity : BaseActivity(), MoveActivityView {
+class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
     private var parentLayout: View? = null
     private lateinit var objectModel: ObjectModel
     private var documentReference: DocumentReference? = null
@@ -51,7 +51,6 @@ class MoveActivity : BaseActivity(), MoveActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.move)
         presenter = MoveActivityPresenterImpl(this)
 
         parentLayout = findViewById(android.R.id.content)

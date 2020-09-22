@@ -18,9 +18,9 @@ import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.move.MoveActivity
-import kotlinx.android.synthetic.main.scan_result.*
+import kotlinx.android.synthetic.main.scan_result_activity.*
 
-class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
+class ScanResultActivity : BaseActivity(R.layout.scan_result_activity), ScanResultAdapter.ItemClickListener {
 
     internal var objectModelList: MutableList<ObjectModel>? = null
     internal var userList = User()
@@ -29,7 +29,6 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.scan_result)
         scan_result_list.layoutManager = LinearLayoutManager(this)
 
         scanResultViewModel = ViewModelProviders.of(this).get(ScanResultViewModel::class.java)

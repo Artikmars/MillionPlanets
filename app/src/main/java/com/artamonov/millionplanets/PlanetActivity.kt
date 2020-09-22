@@ -16,9 +16,9 @@ import com.artamonov.millionplanets.sectors.SectorsActivity
 import com.artamonov.millionplanets.shipyard.ShipyardActivity
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.planet.*
+import kotlinx.android.synthetic.main.planet_activity.*
 
-class PlanetActivity : BaseActivity() {
+class PlanetActivity : BaseActivity(R.layout.planet_activity) {
 
     internal var userList = User()
     internal var objectModelList = ObjectModel()
@@ -27,7 +27,6 @@ class PlanetActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.planet)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
         planet_market.setOnClickListener {

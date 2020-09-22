@@ -10,10 +10,10 @@ import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.shipyard_info.*
+import kotlinx.android.synthetic.main.shipyard_info_activity.*
 import java.util.ArrayList
 
-class ShipyardInfoActivity : BaseActivity() {
+class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
     internal var userList: User? = User()
     internal var objectModelList = ObjectModel()
     /*  User figher = new User();
@@ -30,7 +30,6 @@ class ShipyardInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.shipyard_info)
         val intent = intent
         val position = intent.getIntExtra("position", 0)
         yourShip = intent.getStringExtra("your_ship")

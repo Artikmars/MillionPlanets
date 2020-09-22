@@ -15,16 +15,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(R.layout.main_activity) {
     private var googleApiClient: GoogleSignInClient? = null
     private val RC_SIGN_IN = 7
     private val appPreferenceHelper: AppPreferenceHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 //        if (firebaseAuth.currentUser != null) {
 //            continue_btn.visibility = View.VISIBLE
 //        }

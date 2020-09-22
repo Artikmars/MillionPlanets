@@ -12,10 +12,9 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.inventory.*
-import kotlinx.android.synthetic.main.main_options.*
+import kotlinx.android.synthetic.main.inventory_activity.*
 
-class InventoryActivity : BaseActivity(), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
+class InventoryActivity : BaseActivity(R.layout.inventory_activity), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
 InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
 
     private var documentReference: DocumentReference? = null
@@ -25,7 +24,6 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.inventory)
         presenter = InventoryActivityPresenterImpl(this)
     }
 

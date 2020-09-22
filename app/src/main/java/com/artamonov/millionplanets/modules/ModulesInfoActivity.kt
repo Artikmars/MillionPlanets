@@ -11,10 +11,10 @@ import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.modules_info.*
+import kotlinx.android.synthetic.main.modules_info_activity.*
 import java.util.ArrayList
 
-class ModulesInfoActivity : BaseActivity() {
+class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
     internal var userList = User()
     internal var armingList = User()
     internal var objectModelList = ObjectModel()
@@ -30,7 +30,6 @@ class ModulesInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.modules_info)
         val intent = intent
         position = intent.getIntExtra("position", -1)
 

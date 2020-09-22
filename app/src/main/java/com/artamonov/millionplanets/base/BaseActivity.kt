@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity(contentLayout: Int) : AppCompatActivity(contentLayout) {
 
     internal lateinit var firebaseFirestore: FirebaseFirestore
     var firebaseUser: FirebaseUser? = null

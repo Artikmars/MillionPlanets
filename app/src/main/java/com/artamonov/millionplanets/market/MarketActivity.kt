@@ -6,11 +6,10 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.google.android.material.tabs.TabLayout
 
-class MarketActivity : BaseActivity(), MarketYouAdapter.DialogListener {
+class MarketActivity : BaseActivity(R.layout.market_activity), MarketYouAdapter.DialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.market)
         /* Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 // Create the adapter that will return a fragment for each of the three

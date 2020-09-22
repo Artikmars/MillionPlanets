@@ -13,9 +13,9 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.Utils
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.modules.*
+import kotlinx.android.synthetic.main.modules_activity.modules_current_weapons
 
-class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
+class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.ItemClickListener {
 
     internal var documentReference: DocumentReference? = null
     private var modulesRef: DocumentReference? = null
@@ -27,7 +27,6 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.modules)
         tvMoney = findViewById(R.id.modules_user_cash)
 
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)

@@ -20,9 +20,9 @@ import com.artamonov.millionplanets.fight.FightActivity
 import com.artamonov.millionplanets.model.User
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.android.synthetic.main.gate.*
+import kotlinx.android.synthetic.main.gate_activity.*
 
-class GateActivity : BaseActivity(), GateActivityView {
+class GateActivity : BaseActivity(R.layout.gate_activity), GateActivityView {
 
     private var maxTimeInMilliseconds: Long = 0
     private var debrisIsOver: Boolean = false
@@ -32,7 +32,6 @@ class GateActivity : BaseActivity(), GateActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.gate)
         presenter = GateActivityPresenterImpl(this)
 
         if (intent != null) { enemyUsername = intent.getStringExtra(ENEMY_USERNAME) }

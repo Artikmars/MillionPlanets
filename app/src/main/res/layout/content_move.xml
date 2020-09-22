@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fight.FightActivity"
-    tools:showIn="@layout/move">
+    tools:showIn="@layout/move_activity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
