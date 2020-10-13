@@ -26,7 +26,7 @@ class User : Serializable {
     var shipPrice: Long = 0
     var sumXY: Long = 1097
     var type: String? = null
-    var weapon: List<Weapon>? = listOf()
+    var weapon = mutableListOf<Weapon>()
     var weaponSlots: Long = 0
 
     var x: Long = 544
@@ -42,7 +42,7 @@ class User : Serializable {
     constructor(
         ship: String?,
         shield: Long,
-        weapon: List<Weapon>?,
+        weapon: MutableList<Weapon>,
         cargoCapacity: Long,
         scanner_capacity: Long,
         jump: Long,
@@ -75,7 +75,7 @@ class User : Serializable {
         shipPrice: Long,
         ship: String?,
         shipClass: String?,
-        weapon: List<Weapon>?,
+        weapon: MutableList<Weapon>,
         weaponSlots: Long
     ) {
         this.ship = ship

@@ -3,17 +3,17 @@ package com.artamonov.millionplanets.move.presenter
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.move.MoveActivityView
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.firestore.DocumentSnapshot
 
 class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveActivityPresenter<MoveActivityView> {
 
     override fun getFuel() {
-        val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
+        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
         val price = fuelToFill * 1000
         if (userList.money >= price) {
 
-            getView.buyFuel(Utils.getShipFuelInfo(userList.ship!!), userList.money - price)
+            getView.buyFuel(getShipFuelInfo(userList.ship!!), userList.money - price)
             getView.setProgressBar(false)
         } }
 

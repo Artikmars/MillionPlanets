@@ -6,7 +6,7 @@ import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.RandomUtils
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -114,10 +114,10 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     }
 
     private fun getFuel() {
-        val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
+        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
         val price = fuelToFill * 1000
         if (userList.money >= price) {
-            userDocument!!.update("fuel", Utils.getShipFuelInfo(userList.ship!!))
+            userDocument!!.update("fuel", getShipFuelInfo(userList.ship!!))
             userDocument!!.update("money", userList.money - price)
             initData()
         } else {

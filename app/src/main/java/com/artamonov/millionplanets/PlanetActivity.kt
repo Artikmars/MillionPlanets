@@ -14,7 +14,7 @@ import com.artamonov.millionplanets.modules.ModulesListActivity
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.sectors.SectorsActivity
 import com.artamonov.millionplanets.shipyard.ShipyardActivity
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.planet_activity.*
 
@@ -38,10 +38,10 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             }
         }
         planet_get_fuel.setOnClickListener {
-            val fuelToFill = Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
+            val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
             val price = fuelToFill * 1000
             if (userList.money >= price) {
-                documentReference!!.update("fuel", Utils.getShipFuelInfo(userList.ship!!))
+                documentReference!!.update("fuel", getShipFuelInfo(userList.ship!!))
                 documentReference!!.update("money", userList.money - price)
             }
         }

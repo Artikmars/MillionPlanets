@@ -5,7 +5,7 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -77,7 +77,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun initUserList(doc: DocumentSnapshot) {
         userList = doc.toObject(User::class.java)!!
-        weaponList = userList.weapon!!
+        weaponList = userList.weapon
         cargoList = userList.cargo!!
         getView.updateCargoCapacityCounter(userList)
     }
@@ -96,14 +96,17 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
     }
 
     override fun getAvailablePetrolAmountToBeFilled(): Long? {
-        return Utils.getShipFuelInfo(userList.ship!!) - userList.fuel
+        return if (cargoList.find { it.itemId == 5L }?.itemAmount!! <
+                (getShipFuelInfo(userList.ship!!) - userList.fuel))
+            cargoList.find { it.itemId == 5L }?.itemAmount!! else
+            getShipFuelInfo(userList.ship!!) - userList.fuel
     }
 
     override fun isPetrolAvailable(): Boolean {
-        return cargoList.find { it.itemId == 5L } != null
+        return cargoList.find { it.itemId == 5L && it.itemAmount!! > 0 } != null
     }
 
     override fun isFuelFull(): Boolean {
-        return userList.fuel >= Utils.getShipFuelInfo(userList.ship!!)
+        return userList.fuel >= getShipFuelInfo(userList.ship!!)
     }
 }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.Item
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getResourceItemName
 import kotlinx.android.synthetic.main.inventory_cargo_item.view.*
 
 class InventoryCargoAdapter(
@@ -43,7 +43,7 @@ class InventoryCargoAdapter(
         }
 
         fun bind(item: Item, amount: Long?) {
-            view.inventoryItemName.text = Utils.getResourceItemNameById(item.itemId!!)
+            view.inventoryItemName.text = item.itemId?.toInt()?.getResourceItemName()
             view.inventoryItemAmount.text = amount.toString()
         }
 

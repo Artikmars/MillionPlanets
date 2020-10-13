@@ -10,9 +10,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inventory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="44dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/inventory_cargo_label"
         app:layout_constraintTop_toBottomOf="@+id/inventory_arming_label" />
 
     <TextView
@@ -30,9 +32,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cargo"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/inventory_get_fuel"
         app:layout_constraintTop_toBottomOf="@+id/inventory_cargo_label" />
 
     <TextView
@@ -76,6 +80,7 @@
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="160dp"
         android:layout_marginLeft="160dp"
         android:text="@string/user_fuel"
@@ -88,6 +93,7 @@
         style="@style/UserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         tools:text="150"

@@ -3,9 +3,9 @@ package com.artamonov.millionplanets.fight.presenter
 import com.artamonov.millionplanets.fight.FightActivityView
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
-import com.artamonov.millionplanets.utils.Utils
-import com.artamonov.millionplanets.utils.Utils.getFilteredInstalledWeaponList
-import com.artamonov.millionplanets.utils.WeaponType
+import com.artamonov.millionplanets.model.WeaponClassType
+import com.artamonov.millionplanets.utils.getCurrentModuleInfo
+import com.artamonov.millionplanets.utils.getFilteredInstalledWeaponList
 import com.google.firebase.firestore.DocumentSnapshot
 import java.util.Random
 
@@ -88,11 +88,11 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
 
         for (weapon in installedWeapons.indices) {
             val weaponItem = installedWeapons[weapon]
-            val weaponInfo = Utils.getCurrentModuleInfo(weaponItem.weaponId!!)
+            val weaponInfo = weaponItem.weaponId?.getCurrentModuleInfo()
             when (weaponInfo?.type) {
-                WeaponType.LASER.name -> { shieldDamage += randomizeDamage(weaponInfo.damageHP.toLong())
+                WeaponClassType.LASER -> { shieldDamage += randomizeDamage(weaponInfo.damageHP.toLong())
                     hpDamage += randomizeDamage(weaponInfo.damageHP.toLong()) }
-                WeaponType.GUN.name -> {
+                WeaponClassType.GUN -> {
                     val randomizedDamage = randomizeDamage(weaponInfo.damageHP.toLong())
                     shieldDamage += randomizedDamage / 2
                     hpDamage += randomizedDamage / 2 }
@@ -105,14 +105,14 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
         enemyShieldDamage = 0
         for (weapon in enemyInstalledWeapons.indices) {
             val weaponItem = enemyInstalledWeapons[weapon]
-            val weaponInfo = Utils.getCurrentModuleInfo(weaponItem.weaponId!!)
+            val weaponInfo = weaponItem.weaponId?.getCurrentModuleInfo()
             when (weaponInfo?.type) {
-                WeaponType.LASER.name ->
+                WeaponClassType.LASER ->
                 {
                     enemyShieldDamage += randomizeDamage(weaponInfo.damageHP.toLong())
                     enemyHpDamage += randomizeDamage(weaponInfo.damageHP.toLong())
                 }
-                WeaponType.GUN.name -> {
+                WeaponClassType.GUN -> {
                     val randomizedDamage = randomizeDamage(weaponInfo.damageHP.toLong())
                     enemyShieldDamage += randomizedDamage / 2
                     enemyHpDamage += randomizedDamage / 2

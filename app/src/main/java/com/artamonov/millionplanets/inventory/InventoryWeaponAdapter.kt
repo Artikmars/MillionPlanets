@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getCurrentModuleInfo
 import kotlinx.android.synthetic.main.inventory_weapon_item.view.*
 
 class InventoryWeaponAdapter(
@@ -44,7 +44,7 @@ class InventoryWeaponAdapter(
 //            }
             view.weapon_switch.isChecked = isChecked
 
-            view.weapon_name.text = Utils.getCurrentModuleInfo(weaponItem!!)?.name
+            view.weapon_name.text = weaponItem?.getCurrentModuleInfo()?.name
 
             view.weapon_switch.setOnCheckedChangeListener { _, checked
                 -> source.setEnabled(adapterPosition, checked) }

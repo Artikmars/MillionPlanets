@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.utils.Price.getPlayerSellPrice
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getResourceItemNameById
 import kotlinx.android.synthetic.main.market_you_items.view.*
 
 class MarketYouAdapter(
@@ -45,7 +45,7 @@ class MarketYouAdapter(
 
         private var view: View = itemView
         fun bind(item: Item) {
-            view.resource_name.text = Utils.getResourceItemNameById(item.itemId!!)
+            view.resource_name.text = item.itemId?.getResourceItemNameById()
             view.resource_price.text = getPlayerSellPrice(item.itemId!!).toString()
             if (item.itemAmount == 0L) {
                 view.resource_amount.text = "0"

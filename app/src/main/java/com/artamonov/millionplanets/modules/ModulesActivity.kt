@@ -11,7 +11,8 @@ import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getAllWeapons
+import com.artamonov.millionplanets.utils.getCurrentModuleInfo
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.modules_activity.modules_current_weapons
 
@@ -33,7 +34,7 @@ class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.
 
         rvModules = findViewById(R.id.rvModules)
         rvModules!!.layoutManager = LinearLayoutManager(this)
-        modules = Utils.getAllWeapons()
+        modules = getAllWeapons()
     }
 
     override fun onStart() {
@@ -47,7 +48,7 @@ class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.
                 tvMoney!!.text = userList.money.toString()
                 val listOfCurrentWeapons: MutableList<String> = mutableListOf()
                 for (weapon in userList.weapon!!.indices) {
-                        listOfCurrentWeapons.add(weapon, Utils.getCurrentModuleInfo(userList.weapon!![weapon].weaponId!!)!!.name)
+                        listOfCurrentWeapons.add(weapon, userList.weapon!![weapon].weaponId!!.getCurrentModuleInfo()!!.name)
                 }
                 modules_current_weapons.text = listOfCurrentWeapons.joinToString()
                 existedItem = userList.weapon!!

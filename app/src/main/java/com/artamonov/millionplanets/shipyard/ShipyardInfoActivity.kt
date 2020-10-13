@@ -8,7 +8,8 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.ObjectModel
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getCurrentShipInfo
+// import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.shipyard_info_activity.*
 import java.util.ArrayList
@@ -36,7 +37,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
 
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
-        shipToBuy = Utils.getCurrentShipInfo(position)
+        shipToBuy = getCurrentShipInfo(position)
         setOnBuyButtonVisibility(shipToBuy!!)
         shipyard_hp.text = shipToBuy!!.hp.toString()
         shipyard_cargo.text = shipToBuy!!.cargoCapacity.toString()
@@ -47,7 +48,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
         shipyard_weapon_slots.text = shipToBuy!!.weaponSlots.toString()
         shipyard_scanner.text = shipToBuy!!.scanner_capacity.toString()
         shipyard_name.text = shipToBuy!!.ship
-        shipyard_class.text = Utils.getCurrentShipInfo(position)?.shipClass
+        shipyard_class.text = getCurrentShipInfo(position)?.shipClass
 
 //        userList = User(shipToBuy!!.cargoCapacity, shipToBuy!!.fuel,shipToBuy!!.hp, shipToBuy!!.jump,
 //                shipToBuy!!.scanner_capacity,shipToBuy!!.shield,

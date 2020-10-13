@@ -20,7 +20,7 @@ import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.utils.Utils
+import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import kotlinx.android.synthetic.main.fight_activity.*
 import kotlinx.android.synthetic.main.move_activity.progressBar
 
@@ -130,7 +130,7 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     }
 
     override fun calculateLoot(usernameWhoGetLoot: String, usernameWhoLoseLoot: String, enemyShip: String) {
-        val lootedIron: Long = Utils.getCurrentShipInfo(enemyShip).hp
+        val lootedIron: Long = getCurrentShipInfo(enemyShip).hp
         enemyDocument!!.get().addOnSuccessListener { documentSnapshot ->
             enemy = documentSnapshot.toObject(User::class.java)!!
 
@@ -195,9 +195,9 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
 
     override fun showLootSnackbar(isYouWon: Boolean, ship: String) {
         if (isYouWon) {
-            setSnackbarError("You won " + Utils.getCurrentShipInfo(ship).hp + " iron!")
+            setSnackbarError("You won " + getCurrentShipInfo(ship).hp + " iron!")
         } else {
-            setSnackbarError("You lost " + Utils.getCurrentShipInfo(ship).hp + " iron.")
+            setSnackbarError("You lost " + getCurrentShipInfo(ship).hp + " iron.")
         }
     }
 

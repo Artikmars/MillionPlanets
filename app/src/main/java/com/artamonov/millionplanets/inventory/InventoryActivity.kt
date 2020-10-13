@@ -1,6 +1,7 @@
 package com.artamonov.millionplanets.inventory
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
@@ -13,6 +14,7 @@ import com.artamonov.millionplanets.model.Weapon
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.inventory_activity.*
+import kotlinx.android.synthetic.main.modules_info_activity.*
 
 class InventoryActivity : BaseActivity(R.layout.inventory_activity), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
 InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
@@ -115,6 +117,11 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
     }
 
     private fun setGetFuelButtonVisibility() {
+        if (presenter.isFuelFull() || !presenter.isPetrolAvailable()) {
+            inventory_get_fuel.setBackgroundColor(ContextCompat.getColor(this, R.color.grey))
+        } else {
+            inventory_get_fuel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+        }
         inventory_get_fuel.setOnClickListener {
             if (presenter.isPetrolAvailable() && !presenter.isFuelFull()) {
                     onDialogCreate() } else {
