@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.shipyard_activity.*
@@ -42,7 +42,7 @@ class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapt
     }
 
     internal var userList = User()
-    internal var objectModelList = ObjectModel()
+    internal var objectModelList = SpaceObject()
     private var figher = User()
     private var trader = User()
     private var rs = User()

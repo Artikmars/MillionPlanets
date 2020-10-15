@@ -9,11 +9,11 @@ import com.google.firebase.firestore.DocumentSnapshot
 class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveActivityPresenter<MoveActivityView> {
 
     override fun getFuel() {
-        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
+        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
         val price = fuelToFill * 1000
-        if (userList.money >= price) {
+        if (userList.money!! >= price) {
 
-            getView.buyFuel(getShipFuelInfo(userList.ship!!), userList.money - price)
+            getView.buyFuel(getShipFuelInfo(userList.ship!!), userList.money!! - price)
             getView.setProgressBar(false)
         } }
 
@@ -32,6 +32,6 @@ class MoveActivityPresenterImpl(private var getView: MoveActivityView) : MoveAct
         getView.setSnackbarError(R.string.run_out_of_fuel)
         return
     }
-        if (userList.fuel - userList.moveToObjectDistance < 0) { getView.setSnackbarError(R.string.not_enough_fuel_to_get_to_destination) }
+        if (userList.fuel!! - userList.moveToObjectDistance!! < 0) { getView.setSnackbarError(R.string.not_enough_fuel_to_get_to_destination) }
     }
 }

@@ -123,19 +123,19 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
 
     private fun attack() {
         if (enemyList.shield != 0L) {
-        enemyList.shield = enemyList.shield - shieldDamage
-            if (enemyList.shield < 0) enemyList.shield = 0
+        enemyList.shield = enemyList.shield!! - shieldDamage
+            if (enemyList.shield!! < 0) enemyList.shield = 0
         } else {
-            enemyList.hp = enemyList.hp - hpDamage
-            if (enemyList.hp < 0) enemyList.hp = 0
+            enemyList.hp = enemyList.hp!! - hpDamage
+            if (enemyList.hp!! < 0) enemyList.hp = 0
         }
 
         if (userList.shield != 0L) {
-            userList.shield = userList.shield - enemyShieldDamage
-            if (userList.shield < 0) userList.shield = 0
+            userList.shield = userList.shield!! - enemyShieldDamage
+            if (userList.shield!! < 0) userList.shield = 0
         } else {
-            userList.hp = userList.hp - enemyHpDamage
-            if (userList.hp < 0) userList.hp = 0
+            userList.hp = userList.hp!! - enemyHpDamage
+            if (userList.hp!! < 0) userList.hp = 0
         }
         getView.setUserData(userList)
         getView.setEnemyData(enemyList)

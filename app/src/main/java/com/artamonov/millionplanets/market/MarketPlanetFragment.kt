@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.inventory.NumberPickerDialog
 import com.artamonov.millionplanets.model.User
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.google.firebase.auth.FirebaseAuth
@@ -21,21 +21,21 @@ import kotlinx.android.synthetic.main.fragment_market_you.*
 class MarketPlanetFragment : Fragment(), MarketPlanetAdapter.DialogListener,
 NumberPickerDialog.NumberPickerDialogListener {
     var firebaseFirestore: FirebaseFirestore? = null
-    private var objectModel: ObjectModel? = ObjectModel()
+    private var objectModel: SpaceObject? = SpaceObject()
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferencePlanet: DocumentReference? = null
     private var user: User? = User()
     private var cargoList: List<Item>? = ArrayList()
 
     private fun updateList() {
-        documentReferenceUser!!.get().addOnSuccessListener { doc ->
+        documentReferenceUser?.get()?.addOnSuccessListener { doc ->
             if (doc.exists()) {
                 user = doc.toObject(User::class.java)
                 cargoList = user?.cargo
                 documentReferencePlanet = firebaseFirestore!!.collection("Objects").document(user?.locationName!!)
                 documentReferencePlanet!!.get().addOnSuccessListener { doc2 ->
                     if (doc2.exists()) {
-                        objectModel = doc2.toObject(ObjectModel::class.java)
+                        objectModel = doc2.toObject(SpaceObject::class.java)
                         setAdapter()
                     }
                 }

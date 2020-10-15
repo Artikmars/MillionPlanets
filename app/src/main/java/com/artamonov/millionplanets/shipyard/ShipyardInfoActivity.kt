@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
 // import com.artamonov.millionplanets.utils.getCurrentShipInfo
@@ -16,7 +16,7 @@ import java.util.ArrayList
 
 class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
     internal var userList: User? = User()
-    internal var objectModelList = ObjectModel()
+    internal var objectModelList = SpaceObject()
     /*  User figher = new User();
     User trader = new User();
     User rs = new User();*/
@@ -80,7 +80,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
                 userList?.ship = shipToBuy!!.ship!!
                 userList?.shipClass = shipToBuy!!.shipClass!!
                 userList?.shipPrice = shipToBuy!!.shipPrice
-                userList!!.money = userList!!.money - shipToBuy!!.shipPrice + userList!!.shipPrice / 2
+                userList!!.money = userList!!.money!! - shipToBuy!!.shipPrice!! + userList!!.shipPrice!! / 2
                 transaction.set(documentReference!!, userList!!)
                 null
             }
@@ -99,7 +99,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
         val tvCostDiff = findViewById<TextView>(R.id.shipyard_cost_diff)
         val tvWeaponSlotsDiff = findViewById<TextView>(R.id.shipyard_weapon_slots_diff)
         val tvScannerCapacityDiff = findViewById<TextView>(R.id.shipyard_scanner_diff)
-        val hpDiff = shipToBuy.hp - userList.hp
+        val hpDiff = shipToBuy.hp!! - userList.hp!!
         if (hpDiff >= 0) {
             tvHpDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvHpDiff.text = "+ $hpDiff"
@@ -108,7 +108,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvHpDiff.text = hpDiff.toString()
         }
 
-        val cargoDiff = shipToBuy.cargoCapacity - userList.cargoCapacity
+        val cargoDiff = shipToBuy.cargoCapacity!! - userList.cargoCapacity!!
         if (cargoDiff >= 0) {
             tvCargoDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvCargoDiff.text = "+ $cargoDiff"
@@ -116,7 +116,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvCargoDiff.setTextColor(resources.getColor(R.color.red))
             tvCargoDiff.text = cargoDiff.toString()
         }
-        val shieldDiff = shipToBuy.shield - userList.shield
+        val shieldDiff = shipToBuy.shield!! - userList.shield!!
         if (shieldDiff >= 0) {
             tvShieldDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvShieldDiff.text = "+ $shieldDiff"
@@ -124,7 +124,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvShieldDiff.setTextColor(resources.getColor(R.color.red))
             tvShieldDiff.text = shieldDiff.toString()
         }
-        val fuelDiff = shipToBuy.fuel - userList.fuel
+        val fuelDiff = shipToBuy.fuel!! - userList.fuel!!
         if (fuelDiff >= 0) {
             tvFuelDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvFuelDiff.text = "+ $fuelDiff"
@@ -132,7 +132,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvFuelDiff.setTextColor(resources.getColor(R.color.red))
             tvFuelDiff.text = fuelDiff.toString()
         }
-        val jumpDiff = shipToBuy.jump - userList.jump
+        val jumpDiff = shipToBuy.jump!! - userList.jump!!
         if (jumpDiff >= 0) {
             tvJumpDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvJumpDiff.text = "+ $jumpDiff"
@@ -140,7 +140,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvJumpDiff.setTextColor(resources.getColor(R.color.red))
             tvJumpDiff.text = jumpDiff.toString()
         }
-        val costDiff = shipToBuy.shipPrice - userList.shipPrice
+        val costDiff = shipToBuy.shipPrice!! - userList.shipPrice!!
         if (costDiff >= 0) {
             tvCostDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvCostDiff.text = "+ $costDiff"
@@ -148,7 +148,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvCostDiff.setTextColor(resources.getColor(R.color.red))
             tvCostDiff.text = costDiff.toString()
         }
-        val weaponSlotsDiff = shipToBuy.weaponSlots - userList.weaponSlots
+        val weaponSlotsDiff = shipToBuy.weaponSlots!! - userList.weaponSlots!!
         if (weaponSlotsDiff >= 0) {
             tvWeaponSlotsDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvWeaponSlotsDiff.text = "+ $weaponSlotsDiff"
@@ -156,7 +156,7 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
             tvWeaponSlotsDiff.setTextColor(resources.getColor(R.color.red))
             tvWeaponSlotsDiff.text = weaponSlotsDiff.toString()
         }
-        val scannerDiff = shipToBuy.scanner_capacity - userList.scanner_capacity
+        val scannerDiff = shipToBuy.scanner_capacity!! - userList.scanner_capacity!!
         if (scannerDiff >= 0) {
             tvScannerCapacityDiff.setTextColor(resources.getColor(R.color.colorAccent))
             tvScannerCapacityDiff.text = "+ $scannerDiff"
@@ -189,6 +189,6 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
     }
 
     private fun ifEnoughMoney(): Boolean {
-        return userList!!.money + userList!!.shipPrice / 2 >= shipToBuy!!.shipPrice
+        return userList!!.money!! + userList!!.shipPrice!! / 2 >= shipToBuy!!.shipPrice!!
     }
 }

@@ -2,7 +2,7 @@ package com.artamonov.millionplanets.inventory.presenter
 
 import com.artamonov.millionplanets.inventory.InventoryActivityView
 import com.artamonov.millionplanets.model.Item
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.google.firebase.firestore.DocumentSnapshot
@@ -15,7 +15,7 @@ interface InventoryActivityPresenter<V : InventoryActivityView> {
 
     fun getWeaponAmount(): Int
 
-    fun getObjectModel(): ObjectModel?
+    fun getObjectModel(): SpaceObject?
 
     fun getUserList(): User
 

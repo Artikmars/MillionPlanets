@@ -2,7 +2,7 @@ package com.artamonov.millionplanets.inventory.presenter
 
 import com.artamonov.millionplanets.inventory.InventoryActivityView
 import com.artamonov.millionplanets.model.Item
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.getShipFuelInfo
@@ -18,7 +18,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
     private var userList: User = User()
     private var weaponList: List<Weapon> = listOf()
     private var cargoList: List<Item> = listOf()
-    private var objectModel: ObjectModel = ObjectModel()
+    private var objectModel: SpaceObject = SpaceObject()
     private var userDocument: DocumentReference? = null
 
     override fun initFirebase() {
@@ -66,7 +66,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
         return cargoList[position]
     }
 
-    override fun getObjectModel(): ObjectModel? {
+    override fun getObjectModel(): SpaceObject? {
         return objectModel
     }
 
@@ -77,7 +77,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun initUserList(doc: DocumentSnapshot) {
         userList = doc.toObject(User::class.java)!!
-        weaponList = userList.weapon
+        weaponList = userList.weapon!!
         cargoList = userList.cargo!!
         getView.updateCargoCapacityCounter(userList)
     }
@@ -97,9 +97,9 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun getAvailablePetrolAmountToBeFilled(): Long? {
         return if (cargoList.find { it.itemId == 5L }?.itemAmount!! <
-                (getShipFuelInfo(userList.ship!!) - userList.fuel))
+                (getShipFuelInfo(userList.ship!!) - userList.fuel!!))
             cargoList.find { it.itemId == 5L }?.itemAmount!! else
-            getShipFuelInfo(userList.ship!!) - userList.fuel
+            getShipFuelInfo(userList.ship!!) - userList.fuel!!
     }
 
     override fun isPetrolAvailable(): Boolean {
@@ -107,6 +107,6 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
     }
 
     override fun isFuelFull(): Boolean {
-        return userList.fuel >= getShipFuelInfo(userList.ship!!)
+        return userList.fuel!! >= getShipFuelInfo(userList.ship!!)
     }
 }

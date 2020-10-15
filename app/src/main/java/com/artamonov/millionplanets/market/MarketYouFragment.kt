@@ -11,7 +11,7 @@ import com.artamonov.millionplanets.inventory.NumberPickerDialog
 import com.artamonov.millionplanets.inventory.NumberPickerDialog.Companion.newInstance
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -22,9 +22,9 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
     private var firebaseFirestore: FirebaseFirestore? = null
     private val userList: List<User>? = null
     private var cargoList: List<Item>? = ArrayList()
-    private val objectModelList: List<ObjectModel>? = null
+    private val objectModelList: List<SpaceObject>? = null
     private var documentReferenceUser: DocumentReference? = null
-    private val objectModel: ObjectModel? = null
+    private val objectModel: SpaceObject? = null
     private var user: User? = null
     private var marketYouAdapter: MarketYouAdapter? = null
 

@@ -90,7 +90,7 @@ class MainOptionsActivity : BaseActivity(R.layout.main_options_activity) {
     }
 
     private fun cargoIsOverloaded(): Boolean {
-        return userList.getCurrentCargoCapacity() > userList.cargoCapacity
+        return userList.getCurrentCargoCapacity() > userList.cargoCapacity!!
     }
 
     override fun onStart() {

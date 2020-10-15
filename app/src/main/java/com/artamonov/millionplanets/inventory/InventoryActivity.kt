@@ -134,7 +134,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
     override fun updateCargoCapacityCounter(user: User) {
         val currentCargoCapacity = user.cargo?.sumBy { it.itemAmount!!.toInt() }
         inventory_capacity_label.text = currentCargoCapacity.toString() + "/" + user.cargoCapacity
-        if (currentCargoCapacity!! > user.cargoCapacity) {
+        if (currentCargoCapacity!! > user.cargoCapacity!!) {
             inventory_capacity_label.setTextColor(resources.getColor(R.color.red))
         } else {
             inventory_capacity_label.setTextColor(resources.getColor(R.color.white))

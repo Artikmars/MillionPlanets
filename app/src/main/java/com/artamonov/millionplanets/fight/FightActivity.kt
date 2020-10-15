@@ -130,7 +130,7 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     }
 
     override fun calculateLoot(usernameWhoGetLoot: String, usernameWhoLoseLoot: String, enemyShip: String) {
-        val lootedIron: Long = getCurrentShipInfo(enemyShip).hp
+        val lootedIron: Long = getCurrentShipInfo(enemyShip).hp!!
         enemyDocument!!.get().addOnSuccessListener { documentSnapshot ->
             enemy = documentSnapshot.toObject(User::class.java)!!
 
@@ -177,7 +177,7 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     private fun checkIfCargoCapacityIsExceed() {
         val sum = user.cargo?.sumBy { it.itemAmount!!.toInt() }
         sum?.let {
-            if (sum > user.cargoCapacity) {
+            if (sum > user.cargoCapacity!!) {
                 openInventoryActivity()
             }
         }

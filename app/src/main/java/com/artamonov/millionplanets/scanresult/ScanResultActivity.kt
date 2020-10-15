@@ -14,7 +14,7 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.adapter.ScanResultAdapter
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.gate.GateActivity
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.move.MoveActivity
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.scan_result_activity.*
 
 class ScanResultActivity : BaseActivity(R.layout.scan_result_activity), ScanResultAdapter.ItemClickListener {
 
-    internal var objectModelList: MutableList<ObjectModel>? = null
+    internal var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
     private var scanResultAdapter: ScanResultAdapter? = null
     private var scanResultViewModel: ScanResultViewModel? = null

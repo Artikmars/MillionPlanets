@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.artamonov.millionplanets.R;
-import com.artamonov.millionplanets.model.ObjectModel;
+import com.artamonov.millionplanets.model.SpaceObject;
 import com.artamonov.millionplanets.model.User;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class ShipyardAdapter extends RecyclerView.Adapter<ShipyardAdapter.ViewHo
     List<User> shipRS;
     private List<User> userList;
     private Map<Integer, Object> shipsMap;
-    private List<ObjectModel> objectModelList;
+    private List<SpaceObject> spaceObjectList;
     private Context context;
     private NumberPicker numberPicker;
     private boolean isPlanetTab;

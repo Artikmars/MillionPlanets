@@ -2,7 +2,7 @@ package com.artamonov.millionplanets.gate.presenter
 
 import com.artamonov.millionplanets.gate.GateActivityView
 import com.artamonov.millionplanets.model.Item
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.RandomUtils
@@ -19,7 +19,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     internal var firebaseFirestore = FirebaseFirestore.getInstance()
     private var firebaseUser: FirebaseUser? = null
     private var userList: User = User()
-    private var objectModel: ObjectModel = ObjectModel()
+    private var objectModel: SpaceObject = SpaceObject()
     private var userDocument: DocumentReference? = null
     private var planetDocument: DocumentReference? = null
 
@@ -32,7 +32,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
         return userList
     }
 
-    override fun getObjectModel(): ObjectModel? {
+    override fun getObjectModel(): SpaceObject? {
         return objectModel
     }
 
@@ -47,7 +47,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
                     .document(userList.locationName!!)
             planetDocument!!.get().addOnSuccessListener {
                 doc2 ->
-                objectModel = doc2.toObject(ObjectModel::class.java)!!
+                objectModel = doc2.toObject(SpaceObject::class.java)!!
             }
         }
     }
@@ -58,7 +58,7 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
         val batch = firebaseFirestore.batch()
         val item = userList.cargo?.find { it.itemId == 4L }
             item?.let { totalAmount = item.itemAmount!! + newAmount
-                if (totalAmount!! > userList.cargoCapacity) { getView.showCapacityError(); return }
+                if (totalAmount!! > userList.cargoCapacity!!) { getView.showCapacityError(); return }
                 if (userList.locationType == SpaceObjectType.DEBRIS) {
                     if (totalAmount!! > objectModel.ironAmount) {
                         item.itemAmount = item.itemAmount!! +
@@ -114,11 +114,11 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
     }
 
     private fun getFuel() {
-        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
+        val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
         val price = fuelToFill * 1000
-        if (userList.money >= price) {
+        if (userList.money!! >= price) {
             userDocument!!.update("fuel", getShipFuelInfo(userList.ship!!))
-            userDocument!!.update("money", userList.money - price)
+            userDocument!!.update("money", userList.money!! - price)
             initData()
         } else {
             getView.showNotEnoughMoneyToBuyFuelWarning()

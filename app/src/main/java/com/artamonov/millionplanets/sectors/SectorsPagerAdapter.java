@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SectorsPagerAdapter extends FragmentPagerAdapter {
 
-    private List<String> fragmentTitlesList = new ArrayList<>();
+    private final List<String> fragmentTitlesList = new ArrayList<>();
 
     public SectorsPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
@@ -25,8 +25,6 @@ public class SectorsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
-                return SectorsYouFragment.newInstance();
             case 1:
                 return SectorsPlanetFragment.newInstance();
             default:

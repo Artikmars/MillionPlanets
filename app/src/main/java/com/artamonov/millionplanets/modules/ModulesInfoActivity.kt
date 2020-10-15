@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.Module
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.getCurrentModuleInfo
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.modules_info_activity.*
 class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
     internal var userList = User()
     private var armingList = User()
-    internal var objectModelList = ObjectModel()
+    internal var objectModelList = SpaceObject()
     private var userDocumentReference: DocumentReference? = null
     private var armingDocumentReference: DocumentReference? = null
     private var module: Module? = null
@@ -48,7 +48,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
             }
 
             val batch = firebaseFirestore.batch()
-            userList.weapon.add(Weapon(position.toLong(), isSlotAvailable()))
+            userList.weapon?.add(Weapon(position.toLong(), isSlotAvailable()))
             batch.update(userDocumentReference!!, "weapon", userList.weapon)
 
 //                val weaponType = userList.weaponType!!.toMutableList()
@@ -71,7 +71,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
 //            moduleMap["damageHP"] = module!!.damageHP
 //            moduleMap["weaponClass"] = module!!.moduleClass
 //            moduleMap["weaponName"] = module!!.name
-            batch.update(userDocumentReference!!, "money", userList.money - module!!.price)
+            batch.update(userDocumentReference!!, "money", userList.money!! - module!!.price)
             batch.commit()
                     .addOnCompleteListener {
 //                        modulesinfo_buy.isEnabled = false
@@ -90,7 +90,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
         modulesinfo_sell.setOnClickListener {
             val batch = firebaseFirestore.batch()
             // userList.weapon.removeAt(userList.weapon.indexOf(Weapon(position.toLong())))
-            userList.weapon.removeAll { it.weaponId == position.toLong() }
+            userList.weapon?.removeAll { it.weaponId == position.toLong() }
             batch.update(userDocumentReference!!, "weapon", userList.weapon)
             //    when {
 //                isInInventory() -> {
@@ -113,7 +113,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
 //            moduleMap["damageHP"] = Utils.getCurrentModuleInfo(0L)!!.damageHP
 //            moduleMap["weaponClass"] = Utils.getCurrentModuleInfo(0L)!!.moduleClass
 //            moduleMap["weaponName"] = Utils.getCurrentModuleInfo(0L)!!.name
-            batch.update(userDocumentReference!!, "money", userList.money + module!!.price / 2)
+            batch.update(userDocumentReference!!, "money", userList.money!! + module!!.price / 2)
             batch.commit()
                     .addOnCompleteListener {
                         if (isEnoughMoneyToBuy()) {
@@ -173,19 +173,19 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
     }
 
     private fun isInstalled(): Boolean {
-        return userList.weapon.any { it.weaponId == position.toLong() }
+        return userList.weapon!!.any { it.weaponId == position.toLong() }
     }
 
     private fun isInInventory(): Boolean {
-        return userList.weapon.contains(Weapon(position.toLong()))
+        return userList.weapon!!.contains(Weapon(position.toLong()))
     }
 
     private fun isEnoughMoneyToBuy(): Boolean {
-        return userList.money >= module!!.price
+        return userList.money!! >= module!!.price
     }
 
     private fun isSlotAvailable(): Boolean {
-        return userList.weapon.filter { it.isWeaponInstalled == true }.size < getCurrentShipInfo(userList.ship!!).weaponSlots
+        return userList.weapon?.filter { it.isWeaponInstalled == true }?.size!! < getCurrentShipInfo(userList.ship!!).weaponSlots!!
     }
 
     private fun setOnBuyButtonVisibility(state: Boolean) {

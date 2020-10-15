@@ -54,7 +54,7 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
 
                 when (type) {
                     NumberPickerDialogType.GET_FUEL -> {
-                        userList.fuel = userList.fuel + numberPicker.value.toLong()
+                        userList.fuel = userList.fuel!! + numberPicker.value.toLong()
                         userList.cargo?.get(resourceIndex!!)?.itemAmount =
                                 userList.cargo?.get(resourceIndex!!)?.itemAmount!! - numberPicker.value.toLong()
                         if (numberPicker.value == numberPicker.maxValue) {
@@ -73,7 +73,7 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
                     NumberPickerDialogType.MARKET_PLAYER_SELLS -> {
                         userList.cargo?.get(resourceIndex!!)?.itemAmount = numberPicker.maxValue -
                                 numberPicker.value.toLong()
-                        userList.money = userList.money + Price.getPlayerSellPrice(resourceId?.toLong()) *
+                        userList.money = userList.money!! + Price.getPlayerSellPrice(resourceId?.toLong()) *
                                 numberPicker.value.toLong()
                         if (numberPicker.value == numberPicker.maxValue) {
                             userList.cargo?.removeAt(resourceIndex!!)
@@ -86,7 +86,7 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
                             userList.cargo?.get(resourceIndex!!)?.itemAmount =
                                     userList.cargo?.get(resourceIndex!!)?.itemAmount!! +
                                             numberPicker.value.toLong()
-                            userList.money = userList.money - Price.getPlayerBuyPrice(resourceId) *
+                            userList.money = userList.money!! - Price.getPlayerBuyPrice(resourceId) *
                                     numberPicker.value.toLong()
                             updateData(transaction, userList)
                             return@runTransaction
@@ -94,7 +94,7 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
 
                         val newItem = Item(resourceId?.toLong(), numberPicker.value.toLong())
                         userList.cargo!!.add(newItem)
-                        userList.money = userList.money - Price.getPlayerBuyPrice(resourceId) *
+                        userList.money = userList.money!! - Price.getPlayerBuyPrice(resourceId) *
                                 numberPicker.value.toLong()
                         updateData(transaction, userList)
                     }

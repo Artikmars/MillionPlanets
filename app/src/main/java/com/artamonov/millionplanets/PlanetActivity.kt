@@ -8,7 +8,7 @@ import android.util.Log
 
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.market.MarketActivity
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.modules.ModulesListActivity
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.planet_activity.*
 class PlanetActivity : BaseActivity(R.layout.planet_activity) {
 
     internal var userList = User()
-    internal var objectModelList = ObjectModel()
+    internal var objectModelList = SpaceObject()
     private var documentReference: DocumentReference? = null
     private var planetDocumentReference: DocumentReference? = null
 
@@ -38,11 +38,11 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             }
         }
         planet_get_fuel.setOnClickListener {
-            val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel
+            val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
             val price = fuelToFill * 1000
-            if (userList.money >= price) {
+            if (userList.money!! >= price) {
                 documentReference!!.update("fuel", getShipFuelInfo(userList.ship!!))
-                documentReference!!.update("money", userList.money - price)
+                documentReference!!.update("money", userList.money!! - price)
             }
         }
         planet_btn_sectors.setOnClickListener { val intent = Intent(this, SectorsActivity::class.java)
@@ -98,7 +98,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                         .get()
                         .addOnSuccessListener { documentSnapshot ->
                             if (documentSnapshot.exists()) {
-                                objectModelList = documentSnapshot.toObject(ObjectModel::class.java)!!
+                                objectModelList = documentSnapshot.toObject(SpaceObject::class.java)!!
                                 planet_class.text = objectModelList.planetClass
                                 planet_sectors.text = objectModelList
                                         .planetSectors.toString()

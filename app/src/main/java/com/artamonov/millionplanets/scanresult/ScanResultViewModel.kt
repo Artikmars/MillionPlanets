@@ -3,7 +3,7 @@ package com.artamonov.millionplanets.scanresult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -14,14 +14,14 @@ import kotlin.math.abs
 
 class ScanResultViewModel : ViewModel() {
 
-    internal var objectModelList: MutableList<ObjectModel>? = null
+    internal var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
     private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var userLiveData: MutableLiveData<User> = MutableLiveData()
     private var openPlanetLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var openGateLiveData: MutableLiveData<Int> = MutableLiveData()
     private var openMoveLiveData: MutableLiveData<Int> = MutableLiveData()
-    private var objectModelLiveData: MutableLiveData<MutableList<ObjectModel>> = MutableLiveData()
+    private var objectModelLiveData: MutableLiveData<MutableList<SpaceObject>> = MutableLiveData()
     private var userRepository: UserRepository = UserRepository()
     private val userCollection = FirebaseFirestore.getInstance().collection("Objects")
 
@@ -33,7 +33,7 @@ class ScanResultViewModel : ViewModel() {
         return userLiveData
     }
 
-    fun getObject(): LiveData<MutableList<ObjectModel>> {
+    fun getObject(): LiveData<MutableList<SpaceObject>> {
         return objectModelLiveData
     }
 
@@ -52,25 +52,25 @@ class ScanResultViewModel : ViewModel() {
     private fun loadData() {
         userCollection.whereLessThanOrEqualTo(
                 "sumXY",
-                userList.sumXY + userList.scanner_capacity)
+                userList.sumXY!! + userList.scanner_capacity!!)
                 .whereGreaterThanOrEqualTo(
                         "sumXY",
-                        userList.sumXY - userList.scanner_capacity)
+                        userList.sumXY!! - userList.scanner_capacity!!)
                 .get().addOnSuccessListener { queryDocumentSnapshots ->
                     objectModelList = ArrayList()
                     for (document in queryDocumentSnapshots) {
 
-                        val objectModel = document.toObject(ObjectModel::class.java)
+                        val objectModel = document.toObject(SpaceObject::class.java)
                         objectModel.name = document.id
 
                         //  Distinguish between (2;8) and (3;7)
                         if (objectModel.sumXY == userList.sumXY) {
-                            objectModel.distance = abs(objectModel.x.toInt() - userList.x.toInt())
-                        } else { objectModel.distance = abs(objectModel.sumXY.toInt() -
-                                userList.sumXY.toInt())
+                            objectModel.distance = abs(objectModel.x?.toInt()!! - userList.x!!.toInt())
+                        } else { objectModel.distance = abs(objectModel.sumXY?.toInt()!! -
+                                userList.sumXY!!.toInt())
                         }
 
-                        if (objectModel.distance <= userList.scanner_capacity) {
+                        if (objectModel.distance <= userList.scanner_capacity!!) {
                             objectModelList?.add(objectModel)
                         }
                     }
@@ -84,7 +84,7 @@ class ScanResultViewModel : ViewModel() {
                     }
 
                     objectModelList?.sortWith(Comparator { objectModel, t1 ->
-                        objectModel.distance!! - t1.distance!!
+                        objectModel.distance - t1.distance
                     })
                     objectModelLiveData.value = objectModelList
                 }
@@ -100,7 +100,7 @@ class ScanResultViewModel : ViewModel() {
     fun onObjectClicked(pos: Int) {
         userList.moveToLocationName = objectModelList!![pos].name
         userList.moveToLocationType = objectModelList!![pos].type
-        userList.moveToObjectDistance = objectModelList!![pos].distance!!.toLong()
+        userList.moveToObjectDistance = objectModelList!![pos].distance.toLong()
         userCollection.document(firebaseUser?.displayName!!).set(userList)
 
         if (objectModelList!![pos].distance == 0) {

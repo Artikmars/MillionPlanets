@@ -9,7 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 
 import com.artamonov.millionplanets.adapter.ScanResultAdapter
-import com.artamonov.millionplanets.model.ObjectModel
+import com.artamonov.millionplanets.model.SpaceObject
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.move_activity.*
 
 class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
     private var parentLayout: View? = null
-    private lateinit var objectModel: ObjectModel
+    private lateinit var objectModel: SpaceObject
     private var documentReference: DocumentReference? = null
 
     lateinit var presenter: MoveActivityPresenter<MoveActivityView>
@@ -57,8 +57,8 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         move_scan_result_list.layoutManager = LinearLayoutManager(this)
 
         val intent = intent
-        val objectModelList = ArrayList<ObjectModel>()
-        objectModel = ObjectModel()
+        val objectModelList = ArrayList<SpaceObject>()
+        objectModel = SpaceObject()
         objectModel.type = intent.getStringExtra("objectType")
         objectModel.name = intent.getStringExtra("objectName")
         objectModel.distance = intent.getIntExtra("objectDistance", 0)
@@ -81,7 +81,7 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
                     val movedPosition = HashMap<String, Any>()
                     movedPosition["x"] = x
                     movedPosition["y"] = y
-                    movedPosition["fuel"] = presenter.userList.fuel - presenter.userList.moveToObjectDistance
+                    movedPosition["fuel"] = presenter.userList.fuel!! - presenter.userList.moveToObjectDistance!!
                     movedPosition["sumXY"] = x + y
                     movedPosition["locationName"] = presenter.userList.moveToLocationName!!
                     movedPosition["locationType"] = presenter.userList.moveToLocationType!!
