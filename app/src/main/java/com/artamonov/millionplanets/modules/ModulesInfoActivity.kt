@@ -71,7 +71,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
 //            moduleMap["damageHP"] = module!!.damageHP
 //            moduleMap["weaponClass"] = module!!.moduleClass
 //            moduleMap["weaponName"] = module!!.name
-            batch.update(userDocumentReference!!, "money", userList.money!! - module!!.price)
+            batch.update(userDocumentReference!!, "money", userList.money!! - module?.price!!)
             batch.commit()
                     .addOnCompleteListener {
 //                        modulesinfo_buy.isEnabled = false
@@ -113,7 +113,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
 //            moduleMap["damageHP"] = Utils.getCurrentModuleInfo(0L)!!.damageHP
 //            moduleMap["weaponClass"] = Utils.getCurrentModuleInfo(0L)!!.moduleClass
 //            moduleMap["weaponName"] = Utils.getCurrentModuleInfo(0L)!!.name
-            batch.update(userDocumentReference!!, "money", userList.money!! + module!!.price / 2)
+            batch.update(userDocumentReference!!, "money", userList.money!! + module?.price!! / 2)
             batch.commit()
                     .addOnCompleteListener {
                         if (isEnoughMoneyToBuy()) {
@@ -181,7 +181,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
     }
 
     private fun isEnoughMoneyToBuy(): Boolean {
-        return userList.money!! >= module!!.price
+        return userList.money!! >= module?.price!!
     }
 
     private fun isSlotAvailable(): Boolean {

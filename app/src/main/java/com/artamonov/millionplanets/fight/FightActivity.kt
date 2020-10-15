@@ -70,7 +70,7 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
                 user = doc.toObject(User::class.java)!!
                 presenter.setUserList(doc)
                 enemyDocument = firebaseFirestore.collection("Objects")
-                        .document(presenter.userList.locationName!!)
+                        .document(presenter.getUserList().locationName!!)
                 enemyDocument!!.addSnapshotListener(this) { doc2, _ ->
                     if (doc2!!.exists()) {
                         presenter.setEnemyList(doc2)
@@ -108,7 +108,10 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     }
 
     override fun setFightLog(hpDamage: Int, shieldDamage: Int, enemyHpDamage: Int, enemyShieldDamage: Int) {
-        fight_log.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " + shieldDamage + " point to shield\n" + presenter.userList.locationName + " damaged " + enemyHpDamage + " point to hp\n" + presenter.userList.locationName + " damaged " + enemyShieldDamage + " point to shield"
+        fight_log.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " +
+                shieldDamage + " point to shield\n" + presenter.getUserList().locationName +
+                " damaged " + enemyHpDamage + " point to hp\n" + presenter.getUserList().locationName +
+                " damaged " + enemyShieldDamage + " point to shield"
     }
 
     override fun startTimer() {

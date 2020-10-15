@@ -120,7 +120,6 @@ class SectorsYouFragment : Fragment(), SectorsYouAdapter.DialogListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sectors, container, false)
-        Log.i("myTags", "ON CREATE VIEW: YOU: ")
         rvSectors = view.findViewById(R.id.rvSectors)
         btnAction = view.findViewById(R.id.sections_action_btn)
         btnAction?.text = resources.getString(R.string.sectors_action_sell)

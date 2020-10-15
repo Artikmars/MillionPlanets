@@ -53,7 +53,7 @@ class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.
                 modules_current_weapons.text = listOfCurrentWeapons.joinToString()
                 existedItem = userList.weapon!!
                 val modulesAdapter = ModulesAdapter(
-                        modules,
+                        modules!!,
                         existedItem,
                         applicationContext,
                         this@ModulesActivity)

@@ -40,7 +40,8 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         animation.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animator: Animator) {
             }
-            override fun onAnimationEnd(animator: Animator) { presenter.getFuel() }
+            override fun onAnimationEnd(animator: Animator) { presenter.fillFuel()
+            }
 
             override fun onAnimationCancel(animator: Animator) {}
 
@@ -72,19 +73,19 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         move_jump.setOnClickListener {
             presenter.ifEnoughFuelToJump()
 
-            if (presenter.userList.moveToLocationName != null) {
+            if (presenter.getUserList().moveToLocationName != null) {
                 val docRefForMovedObject = firebaseFirestore.collection("Objects")
-                        .document(presenter.userList.moveToLocationName!!)
+                        .document(presenter.getUserList().moveToLocationName!!)
                 docRefForMovedObject.get().addOnSuccessListener { documentSnapshot ->
                     val x = documentSnapshot.getLong("x")!!.toInt()
                     val y = documentSnapshot.getLong("y")!!.toInt()
                     val movedPosition = HashMap<String, Any>()
                     movedPosition["x"] = x
                     movedPosition["y"] = y
-                    movedPosition["fuel"] = presenter.userList.fuel!! - presenter.userList.moveToObjectDistance!!
+                    movedPosition["fuel"] = presenter.getUserList().fuel!! - presenter.getUserList().moveToObjectDistance!!
                     movedPosition["sumXY"] = x + y
-                    movedPosition["locationName"] = presenter.userList.moveToLocationName!!
-                    movedPosition["locationType"] = presenter.userList.moveToLocationType!!
+                    movedPosition["locationName"] = presenter.getUserList().moveToLocationName!!
+                    movedPosition["locationType"] = presenter.getUserList().moveToLocationType!!
                     documentReference!!.update(movedPosition)
                     startActivity(Intent(applicationContext, GateActivity::class.java))
                     finish()
@@ -102,14 +103,14 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
 
                 presenter.setUserList(doc)
                 move_coordinates.text = String.format(resources.getString(R.string.current_coordinate),
-                        presenter.userList.x, presenter.userList.y)
-                move_ship.text = presenter.userList.ship
-                move_hp.text = presenter.userList.hp.toString()
-                move_shield.text = presenter.userList.shield.toString()
-                move_cargo!!.text = presenter.userList.cargoCapacity.toString()
-                move_scanner_capacity.text = presenter.userList.scanner_capacity.toString()
-                move_fuel.text = presenter.userList.fuel.toString()
-                move_money.text = presenter.userList.money.toString()
+                        presenter.getUserList().x, presenter.getUserList().y)
+                move_ship.text = presenter.getUserList().ship
+                move_hp.text = presenter.getUserList().hp.toString()
+                move_shield.text = presenter.getUserList().shield.toString()
+                move_cargo!!.text = presenter.getUserList().cargoCapacity.toString()
+                move_scanner_capacity.text = presenter.getUserList().scanner_capacity.toString()
+                move_fuel.text = presenter.getUserList().fuel.toString()
+                move_money.text = presenter.getUserList().money?.toString()
             }
         }
     }

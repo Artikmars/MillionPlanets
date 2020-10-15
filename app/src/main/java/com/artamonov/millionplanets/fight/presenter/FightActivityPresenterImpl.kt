@@ -71,11 +71,11 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
 
     override fun calculateLoot() {
         if (isYouWon()) {
-            getView.calculateLoot(userList.nickname, enemyList.nickname, enemyList.ship)
-            getView.showLootSnackbar(isYouWon(), enemyList.ship)
+            getView.calculateLoot(userList.nickname!!, enemyList.nickname!!, enemyList.ship!!)
+            getView.showLootSnackbar(isYouWon(), enemyList.ship!!)
         } else {
-            getView.calculateLoot(enemyList.nickname, userList.nickname, userList.ship)
-            getView.showLootSnackbar(isYouWon(), userList.ship) }
+            getView.calculateLoot(enemyList.nickname!!, userList.nickname!!, userList.ship!!)
+            getView.showLootSnackbar(isYouWon(), userList.ship!!) }
     }
 
     private fun isFinished(): Boolean {
@@ -90,10 +90,10 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
             val weaponItem = installedWeapons[weapon]
             val weaponInfo = weaponItem.weaponId?.getCurrentModuleInfo()
             when (weaponInfo?.type) {
-                WeaponClassType.LASER -> { shieldDamage += randomizeDamage(weaponInfo.damageHP.toLong())
-                    hpDamage += randomizeDamage(weaponInfo.damageHP.toLong()) }
+                WeaponClassType.LASER -> { shieldDamage += randomizeDamage(weaponInfo.damageHP!!)
+                    hpDamage += randomizeDamage(weaponInfo.damageHP!!) }
                 WeaponClassType.GUN -> {
-                    val randomizedDamage = randomizeDamage(weaponInfo.damageHP.toLong())
+                    val randomizedDamage = randomizeDamage(weaponInfo.damageHP!!)
                     shieldDamage += randomizedDamage / 2
                     hpDamage += randomizedDamage / 2 }
             }
@@ -109,11 +109,11 @@ class FightActivityPresenterImpl(private var getView: FightActivityView) : Fight
             when (weaponInfo?.type) {
                 WeaponClassType.LASER ->
                 {
-                    enemyShieldDamage += randomizeDamage(weaponInfo.damageHP.toLong())
-                    enemyHpDamage += randomizeDamage(weaponInfo.damageHP.toLong())
+                    enemyShieldDamage += randomizeDamage(weaponInfo.damageHP!!)
+                    enemyHpDamage += randomizeDamage(weaponInfo.damageHP!!)
                 }
                 WeaponClassType.GUN -> {
-                    val randomizedDamage = randomizeDamage(weaponInfo.damageHP.toLong())
+                    val randomizedDamage = randomizeDamage(weaponInfo.damageHP!!)
                     enemyShieldDamage += randomizedDamage / 2
                     enemyHpDamage += randomizedDamage / 2
                 }

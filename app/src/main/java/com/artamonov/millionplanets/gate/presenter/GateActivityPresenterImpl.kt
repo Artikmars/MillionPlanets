@@ -96,13 +96,13 @@ class GateActivityPresenterImpl(private var getView: GateActivityView) : GateAct
 
     private fun createNewDebris() {
         val debris = HashMap<String, Any>()
-        val x = RandomUtils.getRandomCoordinate()
-        val y = RandomUtils.getRandomCoordinate()
+        val x = RandomUtils.randomCoordinate
+        val y = RandomUtils.randomCoordinate
         debris["x"] = x
         debris["y"] = y
         debris["sumXY"] = x + y
         debris["type"] = "debris"
-        debris["ironAmount"] = RandomUtils.getRandomDebrisIron()
+        debris["ironAmount"] = RandomUtils.randomDebrisIron
 
         val collectionReferencePlanet = firebaseFirestore.collection("Objects")
         collectionReferencePlanet.document("Debris-" + RandomUtils.getRandomDebrisName(4))
