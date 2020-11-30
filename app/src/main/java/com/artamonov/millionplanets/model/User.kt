@@ -16,7 +16,7 @@ open class User(
     var nickname: String? = null,
     var resource_iron: Long? = 0,
     var scanner_capacity: Long? = 0,
-    var sectors: Long? = 0,
+    var sectors: MutableList<Sector>? = mutableListOf(),
     var shield: Long? = 0,
     var ship: String? = null,
     var shipClass: String? = null,

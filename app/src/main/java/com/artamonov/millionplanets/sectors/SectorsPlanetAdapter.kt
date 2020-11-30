@@ -38,7 +38,7 @@ class SectorsPlanetAdapter(
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindItem() {
-            itemView.sectors_resource_amount.text = spaceObjectList[adapterPosition].planetSectors.toString()
+            itemView.sectors_resource_amount.text = spaceObjectList[adapterPosition].availableSectors.toString()
             itemView.sectors_resource_price.text = spaceObjectList[adapterPosition].planetSectorsPrice.toString()
             itemView.setOnClickListener {
                 listener.onDialogCreate()

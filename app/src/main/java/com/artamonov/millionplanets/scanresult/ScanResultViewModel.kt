@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.artamonov.millionplanets.model.SpaceObject
+import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -65,9 +66,9 @@ class ScanResultViewModel : ViewModel() {
 
                         //  Distinguish between (2;8) and (3;7)
                         if (objectModel.sumXY == userList.sumXY) {
-                            objectModel.distance = abs(objectModel.x?.toInt()!! - userList.x!!.toInt())
-                        } else { objectModel.distance = abs(objectModel.sumXY?.toInt()!! -
-                                userList.sumXY!!.toInt())
+                            objectModel.distance = abs(objectModel.x!! - userList.x!!)
+                        } else { objectModel.distance = abs(objectModel.sumXY!! -
+                                userList.sumXY!!)
                         }
 
                         if (objectModel.distance <= userList.scanner_capacity!!) {
@@ -83,9 +84,9 @@ class ScanResultViewModel : ViewModel() {
                         }
                     }
 
-                    objectModelList?.sortWith(Comparator { objectModel, t1 ->
-                        objectModel.distance - t1.distance
-                    })
+                    objectModelList?.sortWith { objectModel, t1 ->
+                        objectModel.distance.toInt() - t1.distance.toInt()
+                    }
                     objectModelLiveData.value = objectModelList
                 }
     }
@@ -103,9 +104,9 @@ class ScanResultViewModel : ViewModel() {
         userList.moveToObjectDistance = objectModelList!![pos].distance.toLong()
         userCollection.document(firebaseUser?.displayName!!).set(userList)
 
-        if (objectModelList!![pos].distance == 0) {
+        if (objectModelList!![pos].distance == 0L) {
             when (objectModelList!![pos].type) {
-                "planet" -> {
+                SpaceObjectType.PLANET -> {
                     openPlanetLiveData.value = true
                 }
                 else -> { openGateLiveData.value = pos }

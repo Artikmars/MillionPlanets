@@ -1,11 +1,13 @@
 package com.artamonov.millionplanets
 
 import android.content.Intent
-import android.view.View
+import android.os.Bundle
+import android.os.PersistableBundle
 
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
-import com.google.android.material.snackbar.Snackbar
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
@@ -18,35 +20,28 @@ class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
     private var documentReferenceObjects: DocumentReference? = null
     private var user: User? = null
 
-    fun onGoToSpace(view: View) {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        go_to_space.setOnClickListener {
+            onGoToSpace()
+        }
+    }
+
+    private fun onGoToSpace() {
         if (!nicknameIsValid()) {
-            Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Your nickname must be at least 3 characters",
-                    Snackbar.LENGTH_SHORT)
-                    .show()
+            showSnackbarError(getString(R.string.registration_nickname_must_at_least_3_characters_long))
             return
         }
+
         firebaseAuth = FirebaseAuth.getInstance()
         username = register_username.text.toString()
         firebaseUser = firebaseAuth.currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(username)
         documentReferenceObjects = firebaseFirestore.collection("Objects").document(username)
-        user = User()
-        user!!.x = 5
-        user!!.y = 6
-        user!!.cargoCapacity = 10
-        user!!.hp = 50
-        user!!.ship = "Fighter"
-        user!!.money = 1000
-        user!!.scanner_capacity = 15
-        user!!.shield = 100
-        user!!.jump = 10
-        user!!.fuel = 20
-        user!!.nickname = username
-        user!!.email = firebaseUser!!.email
-        user!!.type = "user"
-        user!!.sumXY = 11
+        user = User(x = 5, y = 6, cargoCapacity = 10, hp = 50, ship = SpaceshipType.FIGHTER,
+                money = 1000, scanner_capacity = 15, shield = 100, jump = 10, fuel = 20, nickname =
+        username, email = firebaseUser?.email, type = "user", sumXY = 11)
+
         // Log.i("myTags", "nickname: " + firebaseUser.getDisplayName());
         /*  firebaseFirestore.collection("Objects").document(username)
                         .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -83,26 +78,9 @@ class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
                 }
                 .addOnSuccessListener {
                     startActivity(
-                            Intent(
-                                    applicationContext,
+                            Intent(this,
                                     MainOptionsActivity::class.java))
                 }
-
-        /* private void setGeoData() {
-            ObjectModel objectModel = new ObjectModel();
-            objectModel.setX(user.getX());
-            objectModel.setY(user.getY());
-            objectModel.setSumXY(user.getSumXY());
-            objectModel.setType("user");
-
-            firebaseFirestore.collection("GeoData").document(username)
-                    .set(objectModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    startActivity(new Intent(getApplicationContext(), MainOptionsActivity.class));
-                }
-            });
-        }*/
     }
 
     private fun nicknameIsValid(): Boolean {

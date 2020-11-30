@@ -5,14 +5,16 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSectors"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/sectors_amount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="20dp" />
 
     <Button
         android:id="@+id/sections_action_btn"
@@ -23,5 +25,5 @@
         android:text="@string/sectors_action_sell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvSectors" />
+        app:layout_constraintTop_toBottomOf="@+id/sectors_amount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

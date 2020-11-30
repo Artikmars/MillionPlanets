@@ -3,14 +3,15 @@ package com.artamonov.millionplanets
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
-import com.google.android.material.snackbar.Snackbar
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.registration_activity.*
 import java.util.HashMap
 
@@ -28,20 +29,17 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
             val username = register_username.text.toString()
 
             if (!nicknameIsValid()) {
-                Snackbar.make(findViewById(android.R.id.content), "Your nickname must be at least 3 characters", Snackbar.LENGTH_SHORT)
-                        .show()
+                showSnackbarError(getString(R.string.registration_nickname_must_at_least_3_characters_long))
                 return@setOnClickListener
             }
 
             if (!passwordIsValid()) {
-                Snackbar.make(findViewById(android.R.id.content), "Your password must be at least 6 characters", Snackbar.LENGTH_SHORT)
-                        .show()
+                showSnackbarError(getString(R.string.registration_password_must_at_least_6_characters_long))
                 return@setOnClickListener
             }
 
             if (email.isEmpty()) {
-                Snackbar.make(findViewById(android.R.id.content), "Enter your email to continue registration", Snackbar.LENGTH_SHORT)
-                        .show()
+                showSnackbarError(getString(R.string.registration_enter_email))
                 return@setOnClickListener
             }
 
@@ -54,38 +52,23 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
                     ) { task ->
                         if (task.exception is FirebaseAuthUserCollisionException) {
                             showProgressBar(false)
-                            Toast.makeText(
-                                    applicationContext,
-                                    "The email is already occupied",
-                                    Toast.LENGTH_SHORT)
-                                    .show()
+                            showSnackbarError(getString(R.string.registration_email_is_occupied))
                         }
 
                         if (task.exception is FirebaseAuthWeakPasswordException) {
-                        showProgressBar(false)
-                        Toast.makeText(
-                                applicationContext,
-                                "The password must be at least 6 characters",
-                                Toast.LENGTH_SHORT)
-                                .show()
-                    }
+                            showProgressBar(false)
+                            showSnackbarError(getString(R.string.registration_password_must_at_least_6_characters_long))
+                        }
 
                         if (task.exception is FirebaseAuthEmailException) {
                             showProgressBar(false)
-                            Toast.makeText(
-                                    applicationContext,
-                                    "The email is invalid",
-                                    Toast.LENGTH_SHORT)
-                                    .show()
+                            showSnackbarError(getString(R.string.registration_email_is_invalid))
                         }
 
                         if (task.exception is Any) {
                             showProgressBar(false)
-                            Toast.makeText(
-                                    applicationContext,
-                                    task.exception!!.message,
-                                    Toast.LENGTH_SHORT)
-                                    .show()
+                            task.exception?.let { FirebaseCrashlytics.getInstance().recordException(it) }
+                            showSnackbarError(getString(R.string.error_general))
                         }
 
                         if (task.isSuccessful) {
@@ -114,21 +97,9 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
     private fun setUpUserProfile(username: String) {
         val documentReferenceInventory = firebaseFirestore.collection("Inventory").document(username)
         val documentReferenceObjects = firebaseFirestore.collection("Objects").document(username)
-        val user = User()
-        user.x = 5
-        user.y = 6
-        user.cargoCapacity = 10
-        user.hp = 50
-        user.ship = "Fighter"
-        user.money = 1000
-        user.scanner_capacity = 15
-        user.shield = 100
-        user.jump = 10
-        user.fuel = 20
-        user.nickname = username
-        user.email = firebaseUser?.email
-        user.type = "user"
-        user.sumXY = 11
+        val user = User(x = 5, y = 6, cargoCapacity = 10, hp = 50, ship = SpaceshipType.FIGHTER,
+        money = 1000, scanner_capacity = 15, shield = 100, jump = 10, fuel = 20, nickname =
+        username, email = firebaseUser?.email, type = "user", sumXY = 11)
 
         firebaseFirestore
                 .runTransaction { transaction ->
@@ -158,8 +129,7 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
                             ?.addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     showProgressBar(false)
-                                    Snackbar.make(findViewById(android.R.id.content), "Registration is failed. Please, try later.", Snackbar.LENGTH_SHORT)
-                                            .show()
+                                    showSnackbarError(getString(R.string.registration_is_failed))
                                 }
                             }
                 }

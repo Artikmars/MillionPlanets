@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.market_activity.*
 
 class MarketActivity : BaseActivity(R.layout.market_activity), MarketYouAdapter.DialogListener {
 
@@ -25,10 +25,8 @@ class MarketActivity : BaseActivity(R.layout.market_activity), MarketYouAdapter.
         mSectionsPagerAdapter.setPageTitles(resources.getString(R.string.second_tab))
         // Set up the ViewPager with the sections adapter.
         /** The [ViewPager] that will host the section contents.  */
-        val mViewPager = findViewById<ViewPager>(R.id.container)
-        mViewPager.adapter = mSectionsPagerAdapter
-        val tabLayout = findViewById<TabLayout>(R.id.tabs)
-        tabLayout.setupWithViewPager(mViewPager)
+        container.adapter = mSectionsPagerAdapter
+        tabs.setupWithViewPager(container)
         // mViewPager.addOnPageChangeListener(new
 // TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 // tabLayout.addOnTabSelectedListener(new

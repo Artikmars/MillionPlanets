@@ -1,129 +1,59 @@
 package com.artamonov.millionplanets.sectors
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
+import com.artamonov.millionplanets.model.Sector
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
-import com.google.android.material.snackbar.Snackbar
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Transaction
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.fragment_sectors.*
 
 class SectorsPlanetFragment : Fragment(), SectorsPlanetAdapter.DialogListener {
-    var firebaseFirestore: FirebaseFirestore? = null
-    private var userList: MutableList<User>? = null
-    private var spaceObjectList: MutableList<SpaceObject>? = null
-    private var firebaseUser: FirebaseUser? = null
-    private var documentReferenceInventory: DocumentReference? = null
-    private var rvSectors: RecyclerView? = null
-    private var btnAction: TextView? = null
+    var firebaseFirestore: FirebaseFirestore? = FirebaseFirestore.getInstance()
+    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var documentReferenceUser: DocumentReference? = null
+    private var spaceObject: SpaceObject? = null
+    private var user: User? = null
+
     private fun setButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
-            btnAction!!.isEnabled = true
-            btnAction!!.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            sections_action_btn.isEnabled = true
+            sections_action_btn.setBackgroundColor(resources.getColor(R.color.colorAccent))
         } else {
-            btnAction!!.isEnabled = false
-            btnAction!!.setBackgroundColor(resources.getColor(R.color.grey))
+            sections_action_btn.isEnabled = false
+            sections_action_btn.setBackgroundColor(resources.getColor(R.color.grey))
         }
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            btnAction!!.text = resources.getString(R.string.sectors_action_get)
-            Log.i("myTags", "setUserVisibleHint ")
-            firebaseFirestore = FirebaseFirestore.getInstance()
-            firebaseUser = FirebaseAuth.getInstance().currentUser
-            documentReferenceInventory = firebaseFirestore!!
-                    .collection("Inventory")
-                    .document(firebaseUser!!.displayName!!)
+    private fun init() {
+            sections_action_btn.text = resources.getString(R.string.sectors_action_get)
             documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
-            firebaseFirestore!!
-                    .runTransaction<Void> { transaction ->
-                        val spaceObject = SpaceObject()
-                        val user = User()
-                        val documentReferenceUserSnapshot = transaction[documentReferenceUser!!]
-                        user.locationName = documentReferenceUserSnapshot.getString(
-                                "locationName")
-                        user.money = documentReferenceUserSnapshot
-                                .getLong("money")
-                        val documentReferenceInventorySnapshot = transaction[documentReferenceInventory!!]
-                        user.sectors = documentReferenceInventorySnapshot
-                                .getLong(user.locationName!!)
-                        val documentReferencePlanetMarket = firebaseFirestore!!
-                                .collection("Objects")
-                                .document(user.locationName!!)
-                        val documentReferencePlanetMarketSnapshot = transaction[documentReferencePlanetMarket]
-                        Log.i(
-                                "myTags", "apply in Planet: documentReferencePlanetMarket: " +
-                                documentReferencePlanetMarket.toString())
-                        spaceObject.planetSectors = documentReferencePlanetMarketSnapshot
-                                .getLong("sectors")!!
-                        spaceObject.planetSectorsPrice = documentReferencePlanetMarketSnapshot
-                                .getLong("sectors_price")!!
-                        Log.i("myTags", "apply in Planet: sectors: " +
-                                spaceObject.planetSectors)
-                        Log.i("myTags", "apply in Planet: sectors_price: " +
-                                spaceObject.planetSectorsPrice)
-                        userList = ArrayList()
-                        userList?.add(user)
-                        spaceObjectList = ArrayList()
-                        spaceObjectList?.add(spaceObject)
-                        transaction.update(
-                                documentReferenceInventory!!,
-                                user.locationName!!,
-                                user.sectors)
-                        transaction.update(
-                                documentReferenceUser!!,
-                                "locationName",
-                                user.locationName)
-                        transaction.update(
-                                documentReferencePlanetMarket,
-                                "sectors",
-                                spaceObject.planetSectors)
-                        null
-                    }
-                    .addOnSuccessListener {
-                        setAdapter()
-                        if (userList!![0].sectors == 2L || spaceObjectList!![0].planetSectors == 0L) {
+            firebaseFirestore?.runTransaction<Void> { transaction ->
+                val documentReferenceUserSnapshot = transaction[documentReferenceUser!!]
+                user = documentReferenceUserSnapshot.toObject(User::class.java)!!
+                val documentReferencePlanet = firebaseFirestore!!
+                        .collection("Objects").document(user?.locationName!!)
+                val documentReferencePlanetMarketSnapshot = transaction[documentReferencePlanet]
+                spaceObject = documentReferencePlanetMarketSnapshot.toObject(SpaceObject::class.java)
+                null
+            }
+                    ?.addOnSuccessListener {
+                        sectors_amount.text = getString(R.string.sectors_amount,
+                                spaceObject?.availableSectors)
+                        if (user?.sectors?.size == 2 || spaceObject?.availableSectors == 0L) {
                             setButtonEnabled(false)
                         } else {
                             setButtonEnabled(true)
                         }
                     }
-            /*  documentReferenceInventory.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    User user = new User();
-                    user.setResource_iron(documentSnapshot.getLong("iron").intValue());
-                    userList = new ArrayList<>();
-                    userList.add(user);
-                    setAdapter();
-
-
-                }
-            });*/
-        }
-    }
-
-    private fun setAdapter() {
-        val sectorsPlanetAdapter = SectorsPlanetAdapter(userList!!, spaceObjectList!!, this)
-        sectorsPlanetAdapter.notifyDataSetChanged()
-        rvSectors!!.adapter = sectorsPlanetAdapter
-        rvSectors!!.layoutManager = LinearLayoutManager(activity)
-        Log.i("myTags", "userList size: " + userList!!.size)
     }
 
     override fun onCreateView(
@@ -131,63 +61,53 @@ class SectorsPlanetFragment : Fragment(), SectorsPlanetAdapter.DialogListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sectors, container, false)
-        Log.i("myTags", "ON CREATE VIEW - PLANET ")
-        rvSectors = view.findViewById(R.id.rvSectors)
-        btnAction = view.findViewById(R.id.sections_action_btn)
-        btnAction?.setOnClickListener(
-                View.OnClickListener {
-                    if (userList!![0].money!!
-                            < 2 * spaceObjectList!![0].planetSectorsPrice) {
-                        Snackbar.make(
-                                activity!!.findViewById(android.R.id.content),
-                                "You don't have enough money to buy 2 sectors! Come again",
-                                Snackbar.LENGTH_LONG)
-                                .show()
-                        return@OnClickListener
+        return inflater.inflate(R.layout.fragment_sectors, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+        sections_action_btn.setOnClickListener {
+            if (isEnoughMoney()) {
+                activity?.showSnackbarError(getString(R.string.sectors_no_money_to_buy_sectors))
+                return@setOnClickListener
+            }
+            val documentReferencePlanet = firebaseFirestore!!
+                    .collection("Objects").document(user?.locationName!!)
+            firebaseFirestore?.runTransaction<Void> { transaction ->
+                transaction.update(
+                        documentReferenceUser!!,
+                        "money", user?.money!! -
+                        spaceObject?.planetSectorsPrice!!)
+
+                val sector = user?.sectors?.find { it.planetName == user?.locationName }
+                if (sector != null) {
+                    sector.amount.inc()
+                    documentReferenceUser?.let { transaction.update(it, "sectors", user?.sectors) }
+                } else {
+                    user?.sectors?.add(Sector(user?.locationName!!, 1))
+                    documentReferenceUser?.let { transaction.update(it, "sectors", user?.sectors) }
+                }
+
+                transaction.update(
+                        documentReferencePlanet,
+                        "availableSectors", spaceObject?.availableSectors!! - 1)
+                null
+            }
+                    ?.addOnSuccessListener {
+                        activity?.showSnackbarError(getString(R.string.sectors_you_bought_sector))
+                        sections_action_btn.isEnabled = false
+                        sections_action_btn.setBackgroundColor(
+                                resources.getColor(R.color.grey))
                     }
-                    if (userList!![0].sectors == 0L) {
-                        val sectorsPlanetDialog = SectorsPlanetDialog()
-                        sectorsPlanetDialog.show(fragmentManager!!, "text")
-                        return@OnClickListener
-                    }
-                    firebaseFirestore?.runTransaction<Void>(
-                                    Transaction.Function { transaction ->
-                                        val documentReferencePlanetMarket = firebaseFirestore!!
-                                                .collection("Objects")
-                                                .document(
-                                                        userList!![0]
-                                                                .locationName!!)
-                                        transaction.update(
-                                                documentReferenceInventory!!,
-                                                userList!![0].locationName!!,
-                                                userList!![0].sectors!! + 1)
-                                        transaction.update(
-                                                documentReferenceUser!!,
-                                                "money", userList!![0].money!! -
-                                                spaceObjectList!![0].planetSectorsPrice)
-                                        transaction.update(
-                                                documentReferencePlanetMarket,
-                                                "sectors", spaceObjectList!![0].planetSectors -
-                                                1)
-                                        null
-                                    })
-                            ?.addOnSuccessListener {
-                                Snackbar.make(
-                                        activity!!.findViewById(
-                                                        android.R.id.content),
-                                        "Congratulations! You bought 1 sector! Come later to farm!",
-                                        Snackbar.LENGTH_LONG)
-                                        .show()
-                                btnAction?.isEnabled = false
-                                btnAction?.setBackgroundColor(
-                                        resources.getColor(R.color.grey))
-                            }
-                })
-        return view
+        }
     }
 
     override fun onDialogCreate() {}
+
+    private fun isEnoughMoney(): Boolean {
+        return user?.money!! < spaceObject?.planetSectorsPrice ?: 0
+    }
 
     companion object {
         @JvmStatic

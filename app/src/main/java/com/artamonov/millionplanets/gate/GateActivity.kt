@@ -18,6 +18,7 @@ import com.artamonov.millionplanets.gate.presenter.GateActivityPresenterImpl
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.fight.FightActivity
 import com.artamonov.millionplanets.model.User
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.gate_activity.*
@@ -39,8 +40,7 @@ class GateActivity : BaseActivity(R.layout.gate_activity), GateActivityView {
     }
 
     override fun showNotEnoughMoneyToBuyFuelWarning() {
-        Snackbar.make(findViewById(android.R.id.content), "Not enough money to buy fuel!", Snackbar.LENGTH_SHORT)
-                .show()
+        showSnackbarError(getString(R.string.gate_not_enough_money_to_buy_fuel))
     }
 
     override fun openPlanetActivity() {
@@ -162,18 +162,16 @@ class GateActivity : BaseActivity(R.layout.gate_activity), GateActivityView {
     }
 
     override fun showUpdateIronToast(counter: Int, totalAmount: Long) {
-        Snackbar.make(findViewById(android.R.id.content), "You got " + counter +
-                " iron. Total: " + totalAmount, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.gate_you_got_item,
+        counter, totalAmount), Snackbar.LENGTH_LONG).show()
     }
 
     override fun showCapacityError() {
-        Snackbar.make(findViewById(android.R.id.content), "Your cargo capacity is full! Sell your items on the market or drop them" +
-                "via inventory", Snackbar.LENGTH_LONG).show()
+        showSnackbarError(getString(R.string.gate_cargo_capacity_is_full))
     }
 
     override fun debrisIsRemoved() {
-        Snackbar.make(findViewById(android.R.id.content),
-                "Debris is empty and is not available anymore", Snackbar.LENGTH_SHORT).show()
+        showSnackbarError(getString(R.string.gate_debris_is_empty))
         val intent = Intent(this, MainOptionsActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())

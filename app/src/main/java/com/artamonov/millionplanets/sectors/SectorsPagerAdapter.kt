@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import java.util.ArrayList
 
-class SectorsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class SectorsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val fragmentTitlesList: MutableList<String> = ArrayList()
     fun setPageTitles(titles: String) {
         fragmentTitlesList.add(titles)

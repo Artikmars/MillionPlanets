@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.NumberPicker
-import android.widget.NumberPicker.OnValueChangeListener
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.SpaceObject
@@ -15,12 +13,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.dialog_market_you.*
 
 class SectorsYouDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     private val userList: List<User>? = null
     private val spaceObjectList: List<SpaceObject>? = null
-    private var numberPicker: NumberPicker? = null
     private var firebaseUser: FirebaseUser? = null
     private val documentReference: DocumentReference? = null
     private var documentReferenceUser: DocumentReference? = null
@@ -37,18 +35,13 @@ class SectorsYouDialog : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity!!.layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)
-        numberPicker = view.findViewById(R.id.numberPicker)
-        numberPicker?.apply {
+        numberPicker.apply {
             minValue = 1
             maxValue = 2
+            setOnScrollListener { _, i -> Log.i("myTags", "onScrollStateChange, i: $i") }
+            setOnValueChangedListener { _, _, i1 -> Log.i("myTags", "onValueChange, i1: $i1") }
         }
-//        numberPicker?.minValue = 1
-//        numberPicker?.maxValue = 2
-        //  numberPicker.setWrapSelectorWheel(false);
-        numberPicker?.setOnScrollListener(
-                NumberPicker.OnScrollListener { _, i -> Log.i("myTags", "onScrollStateChange, i: $i") })
-        numberPicker?.setOnValueChangedListener(
-                OnValueChangeListener { _, i, i1 -> Log.i("myTags", "onValueChange, i1: $i1") })
+
         builder.setView(view)
                 .setTitle("Sell Sectors")
                 .setPositiveButton(
@@ -66,8 +59,8 @@ class SectorsYouDialog : AppCompatDialogFragment() {
                                 "myTags", "Planet Dialog - apply: current money: " +
                                 user.money)
                         val documentSnapshot = transaction[documentReferenceInventory!!]
-                        user.sectors = documentSnapshot
-                                .getLong(user.locationName!!)
+//                        user.sectors = documentSnapshot
+//                                .getLong(user.locationName!!)
                         val documentReferencePlanet = firebaseFirestore
                                 .collection("Objects")
                                 .document(user.locationName!!)
@@ -75,7 +68,7 @@ class SectorsYouDialog : AppCompatDialogFragment() {
                         val spaceObject = SpaceObject()
                         spaceObject.planetSectorsPrice = documentSnapshotPlanet
                                 .getLong("sectors_price")!!
-                        spaceObject.planetSectors = documentSnapshotPlanet
+                        spaceObject.availableSectors = documentSnapshotPlanet
                                 .getLong("sectors")!!
                         if (selectedValue == 1) {
                             transaction.update(
@@ -95,7 +88,7 @@ class SectorsYouDialog : AppCompatDialogFragment() {
                                 selectedValue!!)
                         transaction.update(
                                 documentReferencePlanet,
-                                "sectors", spaceObject.planetSectors +
+                                "sectors", spaceObject.availableSectors +
                                 selectedValue)
                         dismiss()
                         null

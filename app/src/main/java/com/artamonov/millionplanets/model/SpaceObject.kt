@@ -2,9 +2,9 @@ package com.artamonov.millionplanets.model
 
 open class SpaceObject(
     var name: String? = null,
-    var distance: Int = 0,
+    var distance: Long = 0,
     var planetClass: String? = null,
-    var planetSectors: Long = 0,
+    var availableSectors: Long = 0,
     var planetSectorsPrice: Long = 0,
     var ironAmount: Long = 0,
     var debrisIronAmount: Long = 0,

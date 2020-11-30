@@ -8,12 +8,12 @@ import android.util.Log
 import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.data.AppPreferenceHelper
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -119,9 +119,7 @@ class MainActivity : BaseActivity(R.layout.main_activity) {
                         //   updateUI(user)
                     } else {
                         // If sign in fails, display a message to the user.
-                        //   Log.w(TAG, "signInWithCredential:failure", task.exception)
-                            Snackbar.make(findViewById(android.R.id.content), "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                        // updateUI(null)
+                        showSnackbarError(getString(R.string.main_authentication_is_failed))
                     }
 
                     // ...

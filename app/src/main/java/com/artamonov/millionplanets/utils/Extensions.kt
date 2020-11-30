@@ -1,5 +1,6 @@
 package com.artamonov.millionplanets.utils
 
+import android.app.Activity
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.Weapon
@@ -37,10 +38,16 @@ import com.artamonov.millionplanets.model.WeaponType.MEDIUM_GUN
 import com.artamonov.millionplanets.model.WeaponType.MEDIUM_LASER
 import com.artamonov.millionplanets.model.WeaponType.MILITARY_GUN
 import com.artamonov.millionplanets.model.WeaponType.MILITARY_LASER
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
 
 private val fighter = User()
     private val trader = User()
     private val rs = User()
+
+fun Activity.showSnackbarError(stringMsg: String?) {
+    stringMsg?.let { Snackbar.make(findViewById(android.R.id.content), stringMsg, LENGTH_SHORT)
+            .show() } }
 
     fun Number.getCurrentModuleInfo(): Module? {
 

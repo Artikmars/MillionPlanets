@@ -6,8 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
 
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 
 import com.artamonov.millionplanets.MainOptionsActivity
@@ -21,11 +22,11 @@ import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
+import com.artamonov.millionplanets.utils.showSnackbarError
 import kotlinx.android.synthetic.main.fight_activity.*
 import kotlinx.android.synthetic.main.move_activity.progressBar
 
 class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
-    private var parentLayout: View? = null
     private var userDocument: DocumentReference? = null
     private var enemyDocument: DocumentReference? = null
     private var enemyUsername: String? = null
@@ -156,7 +157,7 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
             batch.update(enemyDocument!!, "cargo", enemy.cargo)
             batch.commit()
 
-            fight.visibility = View.GONE
+            fight.visibility = GONE
             retreat.text = resources.getString(R.string.leave)
             presenter.setLootTransferFinished(true)
             checkIfCargoCapacityIsExceed()
@@ -198,25 +199,20 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
 
     override fun showLootSnackbar(isYouWon: Boolean, ship: String) {
         if (isYouWon) {
-            setSnackbarError("You won " + getCurrentShipInfo(ship).hp + " iron!")
+            showSnackbarError("You won " + getCurrentShipInfo(ship).hp + " iron!")
         } else {
-            setSnackbarError("You lost " + getCurrentShipInfo(ship).hp + " iron.")
+            showSnackbarError("You lost " + getCurrentShipInfo(ship).hp + " iron")
         }
     }
 
     override fun setProgressBar(state: Boolean) {
         progressBar.progress = 100
-        progressBar.visibility = View.INVISIBLE
+        progressBar.visibility = INVISIBLE
     }
 
     fun onGoBackToMainOptions(view: View) {
         startActivity(Intent(applicationContext, MainOptionsActivity::class.java))
     }
-
-    private fun setSnackbarError(errorMessage: String) {
-        parentLayout = findViewById(android.R.id.content)
-        Snackbar.make(parentLayout!!, errorMessage,
-                Snackbar.LENGTH_LONG).show() }
 
     companion object {
         private val TAG = "myLogs"

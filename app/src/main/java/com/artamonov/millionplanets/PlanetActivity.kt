@@ -101,7 +101,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                                 objectModelList = documentSnapshot.toObject(SpaceObject::class.java)!!
                                 planet_class.text = objectModelList.planetClass
                                 planet_sectors.text = objectModelList
-                                        .planetSectors.toString()
+                                        .availableSectors.toString()
                                 shipyard_hp.text = objectModelList.planetSize
                                 planet_money.text = userList.money.toString()
 
@@ -115,7 +115,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
     private fun setObjectsAccessLevel() {
 
         val occupationLevel = (6 - objectModelList
-                .planetSectors).toDouble() / 6
+                .availableSectors).toDouble() / 6
 
         if (occupationLevel < 0.25) {
             Log.i(

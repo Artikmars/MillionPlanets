@@ -1,7 +1,6 @@
 package com.artamonov.millionplanets.shipyard
 
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
@@ -91,78 +90,70 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
         if (shipToBuy.ship == userList.ship) {
             return
         }
-        val tvHpDiff = findViewById<TextView>(R.id.shipyard_hp_diff)
-        val tvCargoDiff = findViewById<TextView>(R.id.shipyard_cargo_diff)
-        val tvShieldDiff = findViewById<TextView>(R.id.shipyard_shield_diff)
-        val tvFuelDiff = findViewById<TextView>(R.id.shipyard_fuel_diff)
-        val tvJumpDiff = findViewById<TextView>(R.id.shipyard_jump_diff)
-        val tvCostDiff = findViewById<TextView>(R.id.shipyard_cost_diff)
-        val tvWeaponSlotsDiff = findViewById<TextView>(R.id.shipyard_weapon_slots_diff)
-        val tvScannerCapacityDiff = findViewById<TextView>(R.id.shipyard_scanner_diff)
         val hpDiff = shipToBuy.hp!! - userList.hp!!
         if (hpDiff >= 0) {
-            tvHpDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvHpDiff.text = "+ $hpDiff"
+            shipyard_hp_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_hp_diff.text = "+ $hpDiff"
         } else {
-            tvHpDiff.setTextColor(resources.getColor(R.color.red))
-            tvHpDiff.text = hpDiff.toString()
+            shipyard_hp_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_hp_diff.text = hpDiff.toString()
         }
 
         val cargoDiff = shipToBuy.cargoCapacity!! - userList.cargoCapacity!!
         if (cargoDiff >= 0) {
-            tvCargoDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvCargoDiff.text = "+ $cargoDiff"
+            shipyard_cargo_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_cargo_diff.text = "+ $cargoDiff"
         } else {
-            tvCargoDiff.setTextColor(resources.getColor(R.color.red))
-            tvCargoDiff.text = cargoDiff.toString()
+            shipyard_cargo_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_cargo_diff.text = cargoDiff.toString()
         }
         val shieldDiff = shipToBuy.shield!! - userList.shield!!
         if (shieldDiff >= 0) {
-            tvShieldDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvShieldDiff.text = "+ $shieldDiff"
+            shipyard_shield_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_shield_diff.text = "+ $shieldDiff"
         } else {
-            tvShieldDiff.setTextColor(resources.getColor(R.color.red))
-            tvShieldDiff.text = shieldDiff.toString()
+            shipyard_shield_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_shield_diff.text = shieldDiff.toString()
         }
         val fuelDiff = shipToBuy.fuel!! - userList.fuel!!
         if (fuelDiff >= 0) {
-            tvFuelDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvFuelDiff.text = "+ $fuelDiff"
+            shipyard_fuel_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_fuel_diff.text = "+ $fuelDiff"
         } else {
-            tvFuelDiff.setTextColor(resources.getColor(R.color.red))
-            tvFuelDiff.text = fuelDiff.toString()
+            shipyard_fuel_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_fuel_diff.text = fuelDiff.toString()
         }
         val jumpDiff = shipToBuy.jump!! - userList.jump!!
         if (jumpDiff >= 0) {
-            tvJumpDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvJumpDiff.text = "+ $jumpDiff"
+            shipyard_jump_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_jump_diff.text = "+ $jumpDiff"
         } else {
-            tvJumpDiff.setTextColor(resources.getColor(R.color.red))
-            tvJumpDiff.text = jumpDiff.toString()
+            shipyard_jump_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_jump_diff.text = jumpDiff.toString()
         }
         val costDiff = shipToBuy.shipPrice!! - userList.shipPrice!!
         if (costDiff >= 0) {
-            tvCostDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvCostDiff.text = "+ $costDiff"
+            shipyard_cost_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_cost_diff.text = "+ $costDiff"
         } else {
-            tvCostDiff.setTextColor(resources.getColor(R.color.red))
-            tvCostDiff.text = costDiff.toString()
+            shipyard_cost_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_cost_diff.text = costDiff.toString()
         }
         val weaponSlotsDiff = shipToBuy.weaponSlots!! - userList.weaponSlots!!
         if (weaponSlotsDiff >= 0) {
-            tvWeaponSlotsDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvWeaponSlotsDiff.text = "+ $weaponSlotsDiff"
+            shipyard_weapon_slots_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_weapon_slots_diff.text = "+ $weaponSlotsDiff"
         } else {
-            tvWeaponSlotsDiff.setTextColor(resources.getColor(R.color.red))
-            tvWeaponSlotsDiff.text = weaponSlotsDiff.toString()
+            shipyard_weapon_slots_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_weapon_slots_diff.text = weaponSlotsDiff.toString()
         }
         val scannerDiff = shipToBuy.scanner_capacity!! - userList.scanner_capacity!!
         if (scannerDiff >= 0) {
-            tvScannerCapacityDiff.setTextColor(resources.getColor(R.color.colorAccent))
-            tvScannerCapacityDiff.text = "+ $scannerDiff"
+            shipyard_scanner_diff.setTextColor(resources.getColor(R.color.colorAccent))
+            shipyard_scanner_diff.text = "+ $scannerDiff"
         } else {
-            tvScannerCapacityDiff.setTextColor(resources.getColor(R.color.red))
-            tvScannerCapacityDiff.text = scannerDiff.toString()
+            shipyard_scanner_diff.setTextColor(resources.getColor(R.color.red))
+            shipyard_scanner_diff.text = scannerDiff.toString()
         }
     }
 

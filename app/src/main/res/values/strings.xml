@@ -55,6 +55,7 @@
     //Inventory
     <string name="cargo">Cargo</string>
     <string name="arming">Arming</string>
+    <string name="inventory_fuel_can_not_be_refilled">Fuel can not be refilled</string>
 
 
     //Planet
@@ -92,6 +93,10 @@
     <string name="sectors_action_sell">Sell</string>
     <string name="sectors_action_one_sector">1 sector</string>
     <string name="sectors_action_two_sectors">2 sectors</string>
+    <string name="sectors_no_money_to_buy_sectors">You don\'t have enough money to buy 2 sectors! Come next time</string>
+    <string name="sectors_you_bought_sector">Congratulations! You bought 1 sector! Come later to farm!</string>
+    <string name="sectors_you_sold_sectors">You have sold your sectors</string>
+    <string name="sectors_amount">Sectors: %1$d</string>
 
     //Mine
     <string name="mine_stop">Stop</string>
@@ -139,6 +144,31 @@
     <string name="modules_info_cost">Cost: </string>
     <string name="modules_info_you_have">You have: </string>
     <string name="run_out_of_fuel">You are run out of fuel! Please, call the tanker.</string>
-    <string name="not_enough_fuel_to_get_to_destination">Not enough fuel to get to the destination. Please, call the tanker.</string>
+    <string name="not_enough_fuel_to_get_to_destination">Not enough fuel to get to the destination. Please, call the tanker</string>
+    <string name="modules_info_not_enough_money">You have not enough money</string>
+    <string name="modules_info_item_was_bought_successfully">The item was successfully bought</string>
+    <string name="modules_info_item_was_sold_successfully">The item was successfully sold</string>
+
+    //Error
+    <string name="error_general">An error occurred. Please, try again</string>
+
+    //Registration
+    <string name="registration_nickname_must_at_least_3_characters_long">Your nickname must be at least 3 characters long</string>
+    <string name="registration_password_must_at_least_6_characters_long">Your password must be at least 6 characters long</string>
+    <string name="registration_enter_email">Enter your email to continue registration</string>
+    <string name="registration_email_is_occupied">The email is already occupied</string>
+    <string name="registration_email_is_invalid">The email is invalid</string>
+    <string name="registration_is_failed">Registration is failed. Please, try later</string>
+
+    //Main
+    <string name="main_authentication_is_failed">Authentication failed</string>
+    <string name="main_welcome_on_board">Welcome on board, %1$s!</string>
+    <string name="main_cargo_is_overloaded">Cargo is overloaded! Please, drop extra items through Inventory</string>
+
+    //Gate
+    <string name="gate_not_enough_money_to_buy_fuel">Not enough money to buy fuel!</string>
+    <string name="gate_cargo_capacity_is_full">Your cargo capacity is full! Sell your items on the market or drop them via inventory</string>
+    <string name="gate_debris_is_empty">Debris is empty and is not available anymore</string>
+    <string name="gate_you_got_item">You got %1$d iron. Total: %2$d</string>
 
 </resources>

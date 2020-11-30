@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.model.SpaceObject
@@ -16,6 +15,14 @@ import kotlinx.android.synthetic.main.shipyard_activity.*
 import java.util.ArrayList
 
 class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapter.ItemClickListener {
+    internal var userList = User()
+    internal var objectModelList = SpaceObject()
+    private var figher = User()
+    private var trader = User()
+    private var rs = User()
+    private var shipsList: MutableList<User> = ArrayList()
+    private var documentReference: DocumentReference? = null
+
     override fun onStart() {
         super.onStart()
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
@@ -41,21 +48,9 @@ class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapt
         }
     }
 
-    internal var userList = User()
-    internal var objectModelList = SpaceObject()
-    private var figher = User()
-    private var trader = User()
-    private var rs = User()
-    private var shipsList: MutableList<User> = ArrayList()
-
-    private var documentReference: DocumentReference? = null
-    private var rvShipyard: RecyclerView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        rvShipyard = findViewById(R.id.rvShipyard)
-        rvShipyard!!.layoutManager = LinearLayoutManager(this)
+        rvShipyard.layoutManager = LinearLayoutManager(this)
 
         figher.shipPrice = 0
         figher.ship = getString(R.string.fighter)

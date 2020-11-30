@@ -26,7 +26,6 @@ import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
 import kotlinx.android.synthetic.main.move_activity.*
 
 class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
-    private var parentLayout: View? = null
     private lateinit var objectModel: SpaceObject
     private var documentReference: DocumentReference? = null
 
@@ -53,8 +52,6 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = MoveActivityPresenterImpl(this)
-
-        parentLayout = findViewById(android.R.id.content)
         move_scan_result_list.layoutManager = LinearLayoutManager(this)
 
         val intent = intent
@@ -62,7 +59,7 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         objectModel = SpaceObject()
         objectModel.type = intent.getStringExtra("objectType")
         objectModel.name = intent.getStringExtra("objectName")
-        objectModel.distance = intent.getIntExtra("objectDistance", 0)
+        objectModel.distance = intent.getLongExtra("objectDistance", 0)
         objectModel.x = intent.getLongExtra("objectX", 0)
         objectModel.y = intent.getLongExtra("objectY", 0)
         objectModelList.add(objectModel)
@@ -129,8 +126,7 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
     }
 
     override fun setSnackbarError(errorMessage: Int) {
-        parentLayout = findViewById(android.R.id.content)
-        Snackbar.make(parentLayout!!, getString(R.string.run_out_of_fuel),
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.run_out_of_fuel),
                 Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show() }
 
     companion object {

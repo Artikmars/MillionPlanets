@@ -1,44 +1,31 @@
 package com.artamonov.millionplanets
 
 import android.app.ActivityOptions
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.utils.extensions.getCurrentCargoCapacity
-import com.google.android.material.snackbar.Snackbar
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.main_options_activity.*
-import java.util.HashMap
 
 class MainOptionsActivity : BaseActivity(R.layout.main_options_activity) {
 
     internal var userList = User()
-    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val parentLayout = findViewById<View>(android.R.id.content)
-        Snackbar.make(
-                parentLayout,
-                "Welcome on board, " + firebaseUser!!.displayName + "!",
-                Snackbar.LENGTH_LONG)
-                .show()
+        showSnackbarError(getString(R.string.main_welcome_on_board))
 
         scan.setOnClickListener {
             if (cargoIsOverloaded()) {
-                Snackbar.make(parentLayout,
-                        "Cargo is overloaded! Please, drop extra items through Inventory menu.",
-                        Snackbar.LENGTH_LONG)
-                        .show()
+                showSnackbarError(getString(R.string.main_cargo_is_overloaded))
                 return@setOnClickListener }
             val intent = Intent(this, ScanResultActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -95,63 +82,14 @@ class MainOptionsActivity : BaseActivity(R.layout.main_options_activity) {
 
     override fun onStart() {
         super.onStart()
-        progressDialog = ProgressDialog(this)
-        progressDialog?.setCancelable(false)
-        progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-        progressDialog?.show()
-        createDocumentReference()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        progressDialog?.dismiss()
-    }
-
-    private fun createDocumentReference() {
         val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
-        documentReference.addSnapshotListener(
-                this
-        ) { doc, _ ->
-            if (doc!!.exists()) {
-                setDefaultValues(doc)
-            } else {
-                createNewUserObject()
-            }
+        documentReference.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) { populateUI(task.result) }
         }
     }
 
-    private fun createNewUserObject() {
-        val documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
-        val documentReferenceObjects = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
-        val user = User()
-        user.x = 5
-        user.y = 6
-        user.cargoCapacity = 10
-        user.hp = 50
-        user.ship = "Fighter"
-        user.money = 1000
-        user.scanner_capacity = 15
-        user.shield = 100
-        user.jump = 10
-        user.fuel = 20
-        user.type = "user"
-        user.sumXY = 11
-        firebaseFirestore
-                .runTransaction { transaction ->
-                    transaction.set(documentReferenceObjects, user)
-                    val ironData = HashMap<String, Any>()
-                    ironData["Iron"] = 0
-                    ironData["Mercaster"] = 0
-                    ironData["Leabia"] = 0
-                    ironData["Cracaphill"] = 0
-                    transaction.set(documentReferenceInventory, ironData)
-                    null
-                }
-                .addOnSuccessListener { createDocumentReference() }
-    }
-
-    private fun setDefaultValues(doc: DocumentSnapshot) {
-        userList = doc.toObject(User::class.java)!!
+    private fun populateUI(doc: DocumentSnapshot?) {
+        userList = doc?.toObject(User::class.java)!!
 
         coordinates.text = String.format(
                 resources.getString(R.string.current_coordinate),
@@ -165,7 +103,6 @@ class MainOptionsActivity : BaseActivity(R.layout.main_options_activity) {
         fuel.text = userList.fuel.toString()
         money.text = userList.money.toString()
 
-        progressDialog?.dismiss()
         FirebaseCrashlytics.getInstance().log(userList.toString())
     }
 }

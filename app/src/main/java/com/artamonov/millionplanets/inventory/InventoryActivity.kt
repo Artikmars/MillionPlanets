@@ -11,7 +11,7 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
-import com.google.android.material.snackbar.Snackbar
+import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.inventory_activity.*
 import kotlinx.android.synthetic.main.modules_info_activity.*
@@ -125,8 +125,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
         inventory_get_fuel.setOnClickListener {
             if (presenter.isPetrolAvailable() && !presenter.isFuelFull()) {
                     onDialogCreate() } else {
-                Snackbar.make(findViewById(android.R.id.content), "Fuel can not be refilled", Snackbar.LENGTH_SHORT)
-                        .show()
+                showSnackbarError(getString(R.string.inventory_fuel_can_not_be_refilled))
             }
         }
     }

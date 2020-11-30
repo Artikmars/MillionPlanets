@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
@@ -64,11 +63,7 @@ NumberPickerDialog.NumberPickerDialogListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_market_you, container, false)
-        val btnAction = view.findViewById<Button>(R.id.market_action_btn)
-        btnAction.text = resources.getString(R.string.sectors_action_sell)
-        btnAction.visibility = View.INVISIBLE
-        return view
+        return inflater.inflate(R.layout.fragment_market_you, container, false)
     }
 
     override fun onDialogCreate(position: Int) {
