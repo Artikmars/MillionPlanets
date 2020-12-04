@@ -8,13 +8,13 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.ShipyardActivityBinding
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.shipyard_activity.*
 import java.util.ArrayList
 
-class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapter.ItemClickListener {
+class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
     internal var userList = User()
     internal var objectModelList = SpaceObject()
     private var figher = User()
@@ -22,6 +22,7 @@ class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapt
     private var rs = User()
     private var shipsList: MutableList<User> = ArrayList()
     private var documentReference: DocumentReference? = null
+    lateinit var binding: ShipyardActivityBinding
 
     override fun onStart() {
         super.onStart()
@@ -32,8 +33,8 @@ class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapt
             if (doc!!.exists()) {
                 userList.ship = doc.getString("ship")
                 userList.money = doc.getLong("money")!!
-                shipyard_user_cash.text = userList.money.toString()
-                shipyard_current_ship.text = "Current ship: " + userList.ship
+                binding.shipyardUserCash.text = userList.money.toString()
+                binding.shipyardCurrentShip.text = "Current ship: " + userList.ship
 
                 // For larger amount of spaceships
 
@@ -43,14 +44,16 @@ class ShipyardActivity : BaseActivity(R.layout.shipyard_activity), ShipyardAdapt
                             shipsMap.put(3, shipRS);*/
 
                 val shipyardAdapter = ShipyardAdapter(shipsList, this@ShipyardActivity)
-                rvShipyard!!.adapter = shipyardAdapter
+                binding.rvShipyard.adapter = shipyardAdapter
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rvShipyard.layoutManager = LinearLayoutManager(this)
+        binding = ShipyardActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.rvShipyard.layoutManager = LinearLayoutManager(this)
 
         figher.shipPrice = 0
         figher.ship = getString(R.string.fighter)

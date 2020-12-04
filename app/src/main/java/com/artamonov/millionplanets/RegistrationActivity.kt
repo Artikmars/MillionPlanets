@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.RegistrationActivityBinding
 import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
@@ -12,21 +13,24 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.registration_activity.*
 import java.util.HashMap
 
-class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
+class RegistrationActivity : BaseActivity() {
     var progressDialog: ProgressDialog? = null
+
+    lateinit var binding: RegistrationActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = RegistrationActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         progressDialog = ProgressDialog(this)
 
-        register_login_firebase.setOnClickListener {
+        binding.registerLoginFirebase.setOnClickListener {
 
-            val email = register_email.text.toString()
-            val password = register_password.text.toString()
-            val username = register_username.text.toString()
+            val email = binding.registerEmail.text.toString()
+            val password = binding.registerPassword.text.toString()
+            val username = binding.registerUsername.text.toString()
 
             if (!nicknameIsValid()) {
                 showSnackbarError(getString(R.string.registration_nickname_must_at_least_3_characters_long))
@@ -79,7 +83,7 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
     }
 
     private fun passwordIsValid(): Boolean {
-        return register_password.text.length > 5
+        return binding.registerPassword.text.length > 5
     }
 
     private fun showProgressBar(state: Boolean) {
@@ -136,6 +140,6 @@ class RegistrationActivity : BaseActivity(R.layout.registration_activity) {
     }
 
     private fun nicknameIsValid(): Boolean {
-        return register_username.text.length > 2
+        return binding.registerUsername.text.length > 2
     }
 }

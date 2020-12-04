@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.InventoryActivityBinding
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenter
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenterImpl
 import com.artamonov.millionplanets.model.Item
@@ -13,25 +14,27 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.inventory_activity.*
-import kotlinx.android.synthetic.main.modules_info_activity.*
 
-class InventoryActivity : BaseActivity(R.layout.inventory_activity), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
+class InventoryActivity : BaseActivity(), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
 InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
 
     private var documentReference: DocumentReference? = null
     internal var userList: User? = User()
 
+    lateinit var binding: InventoryActivityBinding
+
     lateinit var presenter: InventoryActivityPresenter<InventoryActivityView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = InventoryActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter = InventoryActivityPresenterImpl(this)
     }
 
     private fun setUpWeaponsAdapter() {
-        rv_inventory.layoutManager = LinearLayoutManager(this)
-        rv_inventory.adapter = InventoryWeaponAdapter(
+        binding.rvInventory.layoutManager = LinearLayoutManager(this)
+        binding.rvInventory.adapter = InventoryWeaponAdapter(
                 object : InventoryWeaponSource {
 
                     override fun isInstalled(position: Int): Boolean {
@@ -57,7 +60,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
     }
 
     private fun setUpCargoAdapter() {
-        rv_cargo.layoutManager = LinearLayoutManager(this)
+        binding.rvCargo.layoutManager = LinearLayoutManager(this)
         val cargoAdapter = InventoryCargoAdapter(
                 object : InventoryCargoSource {
 
@@ -77,7 +80,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
                         return presenter.getCargoItem(position)
                     }
                 }, this@InventoryActivity)
-        rv_cargo.adapter = cargoAdapter
+        binding.rvCargo.adapter = cargoAdapter
         cargoAdapter.notifyDataSetChanged()
     }
 
@@ -111,18 +114,18 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
                 setUpWeaponsAdapter()
                 setUpCargoAdapter()
                 setGetFuelButtonVisibility()
-                inventory_fuel.text = presenter.getUserList().fuel.toString()
+                binding.inventoryFuel.text = presenter.getUserList().fuel.toString()
             }
         }
     }
 
     private fun setGetFuelButtonVisibility() {
         if (presenter.isFuelFull() || !presenter.isPetrolAvailable()) {
-            inventory_get_fuel.setBackgroundColor(ContextCompat.getColor(this, R.color.grey))
+            binding.inventoryGetFuel.setBackgroundColor(ContextCompat.getColor(this, R.color.grey))
         } else {
-            inventory_get_fuel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+            binding.inventoryGetFuel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
         }
-        inventory_get_fuel.setOnClickListener {
+        binding.inventoryGetFuel.setOnClickListener {
             if (presenter.isPetrolAvailable() && !presenter.isFuelFull()) {
                     onDialogCreate() } else {
                 showSnackbarError(getString(R.string.inventory_fuel_can_not_be_refilled))
@@ -132,11 +135,11 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
 
     override fun updateCargoCapacityCounter(user: User) {
         val currentCargoCapacity = user.cargo?.sumBy { it.itemAmount!!.toInt() }
-        inventory_capacity_label.text = currentCargoCapacity.toString() + "/" + user.cargoCapacity
+        binding.inventoryCapacityLabel.text = currentCargoCapacity.toString() + "/" + user.cargoCapacity
         if (currentCargoCapacity!! > user.cargoCapacity!!) {
-            inventory_capacity_label.setTextColor(resources.getColor(R.color.red))
+            binding.inventoryCapacityLabel.setTextColor(resources.getColor(R.color.red))
         } else {
-            inventory_capacity_label.setTextColor(resources.getColor(R.color.white))
+            binding.inventoryCapacityLabel.setTextColor(resources.getColor(R.color.white))
         }
     }
 
@@ -150,8 +153,6 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
     }
 
     companion object {
-        private val TAG = "myLogs"
-        const val ENEMY_USERNAME = "ENEMY_USERNAME"
         const val RESOURCE_AMOUNT = "RESOURCE_AMOUNT"
         const val RESOURCE_ID = "RESOURCE_ID"
         const val NUMBER_PICKER_DIALOG_TYPE = "NUMBER_PICKER_DIALOG_TYPE"

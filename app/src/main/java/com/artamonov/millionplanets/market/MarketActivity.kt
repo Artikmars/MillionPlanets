@@ -3,10 +3,10 @@ package com.artamonov.millionplanets.market
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.base.BaseActivityWithLayout
 import kotlinx.android.synthetic.main.market_activity.*
 
-class MarketActivity : BaseActivity(R.layout.market_activity), MarketYouAdapter.DialogListener {
+class MarketActivity : BaseActivityWithLayout(R.layout.market_activity), MarketYouAdapter.DialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

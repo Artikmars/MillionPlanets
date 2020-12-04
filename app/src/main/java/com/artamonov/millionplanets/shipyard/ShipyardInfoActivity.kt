@@ -5,15 +5,14 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.ShipyardInfoActivityBinding
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
-// import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.shipyard_info_activity.*
 import java.util.ArrayList
 
-class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
+class ShipyardInfoActivity : BaseActivity() {
     internal var userList: User? = User()
     internal var objectModelList = SpaceObject()
     /*  User figher = new User();
@@ -27,9 +26,13 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
     private val shipsArrayList = ArrayList<String>()
     private var yourShip: String? = null
     private var shipToBuy: User? = null
+    lateinit var binding: ShipyardInfoActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ShipyardInfoActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val intent = intent
         val position = intent.getIntExtra("position", 0)
         yourShip = intent.getStringExtra("your_ship")
@@ -38,16 +41,16 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
 
         shipToBuy = getCurrentShipInfo(position)
         setOnBuyButtonVisibility(shipToBuy!!)
-        shipyard_hp.text = shipToBuy!!.hp.toString()
-        shipyard_cargo.text = shipToBuy!!.cargoCapacity.toString()
-        shipyard_shield.text = shipToBuy!!.shield.toString()
-        shipyard_fuel.text = shipToBuy!!.fuel.toString()
-        shipyard_jump.text = shipToBuy!!.jump.toString()
-        shipyard_cost.text = shipToBuy!!.shipPrice.toString()
-        shipyard_weapon_slots.text = shipToBuy!!.weaponSlots.toString()
-        shipyard_scanner.text = shipToBuy!!.scanner_capacity.toString()
-        shipyard_name.text = shipToBuy!!.ship
-        shipyard_class.text = getCurrentShipInfo(position)?.shipClass
+        binding.shipyardHp.text = shipToBuy!!.hp.toString()
+        binding.shipyardCargo.text = shipToBuy!!.cargoCapacity.toString()
+        binding.shipyardShield.text = shipToBuy!!.shield.toString()
+        binding.shipyardFuel.text = shipToBuy!!.fuel.toString()
+        binding.shipyardJump.text = shipToBuy!!.jump.toString()
+        binding.shipyardCost.text = shipToBuy!!.shipPrice.toString()
+        binding.shipyardWeaponSlots.text = shipToBuy!!.weaponSlots.toString()
+        binding.shipyardScanner.text = shipToBuy!!.scanner_capacity.toString()
+        binding.shipyardName.text = shipToBuy!!.ship
+        binding.shipyardClass.text = getCurrentShipInfo(position)?.shipClass
 
 //        userList = User(shipToBuy!!.cargoCapacity, shipToBuy!!.fuel,shipToBuy!!.hp, shipToBuy!!.jump,
 //                shipToBuy!!.scanner_capacity,shipToBuy!!.shield,
@@ -55,17 +58,17 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
 //                 shipToBuy!!.weaponSlots
 //                )
 
-        shipyard_go_back.setOnClickListener {
+        binding.shipyardGoBack.setOnClickListener {
             finish()
         }
 
-        shipyard_btn_buy.setOnClickListener {
+        binding.shipyardBtnBuy.setOnClickListener {
             if (!ifEnoughMoney()) {
                 Toast.makeText(this, "Not enough money to buy the ship!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            shipyard_btn_buy.isEnabled = false
-            shipyard_btn_buy.setBackgroundColor(resources.getColor(R.color.grey))
+            binding.shipyardBtnBuy.isEnabled = false
+            binding.shipyardBtnBuy.setBackgroundColor(resources.getColor(R.color.grey))
             firebaseFirestore.runTransaction { transaction ->
 
                 userList?.hp = shipToBuy!!.hp
@@ -92,68 +95,68 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
         }
         val hpDiff = shipToBuy.hp!! - userList.hp!!
         if (hpDiff >= 0) {
-            shipyard_hp_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_hp_diff.text = "+ $hpDiff"
+            binding.shipyardHpDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardHpDiff.text = "+ $hpDiff"
         } else {
-            shipyard_hp_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_hp_diff.text = hpDiff.toString()
+            binding.shipyardHpDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardHpDiff.text = hpDiff.toString()
         }
 
         val cargoDiff = shipToBuy.cargoCapacity!! - userList.cargoCapacity!!
         if (cargoDiff >= 0) {
-            shipyard_cargo_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_cargo_diff.text = "+ $cargoDiff"
+            binding.shipyardCargoDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardCargoDiff.text = "+ $cargoDiff"
         } else {
-            shipyard_cargo_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_cargo_diff.text = cargoDiff.toString()
+            binding.shipyardCargoDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardCargoDiff.text = cargoDiff.toString()
         }
         val shieldDiff = shipToBuy.shield!! - userList.shield!!
         if (shieldDiff >= 0) {
-            shipyard_shield_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_shield_diff.text = "+ $shieldDiff"
+            binding.shipyardShieldDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardShieldDiff.text = "+ $shieldDiff"
         } else {
-            shipyard_shield_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_shield_diff.text = shieldDiff.toString()
+            binding.shipyardShieldDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardShieldDiff.text = shieldDiff.toString()
         }
         val fuelDiff = shipToBuy.fuel!! - userList.fuel!!
         if (fuelDiff >= 0) {
-            shipyard_fuel_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_fuel_diff.text = "+ $fuelDiff"
+            binding.shipyardFuelDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardFuelDiff.text = "+ $fuelDiff"
         } else {
-            shipyard_fuel_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_fuel_diff.text = fuelDiff.toString()
+            binding.shipyardFuelDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardFuelDiff.text = fuelDiff.toString()
         }
         val jumpDiff = shipToBuy.jump!! - userList.jump!!
         if (jumpDiff >= 0) {
-            shipyard_jump_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_jump_diff.text = "+ $jumpDiff"
+            binding.shipyardJumpDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardJumpDiff.text = "+ $jumpDiff"
         } else {
-            shipyard_jump_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_jump_diff.text = jumpDiff.toString()
+            binding.shipyardJumpDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardJumpDiff.text = jumpDiff.toString()
         }
         val costDiff = shipToBuy.shipPrice!! - userList.shipPrice!!
         if (costDiff >= 0) {
-            shipyard_cost_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_cost_diff.text = "+ $costDiff"
+            binding.shipyardCostDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardCostDiff.text = "+ $costDiff"
         } else {
-            shipyard_cost_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_cost_diff.text = costDiff.toString()
+            binding.shipyardCostDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardCostDiff.text = costDiff.toString()
         }
         val weaponSlotsDiff = shipToBuy.weaponSlots!! - userList.weaponSlots!!
         if (weaponSlotsDiff >= 0) {
-            shipyard_weapon_slots_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_weapon_slots_diff.text = "+ $weaponSlotsDiff"
+            binding.shipyardWeaponSlotsDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardWeaponSlotsDiff.text = "+ $weaponSlotsDiff"
         } else {
-            shipyard_weapon_slots_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_weapon_slots_diff.text = weaponSlotsDiff.toString()
+            binding.shipyardWeaponSlotsDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardWeaponSlotsDiff.text = weaponSlotsDiff.toString()
         }
         val scannerDiff = shipToBuy.scanner_capacity!! - userList.scanner_capacity!!
         if (scannerDiff >= 0) {
-            shipyard_scanner_diff.setTextColor(resources.getColor(R.color.colorAccent))
-            shipyard_scanner_diff.text = "+ $scannerDiff"
+            binding.shipyardScannerDiff.setTextColor(resources.getColor(R.color.colorAccent))
+            binding.shipyardScannerDiff.text = "+ $scannerDiff"
         } else {
-            shipyard_scanner_diff.setTextColor(resources.getColor(R.color.red))
-            shipyard_scanner_diff.text = scannerDiff.toString()
+            binding.shipyardScannerDiff.setTextColor(resources.getColor(R.color.red))
+            binding.shipyardScannerDiff.text = scannerDiff.toString()
         }
     }
 
@@ -165,8 +168,8 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
         ) { doc, e ->
             if (doc!!.exists()) {
                 userList = doc.toObject(User::class.java)
-                shipyard_your_ship.text = userList!!.ship
-                shipyardinfo_user_cash.text = userList!!.money.toString()
+                binding.shipyardYourShip.text = userList!!.ship
+                binding.shipyardinfoUserCash.text = userList!!.money.toString()
                 showDiffStats(shipToBuy!!, userList!!)
             }
         }
@@ -174,8 +177,8 @@ class ShipyardInfoActivity : BaseActivity(R.layout.shipyard_info_activity) {
 
     private fun setOnBuyButtonVisibility(ship: User) {
         if (yourShip == ship.ship) {
-            shipyard_btn_buy.isEnabled = false
-            shipyard_btn_buy.setBackgroundColor(resources.getColor(R.color.grey))
+            binding.shipyardBtnBuy.isEnabled = false
+            binding.shipyardBtnBuy.setBackgroundColor(resources.getColor(R.color.grey))
         }
     }
 

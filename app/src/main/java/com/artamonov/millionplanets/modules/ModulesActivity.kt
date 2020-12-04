@@ -4,27 +4,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.ModulesActivityBinding
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.getAllWeapons
 import com.artamonov.millionplanets.utils.getCurrentModuleInfo
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.modules_activity.*
 
-class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.ItemClickListener {
+class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
 
     internal var documentReference: DocumentReference? = null
     internal var userList = User()
     private var modules: MutableList<Module>? = null
     private lateinit var existedItem: List<Weapon>
+    lateinit var binding: ModulesActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ModulesActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
-        rvModules.layoutManager = LinearLayoutManager(this)
+        binding.rvModules.layoutManager = LinearLayoutManager(this)
         modules = getAllWeapons()
     }
 
@@ -36,19 +38,19 @@ class ModulesActivity : BaseActivity(R.layout.modules_activity), ModulesAdapter.
         ) { doc, _ ->
             if (doc!!.exists()) {
                 userList = doc.toObject(User::class.java)!!
-                modules_user_cash.text = userList.money.toString()
+                binding.modulesUserCash.text = userList.money.toString()
                 val listOfCurrentWeapons: MutableList<String> = mutableListOf()
                 for (weapon in userList.weapon!!.indices) {
                         listOfCurrentWeapons.add(weapon, userList.weapon!![weapon].weaponId!!.getCurrentModuleInfo()!!.name)
                 }
-                modules_current_weapons.text = listOfCurrentWeapons.joinToString()
+                binding.modulesCurrentWeapons.text = listOfCurrentWeapons.joinToString()
                 existedItem = userList.weapon!!
                 val modulesAdapter = ModulesAdapter(
                         modules!!,
                         existedItem,
                         applicationContext,
                         this@ModulesActivity)
-                rvModules.adapter = modulesAdapter
+                binding.rvModules.adapter = modulesAdapter
             }
         }
         }

@@ -5,24 +5,28 @@ import android.os.Bundle
 import android.os.PersistableBundle
 
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.CreatePlayerActivityBinding
 import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.create_player_activity.*
 import java.util.HashMap
 
-class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
+class NewGameActivity : BaseActivity() {
     private lateinit var username: String
     private var documentReferenceInventory: DocumentReference? = null
     private var documentReferenceObjects: DocumentReference? = null
     private var user: User? = null
 
+    lateinit var binding: CreatePlayerActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        go_to_space.setOnClickListener {
+        binding = CreatePlayerActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.goToSpace.setOnClickListener {
             onGoToSpace()
         }
     }
@@ -34,7 +38,7 @@ class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
         }
 
         firebaseAuth = FirebaseAuth.getInstance()
-        username = register_username.text.toString()
+        username = binding.registerUsername.text.toString()
         firebaseUser = firebaseAuth.currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(username)
         documentReferenceObjects = firebaseFirestore.collection("Objects").document(username)
@@ -84,6 +88,6 @@ class NewGameActivity : BaseActivity(R.layout.create_player_activity) {
     }
 
     private fun nicknameIsValid(): Boolean {
-        return register_username.text.length > 2
+        return binding.registerUsername.text.length > 2
     }
 }

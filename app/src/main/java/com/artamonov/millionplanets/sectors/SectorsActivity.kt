@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.base.BaseActivityWithLayout
 import com.google.android.material.tabs.TabLayout
 
-class SectorsActivity : BaseActivity(R.layout.sectors) {
+class SectorsActivity : BaseActivityWithLayout(R.layout.sectors) {
     /**
      * The [PagerAdapter] that will provide fragments for each of the sections. We use a
      * [FragmentPagerAdapter] derivative, which will keep every loaded fragment in memory. If

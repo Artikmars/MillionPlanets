@@ -15,6 +15,7 @@ import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.FightActivityBinding
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenter
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenterImpl
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
@@ -23,10 +24,8 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import com.artamonov.millionplanets.utils.showSnackbarError
-import kotlinx.android.synthetic.main.fight_activity.*
-import kotlinx.android.synthetic.main.move_activity.progressBar
 
-class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
+class FightActivity : BaseActivity(), FightActivityView {
     private var userDocument: DocumentReference? = null
     private var enemyDocument: DocumentReference? = null
     private var enemyUsername: String? = null
@@ -36,22 +35,26 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     private var enemy: User = User()
 
     lateinit var presenter: FightActivityPresenter<FightActivityView>
+    private lateinit var binding: FightActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = FightActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         presenter = FightActivityPresenterImpl(this)
 
         if (intent != null) {
             enemyUsername = intent.getStringExtra(ENEMY_USERNAME)
-            enemy_label.text = enemyUsername
+            binding.enemyLabel.text = enemyUsername
         }
 
-        fight.setOnClickListener {
+        binding.fight.setOnClickListener {
             if (presenter.fightFinished()) presenter.calculateLoot() else
             presenter.calculateDamage()
         }
 
-        retreat.setOnClickListener {
+        binding.retreat.setOnClickListener {
             val intent = Intent(this, ScanResultActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -82,53 +85,53 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     }
 
     override fun setUserData(userList: User) {
-        ship_you.text = userList.ship
-        hp_you.text = userList.hp.toString()
-        shield_you.text = userList.shield.toString()
-        weapon_you.text = userList.weapon?.size.toString() + "/3"
+        binding.shipYou.text = userList.ship
+        binding.hpYou.text = userList.hp.toString()
+        binding.shieldYou.text = userList.shield.toString()
+        binding.weaponYou.text = userList.weapon?.size.toString() + "/3"
     }
 
     override fun setEnemyData(enemyList: User) {
-        enemy_label.text = enemyList.nickname
-        ship_enemy.text = enemyList.ship
-        hp_enemy.text = enemyList.hp.toString()
-        shield_enemy.text = enemyList.shield.toString()
-        weapon_enemy.text = enemyList.weapon?.size.toString() + "/3"
+        binding.enemyLabel.text = enemyList.nickname
+        binding.shipEnemy.text = enemyList.ship
+        binding.hpEnemy.text = enemyList.hp.toString()
+        binding.shieldEnemy.text = enemyList.shield.toString()
+        binding.weaponEnemy.text = enemyList.weapon?.size.toString() + "/3"
     }
 
     override fun showYouWonMessage() {
-        fight_log.text = "YOU WON!"
-        fight_log.setTextColor(resources.getColor(R.color.colorAccent))
-        fight.text = "Collect debris"
+        binding.fightLog.text = "YOU WON!"
+        binding.fightLog.setTextColor(resources.getColor(R.color.colorAccent))
+        binding.fight.text = "Collect debris"
     }
 
     override fun showEnemyWonMessage() {
-        fight_log.text = "YOU LOSE!"
-        fight_log.setTextColor(resources.getColor(R.color.red))
-        fight.text = "Give your debris"
+        binding.fightLog.text = "YOU LOSE!"
+        binding.fightLog.setTextColor(resources.getColor(R.color.red))
+        binding.fight.text = "Give your debris"
     }
 
     override fun setFightLog(hpDamage: Int, shieldDamage: Int, enemyHpDamage: Int, enemyShieldDamage: Int) {
-        fight_log.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " +
+        binding.fightLog.text = "You damaged " + hpDamage + " point to hp\n" + "You damaged " +
                 shieldDamage + " point to shield\n" + presenter.getUserList().locationName +
                 " damaged " + enemyHpDamage + " point to hp\n" + presenter.getUserList().locationName +
                 " damaged " + enemyShieldDamage + " point to shield"
     }
 
     override fun startTimer() {
-        fight.isClickable = false
+        binding.fight.isClickable = false
         countDownTimer = object : CountDownTimer(15000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 remainedSecs = millisUntilFinished / 1000
-                fight.text = resources.getString(R.string.fight) + " " + remainedSecs / 60 + ":" + remainedSecs % 60
+                binding.fight.text = resources.getString(R.string.fight) + " " + remainedSecs / 60 + ":" + remainedSecs % 60
             }
 
             override fun onFinish() {
                 cancel()
                 countDownTimer = null
-                fight.text = resources.getString(R.string.fight)
-                fight.isClickable = true
+                binding.fight.text = resources.getString(R.string.fight)
+                binding.fight.isClickable = true
             }
         }.start()
     }
@@ -157,8 +160,8 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
             batch.update(enemyDocument!!, "cargo", enemy.cargo)
             batch.commit()
 
-            fight.visibility = GONE
-            retreat.text = resources.getString(R.string.leave)
+            binding.fight.visibility = GONE
+            binding.retreat.text = resources.getString(R.string.leave)
             presenter.setLootTransferFinished(true)
             checkIfCargoCapacityIsExceed()
             }
@@ -206,8 +209,8 @@ class FightActivity : BaseActivity(R.layout.fight_activity), FightActivityView {
     }
 
     override fun setProgressBar(state: Boolean) {
-        progressBar.progress = 100
-        progressBar.visibility = INVISIBLE
+        binding.progressBar.progress = 100
+        binding.progressBar.visibility = INVISIBLE
     }
 
     fun onGoBackToMainOptions(view: View) {

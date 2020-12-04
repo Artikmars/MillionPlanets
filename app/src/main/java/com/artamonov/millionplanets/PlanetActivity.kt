@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.PlanetActivityBinding
 import com.artamonov.millionplanets.market.MarketActivity
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
@@ -18,18 +19,22 @@ import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.planet_activity.*
 
-class PlanetActivity : BaseActivity(R.layout.planet_activity) {
+class PlanetActivity : BaseActivity() {
 
     internal var userList = User()
-    internal var objectModelList = SpaceObject()
+    private var objectModelList = SpaceObject()
     private var documentReference: DocumentReference? = null
     private var planetDocumentReference: DocumentReference? = null
 
+    lateinit var binding: PlanetActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = PlanetActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
-        planet_market.setOnClickListener {
+        binding.planetMarket.setOnClickListener {
             val intent = Intent(this, MarketActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -37,7 +42,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                 startActivity(intent)
             }
         }
-        planet_get_fuel.setOnClickListener {
+        binding.planetGetFuel.setOnClickListener {
             val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
             val price = fuelToFill * 1000
             if (userList.money!! >= price) {
@@ -45,13 +50,13 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                 documentReference!!.update("money", userList.money!! - price)
             }
         }
-        planet_btn_sectors.setOnClickListener { val intent = Intent(this, SectorsActivity::class.java)
+        binding.planetBtnSectors.setOnClickListener { val intent = Intent(this, SectorsActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
             } else {
                 startActivity(intent)
             } }
-        planet_modules.setOnClickListener {
+        binding.planetModules.setOnClickListener {
             val intent = Intent(this, ModulesListActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -59,7 +64,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                 startActivity(intent)
             }
         }
-        planet_shipyard.setOnClickListener {
+        binding.planetShipyard.setOnClickListener {
             val intent = Intent(this, ShipyardActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -67,7 +72,7 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                 startActivity(intent)
             }
         }
-        planet_take_off.setOnClickListener {
+        binding.planetTakeOff.setOnClickListener {
             val intent = Intent(this, ScanResultActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
@@ -99,11 +104,11 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
                         .addOnSuccessListener { documentSnapshot ->
                             if (documentSnapshot.exists()) {
                                 objectModelList = documentSnapshot.toObject(SpaceObject::class.java)!!
-                                planet_class.text = objectModelList.planetClass
-                                planet_sectors.text = objectModelList
+                                binding.planetClass.text = objectModelList.planetClass
+                                binding.planetSectors.text = objectModelList
                                         .availableSectors.toString()
-                                shipyard_hp.text = objectModelList.planetSize
-                                planet_money.text = userList.money.toString()
+                                binding.shipyardHp.text = objectModelList.planetSize
+                                binding.planetMoney.text = userList.money.toString()
 
                                 setObjectsAccessLevel()
                             }
@@ -121,16 +126,16 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             Log.i(
                     "myTags",
                     "objectModelList.getPlanetSectors: < 0.25 - $occupationLevel")
-            planet_get_fuel.setBackgroundColor(
+            binding.planetGetFuel.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
-            planet_get_fuel.isEnabled = false
-            planet_market.setBackgroundColor(
+            binding.planetGetFuel.isEnabled = false
+            binding.planetMarket.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
-            planet_market.isEnabled = false
-            planet_shipyard.isEnabled = false
-            planet_shipyard.setBackgroundColor(
+            binding.planetMarket.isEnabled = false
+            binding.planetShipyard.isEnabled = false
+            binding.planetShipyard.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
         }
@@ -138,18 +143,18 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             Log.i(
                     "myTags",
                     "objectModelList.getPlanetSectors: 0.25-0.5 - $occupationLevel")
-            planet_market.setBackgroundColor(
+            binding.planetMarket.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
-            planet_market.isEnabled = false
-            planet_get_fuel.setBackgroundColor(
+            binding.planetMarket.isEnabled = false
+            binding.planetGetFuel.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color
                                             .colorAccent))
-            planet_get_fuel.isEnabled = true
-            planet_shipyard.isEnabled = false
-            planet_shipyard.setBackgroundColor(
+            binding.planetGetFuel.isEnabled = true
+            binding.planetShipyard.isEnabled = false
+            binding.planetShipyard.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
         }
@@ -157,20 +162,20 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             Log.i(
                     "myTags",
                     "objectModelList.getPlanetSectors:  0.5 more - $occupationLevel")
-            planet_market.setBackgroundColor(
+            binding.planetMarket.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color
                                             .colorAccent))
-            planet_market.isEnabled = true
-            planet_get_fuel.setBackgroundColor(
+            binding.planetMarket.isEnabled = true
+            binding.planetGetFuel.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color
                                             .colorAccent))
-            planet_get_fuel.isEnabled = true
-            planet_shipyard.isEnabled = false
-            planet_shipyard.setBackgroundColor(
+            binding.planetGetFuel.isEnabled = true
+            binding.planetShipyard.isEnabled = false
+            binding.planetShipyard.setBackgroundColor(
                     resources
                             .getColor(R.color.grey))
         }
@@ -178,20 +183,20 @@ class PlanetActivity : BaseActivity(R.layout.planet_activity) {
             Log.i(
                     "myTags",
                     "objectModelList.getPlanetSectors:  0.5 more - $occupationLevel")
-            planet_market.setBackgroundColor(
+            binding.planetMarket.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color
                                             .colorAccent))
-            planet_market.isEnabled = true
-            planet_get_fuel.setBackgroundColor(
+            binding.planetMarket.isEnabled = true
+            binding.planetGetFuel.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color
                                             .colorAccent))
-            planet_get_fuel.isEnabled = true
-            planet_shipyard.isEnabled = true
-            planet_shipyard.setBackgroundColor(
+            binding.planetGetFuel.isEnabled = true
+            binding.planetShipyard.isEnabled = true
+            binding.planetShipyard.setBackgroundColor(
                     resources
                             .getColor(
                                     R.color

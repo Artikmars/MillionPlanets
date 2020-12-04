@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.ModulesInfoActivityBinding
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
@@ -12,28 +13,31 @@ import com.artamonov.millionplanets.utils.getCurrentModuleInfo
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.modules_info_activity.*
 
-class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
+class ModulesInfoActivity : BaseActivity() {
     private var userList = User()
     private var userDocumentReference: DocumentReference? = null
     private var module: Module? = null
     private var position: Int = 0
 
+    lateinit var binding: ModulesInfoActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ModulesInfoActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val intent = intent
         position = intent.getIntExtra("position", -1)
 
         userDocumentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
 
         module = position.getCurrentModuleInfo()
-        modulesinfo_class.text = module?.moduleClass
-        modulesinfo_cost.text = module?.price.toString()
-        modulesinfo_damageHp.text = module?.damageHP.toString()
-        modulesinfo_cost.text = module?.price.toString()
+        binding.modulesinfoClass.text = module?.moduleClass
+        binding.modulesinfoCost.text = module?.price.toString()
+        binding.modulesinfoDamageHp.text = module?.damageHP.toString()
+        binding.modulesinfoCost.text = module?.price.toString()
 
-        modulesinfo_buy.setOnClickListener {
+        binding.modulesinfoBuy.setOnClickListener {
 
             if (!isEnoughMoneyToBuy()) {
                 showSnackbarError(getString(R.string.modules_info_not_enough_money))
@@ -69,14 +73,14 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
                     .addOnCompleteListener {
 //                        modulesinfo_buy.isEnabled = false
 //                        modulesinfo_buy.setBackgroundColor(resources.getColor(R.color.grey))
-                        modulesinfo_sell.isEnabled = true
-                        modulesinfo_sell.setBackgroundColor(
+                        binding.modulesinfoSell.isEnabled = true
+                        binding.modulesinfoSell.setBackgroundColor(
                                 resources.getColor(R.color.colorAccent))
                         showSnackbarError(getString(R.string.modules_info_item_was_bought_successfully))
                     }
         }
 
-        modulesinfo_sell.setOnClickListener {
+        binding.modulesinfoSell.setOnClickListener {
             val batch = firebaseFirestore.batch()
             // userList.weapon.removeAt(userList.weapon.indexOf(Weapon(position.toLong())))
             userList.weapon?.removeAll { it.weaponId == position.toLong() }
@@ -106,12 +110,12 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
             batch.commit()
                     .addOnCompleteListener {
                         if (isEnoughMoneyToBuy()) {
-                        modulesinfo_buy.isEnabled = true
-                        modulesinfo_buy.setBackgroundColor(
+                            binding.modulesinfoBuy.isEnabled = true
+                            binding.modulesinfoBuy.setBackgroundColor(
                                 resources.getColor(R.color.colorAccent)) }
                         if (isInInventory()) {
-                            modulesinfo_sell.isEnabled = true
-                            modulesinfo_sell.setBackgroundColor(resources.getColor(R.color.colorAccent))
+                            binding.modulesinfoSell.isEnabled = true
+                            binding.modulesinfoSell.setBackgroundColor(resources.getColor(R.color.colorAccent))
                         }
                         showSnackbarError(getString(R.string.modules_info_item_was_sold_successfully))
                     }
@@ -126,7 +130,7 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
         ) { doc, _ ->
             if (doc!!.exists()) {
                 userList = doc.toObject(User::class.java)!!
-                modulesinfo_user_cash.text = userList.money.toString()
+                binding.modulesinfoUserCash.text = userList.money.toString()
                 setOnSellButtonVisibility(isInstalled())
                 setOnBuyButtonVisibility(isEnoughMoneyToBuy() && !isInstalled())
             }
@@ -174,20 +178,20 @@ class ModulesInfoActivity : BaseActivity(R.layout.modules_info_activity) {
     }
 
     private fun setOnBuyButtonVisibility(state: Boolean) {
-        modulesinfo_buy.isEnabled = state
+        binding.modulesinfoBuy.isEnabled = state
         if (state) {
-            modulesinfo_buy.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+            binding.modulesinfoBuy.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
         } else {
-            modulesinfo_buy.setBackgroundColor(ContextCompat.getColor(this, R.color.grey))
+            binding.modulesinfoBuy.setBackgroundColor(ContextCompat.getColor(this, R.color.grey))
         }
     }
 
     private fun setOnSellButtonVisibility(state: Boolean) {
-        modulesinfo_sell.isEnabled = state
+        binding.modulesinfoSell.isEnabled = state
         if (state) {
-            modulesinfo_sell.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            binding.modulesinfoSell.setBackgroundColor(resources.getColor(R.color.colorAccent))
         } else {
-            modulesinfo_sell.setBackgroundColor(resources.getColor(R.color.grey))
+            binding.modulesinfoSell.setBackgroundColor(resources.getColor(R.color.grey))
         }
     }
 

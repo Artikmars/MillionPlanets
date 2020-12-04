@@ -21,19 +21,20 @@ import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.MoveActivityBinding
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
-import kotlinx.android.synthetic.main.move_activity.*
 
-class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
+class MoveActivity : BaseActivity(), MoveActivityView {
     private lateinit var objectModel: SpaceObject
     private var documentReference: DocumentReference? = null
 
     lateinit var presenter: MoveActivityPresenter<MoveActivityView>
+    lateinit var binding: MoveActivityBinding
 
     private var snackbarOnClickListener: View.OnClickListener = View.OnClickListener {
         Toast.makeText(applicationContext, "Please, wait 10 seconds", Toast.LENGTH_LONG).show()
-        val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 100)
+        val animation = ObjectAnimator.ofInt(binding.progressBar, "progress", 0, 100)
         animation.duration = 10000
         animation.interpolator = DecelerateInterpolator()
         animation.addListener(object : Animator.AnimatorListener {
@@ -51,8 +52,10 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = MoveActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter = MoveActivityPresenterImpl(this)
-        move_scan_result_list.layoutManager = LinearLayoutManager(this)
+        binding.moveScanResultList.layoutManager = LinearLayoutManager(this)
 
         val intent = intent
         val objectModelList = ArrayList<SpaceObject>()
@@ -65,9 +68,9 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         objectModelList.add(objectModel)
 
         val scanResultAdapter = ScanResultAdapter(objectModelList)
-        move_scan_result_list.adapter = scanResultAdapter
+        binding.moveScanResultList.adapter = scanResultAdapter
 
-        move_jump.setOnClickListener {
+        binding.moveJump.setOnClickListener {
             presenter.ifEnoughFuelToJump()
 
             if (presenter.getUserList().moveToLocationName != null) {
@@ -99,15 +102,15 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
             if (doc!!.exists()) {
 
                 presenter.setUserList(doc)
-                move_coordinates.text = String.format(resources.getString(R.string.current_coordinate),
+                binding.moveCoordinates.text = String.format(resources.getString(R.string.current_coordinate),
                         presenter.getUserList().x, presenter.getUserList().y)
-                move_ship.text = presenter.getUserList().ship
-                move_hp.text = presenter.getUserList().hp.toString()
-                move_shield.text = presenter.getUserList().shield.toString()
-                move_cargo!!.text = presenter.getUserList().cargoCapacity.toString()
-                move_scanner_capacity.text = presenter.getUserList().scanner_capacity.toString()
-                move_fuel.text = presenter.getUserList().fuel.toString()
-                move_money.text = presenter.getUserList().money?.toString()
+                binding.moveShip.text = presenter.getUserList().ship
+                binding.moveHp.text = presenter.getUserList().hp.toString()
+                binding.moveShield.text = presenter.getUserList().shield.toString()
+                binding.moveCargo.text = presenter.getUserList().cargoCapacity.toString()
+                binding.moveScannerCapacity.text = presenter.getUserList().scanner_capacity.toString()
+                binding.moveFuel.text = presenter.getUserList().fuel.toString()
+                binding.moveMoney.text = presenter.getUserList().money?.toString()
             }
         }
     }
@@ -121,16 +124,11 @@ class MoveActivity : BaseActivity(R.layout.move_activity), MoveActivityView {
         documentReference!!.update("money", money) }
 
     override fun setProgressBar(state: Boolean) {
-        progressBar.progress = 100
-        progressBar.visibility = View.INVISIBLE
+        binding.progressBar.progress = 100
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
     override fun setSnackbarError(errorMessage: Int) {
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.run_out_of_fuel),
                 Snackbar.LENGTH_LONG).setAction(R.string.call_tanker, snackbarOnClickListener).setDuration(4000).show() }
-
-    companion object {
-
-        private val TAG = "myLogs"
-    }
 }

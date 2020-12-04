@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.data.AppPreferenceHelper
+import com.artamonov.millionplanets.databinding.MainActivityBinding
 import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -15,21 +16,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : BaseActivity(R.layout.main_activity) {
+class MainActivity : BaseActivity() {
     private var googleApiClient: GoogleSignInClient? = null
     private val RC_SIGN_IN = 7
     private val appPreferenceHelper: AppPreferenceHelper? = null
 
+    lateinit var binding: MainActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 //        if (firebaseAuth.currentUser != null) {
 //            continue_btn.visibility = View.VISIBLE
 //        }
 
         if (GoogleSignIn.getLastSignedInAccount(this) != null) {
-            continue_btn.visibility = View.VISIBLE
+            binding.continueBtn.visibility = View.VISIBLE
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -39,15 +43,15 @@ class MainActivity : BaseActivity(R.layout.main_activity) {
 
         googleApiClient = GoogleSignIn.getClient(this, gso)
 
-        google_sign_in.setOnClickListener {
+        binding.googleSignIn.setOnClickListener {
             signIn()
         }
 
-        continue_btn.setOnClickListener {
+        binding.continueBtn.setOnClickListener {
             goToMainOptions()
         }
 
-        start.setOnClickListener {
+        binding.start.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
     }

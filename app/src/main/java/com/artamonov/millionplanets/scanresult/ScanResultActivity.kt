@@ -13,38 +13,41 @@ import com.artamonov.millionplanets.PlanetActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.adapter.ScanResultAdapter
 import com.artamonov.millionplanets.base.BaseActivity
+import com.artamonov.millionplanets.databinding.ScanResultActivityBinding
 import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
 import com.artamonov.millionplanets.move.MoveActivity
-import kotlinx.android.synthetic.main.scan_result_activity.*
 
-class ScanResultActivity : BaseActivity(R.layout.scan_result_activity), ScanResultAdapter.ItemClickListener {
+class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
 
-    internal var objectModelList: MutableList<SpaceObject>? = null
+    private var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
     private var scanResultAdapter: ScanResultAdapter? = null
     private var scanResultViewModel: ScanResultViewModel? = null
+    lateinit var binding: ScanResultActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scan_result_list.layoutManager = LinearLayoutManager(this)
+        binding = ScanResultActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.scanResultList.layoutManager = LinearLayoutManager(this)
 
         scanResultViewModel = ViewModelProviders.of(this).get(ScanResultViewModel::class.java)
         scanResultViewModel?.getUser()?.observe(this, Observer { user ->
             userList = user
-            scan_coordinates.text = String.format(
+            binding.scanCoordinates.text = String.format(
                     resources.getString(R.string.current_coordinate),
                     userList.x,
                     userList.y)
-            scan_ship.text = userList.ship
-            scan_hp.text = userList.hp.toString()
-            scan_shield.text = userList.shield.toString()
-            scan_cargo.text = userList.cargoCapacity.toString()
-            scan_scanner_capacity.text = userList.scanner_capacity.toString()
-            scan_fuel.text = userList.fuel.toString()
-            scan_money.text = userList.money.toString()
+            binding.scanShip.text = userList.ship
+            binding.scanHp.text = userList.hp.toString()
+            binding.scanShield.text = userList.shield.toString()
+            binding.scanCargo.text = userList.cargoCapacity.toString()
+            binding.scanScannerCapacity.text = userList.scanner_capacity.toString()
+            binding.scanFuel.text = userList.fuel.toString()
+            binding.scanMoney.text = userList.money.toString()
         })
 
         scanResultViewModel?.getObject()?.observe(this, Observer { objectList ->
@@ -52,7 +55,7 @@ class ScanResultActivity : BaseActivity(R.layout.scan_result_activity), ScanResu
             scanResultAdapter = ScanResultAdapter(
                     objectList,
                     this@ScanResultActivity)
-            scan_result_list.adapter = scanResultAdapter
+            binding.scanResultList.adapter = scanResultAdapter
             scanResultAdapter?.notifyDataSetChanged()
         })
 
@@ -92,15 +95,15 @@ class ScanResultActivity : BaseActivity(R.layout.scan_result_activity), ScanResu
 
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this@ScanResultActivity,
-                        scan_result_list,
-                        ViewCompat.getTransitionName(scan_result_list)!!)
+                        binding.scanResultList,
+                        ViewCompat.getTransitionName(binding.scanResultList)!!)
                 startActivity(intent, options.toBundle())
             } else {
                 startActivity(intent)
             }
         })
 
-        back_to_menu.setOnClickListener {
+        binding.backToMenu.setOnClickListener {
             finish()
         }
     }
