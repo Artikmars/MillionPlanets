@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Bundle
 
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.MainOptionsActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityMainOptionsBinding
 import com.artamonov.millionplanets.inventory.InventoryActivity
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
@@ -18,11 +18,11 @@ import com.google.firebase.firestore.DocumentSnapshot
 class MainOptionsActivity : BaseActivity() {
 
     internal var userList = User()
-    lateinit var binding: MainOptionsActivityBinding
+    lateinit var binding: ActivityMainOptionsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MainOptionsActivityBinding.inflate(layoutInflater)
+        binding = ActivityMainOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         showSnackbarError(getString(R.string.main_welcome_on_board))
 

@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.ShipyardInfoActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityShipyardInfoBinding
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.getCurrentShipInfo
@@ -26,11 +26,11 @@ class ShipyardInfoActivity : BaseActivity() {
     private val shipsArrayList = ArrayList<String>()
     private var yourShip: String? = null
     private var shipToBuy: User? = null
-    lateinit var binding: ShipyardInfoActivityBinding
+    lateinit var binding: ActivityShipyardInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ShipyardInfoActivityBinding.inflate(layoutInflater)
+        binding = ActivityShipyardInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val intent = intent

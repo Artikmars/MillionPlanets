@@ -4,7 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.RegistrationActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityRegistrationBinding
 import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
@@ -18,11 +18,11 @@ import java.util.HashMap
 class RegistrationActivity : BaseActivity() {
     var progressDialog: ProgressDialog? = null
 
-    lateinit var binding: RegistrationActivityBinding
+    lateinit var binding: ActivityRegistrationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = RegistrationActivityBinding.inflate(layoutInflater)
+        binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         progressDialog = ProgressDialog(this)
 

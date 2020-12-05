@@ -3,7 +3,7 @@ package com.artamonov.millionplanets.sectors
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.databinding.SectorsBinding
+import com.artamonov.millionplanets.databinding.ActivitySectorsBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SectorsActivity : FragmentActivity() {
@@ -14,11 +14,11 @@ class SectorsActivity : FragmentActivity() {
      * androidx.fragment.app.FragmentStatePagerAdapter.
      */
 
-    lateinit var binding: SectorsBinding
+    lateinit var binding: ActivitySectorsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = SectorsBinding.inflate(layoutInflater)
+        binding = ActivitySectorsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Create the adapter that will return a fragment for each of the three

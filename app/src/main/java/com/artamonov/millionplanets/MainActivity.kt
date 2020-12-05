@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.View
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.data.AppPreferenceHelper
-import com.artamonov.millionplanets.databinding.MainActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityMainBinding
 import com.artamonov.millionplanets.utils.showSnackbarError
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -22,11 +22,11 @@ class MainActivity : BaseActivity() {
     private val RC_SIGN_IN = 7
     private val appPreferenceHelper: AppPreferenceHelper? = null
 
-    lateinit var binding: MainActivityBinding
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MainActivityBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        if (firebaseAuth.currentUser != null) {
 //            continue_btn.visibility = View.VISIBLE

@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.InventoryActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityInventoryBinding
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenter
 import com.artamonov.millionplanets.inventory.presenter.InventoryActivityPresenterImpl
 import com.artamonov.millionplanets.model.Item
@@ -21,13 +21,13 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
     private var documentReference: DocumentReference? = null
     internal var userList: User? = User()
 
-    lateinit var binding: InventoryActivityBinding
+    lateinit var binding: ActivityInventoryBinding
 
     lateinit var presenter: InventoryActivityPresenter<InventoryActivityView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = InventoryActivityBinding.inflate(layoutInflater)
+        binding = ActivityInventoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presenter = InventoryActivityPresenterImpl(this)
     }

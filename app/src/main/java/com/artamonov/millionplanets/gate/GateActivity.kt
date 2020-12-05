@@ -13,7 +13,7 @@ import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.GateActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityGateBinding
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenter
 import com.artamonov.millionplanets.gate.presenter.GateActivityPresenterImpl
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
@@ -30,11 +30,11 @@ class GateActivity : BaseActivity(), GateActivityView {
     private var enemyUsername: String? = null
 
     lateinit var presenter: GateActivityPresenter<GateActivityView>
-    private lateinit var binding: GateActivityBinding
+    private lateinit var binding: ActivityGateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = GateActivityBinding.inflate(layoutInflater)
+        binding = ActivityGateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presenter = GateActivityPresenterImpl(this)
 

@@ -15,7 +15,7 @@ import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.scanresult.ScanResultActivity
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.FightActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityFightBinding
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenter
 import com.artamonov.millionplanets.fight.presenter.FightActivityPresenterImpl
 import com.artamonov.millionplanets.gate.GateActivity.Companion.ENEMY_USERNAME
@@ -35,11 +35,11 @@ class FightActivity : BaseActivity(), FightActivityView {
     private var enemy: User = User()
 
     lateinit var presenter: FightActivityPresenter<FightActivityView>
-    private lateinit var binding: FightActivityBinding
+    private lateinit var binding: ActivityFightBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FightActivityBinding.inflate(layoutInflater)
+        binding = ActivityFightBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         presenter = FightActivityPresenterImpl(this)

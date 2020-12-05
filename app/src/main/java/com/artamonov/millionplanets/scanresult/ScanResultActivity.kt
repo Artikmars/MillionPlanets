@@ -13,7 +13,7 @@ import com.artamonov.millionplanets.PlanetActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.adapter.ScanResultAdapter
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.ScanResultActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityScanResultBinding
 import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
@@ -26,11 +26,11 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     internal var userList = User()
     private var scanResultAdapter: ScanResultAdapter? = null
     private var scanResultViewModel: ScanResultViewModel? = null
-    lateinit var binding: ScanResultActivityBinding
+    lateinit var binding: ActivityScanResultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ScanResultActivityBinding.inflate(layoutInflater)
+        binding = ActivityScanResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.scanResultList.layoutManager = LinearLayoutManager(this)
 

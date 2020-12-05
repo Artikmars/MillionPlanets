@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.ModulesInfoActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityModulesInfoBinding
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
@@ -20,11 +20,11 @@ class ModulesInfoActivity : BaseActivity() {
     private var module: Module? = null
     private var position: Int = 0
 
-    lateinit var binding: ModulesInfoActivityBinding
+    lateinit var binding: ActivityModulesInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ModulesInfoActivityBinding.inflate(layoutInflater)
+        binding = ActivityModulesInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent = intent
         position = intent.getIntExtra("position", -1)

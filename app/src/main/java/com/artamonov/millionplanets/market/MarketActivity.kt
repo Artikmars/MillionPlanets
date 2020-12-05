@@ -4,18 +4,18 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
 import com.artamonov.millionplanets.R
-import com.artamonov.millionplanets.databinding.MarketActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityMarketBinding
 import com.artamonov.millionplanets.market.adapter.MarketPagerAdapter
 import com.artamonov.millionplanets.market.adapter.MarketYouAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MarketActivity : FragmentActivity(), MarketYouAdapter.DialogListener {
 
-    lateinit var binding: MarketActivityBinding
+    lateinit var binding: ActivityMarketBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MarketActivityBinding.inflate(layoutInflater)
+        binding = ActivityMarketBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Create the adapter that will return a fragment for each of the three

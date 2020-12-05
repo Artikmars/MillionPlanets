@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.ModulesActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityModulesBinding
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
@@ -19,11 +19,11 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
     internal var userList = User()
     private var modules: MutableList<Module>? = null
     private lateinit var existedItem: List<Weapon>
-    lateinit var binding: ModulesActivityBinding
+    lateinit var binding: ActivityModulesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ModulesActivityBinding.inflate(layoutInflater)
+        binding = ActivityModulesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
         binding.rvModules.layoutManager = LinearLayoutManager(this)

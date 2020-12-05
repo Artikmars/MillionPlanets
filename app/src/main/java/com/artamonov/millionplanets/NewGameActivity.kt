@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.CreatePlayerActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityNewGameBinding
 import com.artamonov.millionplanets.model.SpaceshipType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
@@ -20,11 +20,11 @@ class NewGameActivity : BaseActivity() {
     private var documentReferenceObjects: DocumentReference? = null
     private var user: User? = null
 
-    lateinit var binding: CreatePlayerActivityBinding
+    lateinit var binding: ActivityNewGameBinding
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        binding = CreatePlayerActivityBinding.inflate(layoutInflater)
+        binding = ActivityNewGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.goToSpace.setOnClickListener {
             onGoToSpace()

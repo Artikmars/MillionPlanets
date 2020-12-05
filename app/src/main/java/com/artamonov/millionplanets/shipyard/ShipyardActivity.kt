@@ -8,7 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.ShipyardActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityShipyardBinding
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.firestore.DocumentReference
@@ -22,7 +22,7 @@ class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
     private var rs = User()
     private var shipsList: MutableList<User> = ArrayList()
     private var documentReference: DocumentReference? = null
-    lateinit var binding: ShipyardActivityBinding
+    lateinit var binding: ActivityShipyardBinding
 
     override fun onStart() {
         super.onStart()
@@ -51,7 +51,7 @@ class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ShipyardActivityBinding.inflate(layoutInflater)
+        binding = ActivityShipyardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.rvShipyard.layoutManager = LinearLayoutManager(this)
 

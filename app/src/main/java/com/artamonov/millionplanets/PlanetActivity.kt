@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.PlanetActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityPlanetBinding
 import com.artamonov.millionplanets.market.MarketActivity
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
@@ -17,7 +17,6 @@ import com.artamonov.millionplanets.sectors.SectorsActivity
 import com.artamonov.millionplanets.shipyard.ShipyardActivity
 import com.artamonov.millionplanets.utils.getShipFuelInfo
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.android.synthetic.main.planet_activity.*
 
 class PlanetActivity : BaseActivity() {
 
@@ -26,11 +25,11 @@ class PlanetActivity : BaseActivity() {
     private var documentReference: DocumentReference? = null
     private var planetDocumentReference: DocumentReference? = null
 
-    lateinit var binding: PlanetActivityBinding
+    lateinit var binding: ActivityPlanetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = PlanetActivityBinding.inflate(layoutInflater)
+        binding = ActivityPlanetBinding.inflate(layoutInflater)
         setContentView(binding.root)
         documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
@@ -94,7 +93,7 @@ class PlanetActivity : BaseActivity() {
                 userList.money = doc.getLong("money")!!
                 userList.locationName = doc.getString("locationName")
                 userList.ship = doc.getString("ship")
-                planet_fuel.text = userList.fuel.toString()
+                binding.planetFuel.text = userList.fuel.toString()
 
                 planetDocumentReference = firebaseFirestore
                         .collection("Objects")

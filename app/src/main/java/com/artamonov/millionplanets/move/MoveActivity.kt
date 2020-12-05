@@ -21,7 +21,7 @@ import com.artamonov.millionplanets.gate.GateActivity
 import com.artamonov.millionplanets.MainOptionsActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
-import com.artamonov.millionplanets.databinding.MoveActivityBinding
+import com.artamonov.millionplanets.databinding.ActivityMoveBinding
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenter
 import com.artamonov.millionplanets.move.presenter.MoveActivityPresenterImpl
 
@@ -30,7 +30,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
     private var documentReference: DocumentReference? = null
 
     lateinit var presenter: MoveActivityPresenter<MoveActivityView>
-    lateinit var binding: MoveActivityBinding
+    lateinit var binding: ActivityMoveBinding
 
     private var snackbarOnClickListener: View.OnClickListener = View.OnClickListener {
         Toast.makeText(applicationContext, "Please, wait 10 seconds", Toast.LENGTH_LONG).show()
@@ -52,7 +52,7 @@ class MoveActivity : BaseActivity(), MoveActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MoveActivityBinding.inflate(layoutInflater)
+        binding = ActivityMoveBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presenter = MoveActivityPresenterImpl(this)
         binding.moveScanResultList.layoutManager = LinearLayoutManager(this)
