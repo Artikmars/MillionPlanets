@@ -4,18 +4,20 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
 import com.artamonov.millionplanets.R
+import com.artamonov.millionplanets.databinding.MarketActivityBinding
 import com.artamonov.millionplanets.market.adapter.MarketPagerAdapter
 import com.artamonov.millionplanets.market.adapter.MarketYouAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.market_activity.*
 
 class MarketActivity : FragmentActivity(), MarketYouAdapter.DialogListener {
 
+    lateinit var binding: MarketActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.market_activity)
-        /* Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        binding = MarketActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         /**
@@ -30,8 +32,8 @@ class MarketActivity : FragmentActivity(), MarketYouAdapter.DialogListener {
 
         // Set up the ViewPager with the sections adapter.
         /** The [ViewPager] that will host the section contents.  */
-        market_view_pager2.adapter = mSectionsPagerAdapter
-        TabLayoutMediator(market_tab_layout, market_view_pager2) { tab, position ->
+        binding.marketViewPager2.adapter = mSectionsPagerAdapter
+        TabLayoutMediator(binding.marketTabLayout, binding.marketViewPager2) { tab, position ->
             tab.text = mSectionsPagerAdapter.getPageTitle(position)
         }.attach()
     }
