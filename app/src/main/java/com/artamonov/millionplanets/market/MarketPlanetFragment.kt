@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.inventory.NumberPickerDialog
+import com.artamonov.millionplanets.market.adapter.MarketPlanetAdapter
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.Item

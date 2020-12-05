@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.artamonov.millionplanets.R
+import com.artamonov.millionplanets.market.adapter.MarketYouAdapter
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.google.firebase.auth.FirebaseAuth

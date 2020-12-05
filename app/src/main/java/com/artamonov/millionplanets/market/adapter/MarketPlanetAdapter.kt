@@ -1,4 +1,4 @@
-package com.artamonov.millionplanets.market
+package com.artamonov.millionplanets.market.adapter
 
 import android.view.LayoutInflater
 import android.view.View
