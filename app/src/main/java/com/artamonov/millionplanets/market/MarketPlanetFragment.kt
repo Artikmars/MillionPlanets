@@ -13,11 +13,14 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_market_you.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MarketPlanetFragment : Fragment(), MarketPlanetAdapter.DialogListener,
 NumberPickerDialog.NumberPickerDialogListener {
     var firebaseFirestore: FirebaseFirestore? = null
@@ -26,6 +29,8 @@ NumberPickerDialog.NumberPickerDialogListener {
     private var documentReferencePlanet: DocumentReference? = null
     private var user: User? = User()
     private var cargoList: List<Item>? = ArrayList()
+
+    @Inject lateinit var firebaseUser: FirebaseUser
 
     private fun updateList() {
         documentReferenceUser?.get()?.addOnSuccessListener { doc ->
@@ -46,9 +51,8 @@ NumberPickerDialog.NumberPickerDialogListener {
     override fun onResume() {
         super.onResume()
         firebaseFirestore = FirebaseFirestore.getInstance()
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceUser = firebaseFirestore!!.collection("Objects")
-                .document(firebaseUser!!.displayName!!)
+                .document(firebaseUser.displayName!!)
         updateList()
     }
 

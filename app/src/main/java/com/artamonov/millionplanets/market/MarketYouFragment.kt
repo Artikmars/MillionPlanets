@@ -14,11 +14,14 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_market_you.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPickerDialog.NumberPickerDialogListener {
     private var firebaseFirestore: FirebaseFirestore? = null
     private val userList: List<User>? = null
@@ -29,9 +32,10 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
     private var user: User? = null
     private var marketYouAdapter: MarketYouAdapter? = null
 
+    @Inject lateinit var firebaseUser: FirebaseUser
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebaseFirestore = FirebaseFirestore.getInstance()
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
         updateList()
 

@@ -1,5 +1,6 @@
 package com.artamonov.millionplanets.scanresult
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,17 +8,17 @@ import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.repository.UserRepository
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 import kotlin.math.abs
 
-class ScanResultViewModel : ViewModel() {
+class ScanResultViewModel @ViewModelInject constructor(
+    private val firebaseUser: FirebaseUser
+) : ViewModel() {
 
     internal var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
-    private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var userLiveData: MutableLiveData<User> = MutableLiveData()
     private var openPlanetLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private var openGateLiveData: MutableLiveData<Int> = MutableLiveData()

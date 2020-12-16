@@ -9,17 +9,19 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_market_you.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SectorsYouDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     private val userList: List<User>? = null
     private val spaceObjectList: List<SpaceObject>? = null
-    private var firebaseUser: FirebaseUser? = null
+    @Inject lateinit var firebaseUser: FirebaseUser
     private val documentReference: DocumentReference? = null
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
@@ -29,11 +31,10 @@ class SectorsYouDialog : AppCompatDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
         documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)
         numberPicker.apply {
             minValue = 1

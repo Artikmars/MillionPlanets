@@ -39,12 +39,11 @@ class NewGameActivity : BaseActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         username = binding.registerUsername.text.toString()
-        firebaseUser = firebaseAuth.currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(username)
         documentReferenceObjects = firebaseFirestore.collection("Objects").document(username)
         user = User(x = 5, y = 6, cargoCapacity = 10, hp = 50, ship = SpaceshipType.FIGHTER,
                 money = 1000, scanner_capacity = 15, shield = 100, jump = 10, fuel = 20, nickname =
-        username, email = firebaseUser?.email, type = "user", sumXY = 11)
+        username, email = firebaseUser.email, type = "user", sumXY = 11)
 
         // Log.i("myTags", "nickname: " + firebaseUser.getDisplayName());
         /*  firebaseFirestore.collection("Objects").document(username)
@@ -71,7 +70,7 @@ class NewGameActivity : BaseActivity() {
                     val profileUpdates = UserProfileChangeRequest.Builder()
                             .setDisplayName(username)
                             .build()
-                    firebaseUser!!.updateProfile(profileUpdates)
+                    firebaseUser.updateProfile(profileUpdates)
                     val ironData = HashMap<String, Any>()
                     ironData["Iron"] = 0
                     ironData["Mercaster"] = 0

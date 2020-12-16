@@ -106,7 +106,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
         super.onStart()
         presenter.initFirebase()
         documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser?.displayName!!)
+                .document(firebaseUser.displayName!!)
         presenter.initData()
         documentReference!!.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {

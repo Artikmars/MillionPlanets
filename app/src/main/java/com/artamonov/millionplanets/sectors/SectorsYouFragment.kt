@@ -9,15 +9,17 @@ import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sectors.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SectorsYouFragment : Fragment(), SectorsYouAdapter.DialogListener {
     var firebaseFirestore: FirebaseFirestore? = null
-    private var firebaseUser: FirebaseUser? = null
+    @Inject lateinit var firebaseUser: FirebaseUser
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceObject: DocumentReference? = null
     private var spaceObject: SpaceObject? = null
@@ -60,7 +62,6 @@ class SectorsYouFragment : Fragment(), SectorsYouAdapter.DialogListener {
     private fun init() {
         sections_action_btn.text = resources.getString(R.string.sectors_action_sell)
         firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
         firebaseFirestore?.runTransaction<Void> { transaction ->
             val documentReferenceUserSnapshot = transaction[documentReferenceUser!!]

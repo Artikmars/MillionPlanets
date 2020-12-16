@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentActivity
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.databinding.ActivitySectorsBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SectorsActivity : FragmentActivity() {
     /**
      * The [PagerAdapter] that will provide fragments for each of the sections. We use a

@@ -1,6 +1,11 @@
 package com.artamonov.millionplanets.utils
 
 import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
+import android.os.Build
+import com.artamonov.millionplanets.MainOptionsActivity
+import com.artamonov.millionplanets.PlanetActivity
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Module
 import com.artamonov.millionplanets.model.Weapon
@@ -38,6 +43,8 @@ import com.artamonov.millionplanets.model.WeaponType.MEDIUM_GUN
 import com.artamonov.millionplanets.model.WeaponType.MEDIUM_LASER
 import com.artamonov.millionplanets.model.WeaponType.MILITARY_GUN
 import com.artamonov.millionplanets.model.WeaponType.MILITARY_LASER
+import com.artamonov.millionplanets.scanresult.ScanResultActivity
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 
@@ -47,6 +54,10 @@ private val fighter = User()
 
 fun Activity.showSnackbarError(stringMsg: String?) {
     stringMsg?.let { Snackbar.make(findViewById(android.R.id.content), stringMsg, LENGTH_SHORT)
+            .show() } }
+
+fun Activity.showLongSnackbar(stringMsg: String?) {
+    stringMsg?.let { Snackbar.make(findViewById(android.R.id.content), stringMsg, LENGTH_LONG)
             .show() } }
 
     fun Number.getCurrentModuleInfo(): Module? {
@@ -277,3 +288,30 @@ fun Int.getResourceItemName(): String? {
     fun getFilteredInstalledWeaponList(weapon: List<Weapon>): List<Weapon> {
         return weapon.filter { it.isWeaponInstalled == true }
     }
+
+fun Activity.startScanResultActivity() {
+    val intent = Intent(this, ScanResultActivity::class.java)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+    } else {
+        startActivity(intent)
+    }
+}
+
+fun Activity.startMainOptionsActivity() {
+    val intent = Intent(this, MainOptionsActivity::class.java)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+    } else {
+        startActivity(intent)
+    }
+}
+
+fun Activity.startPlanetActivity() {
+    val intent = Intent(this, PlanetActivity::class.java)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+    } else {
+        startActivity(intent)
+    }
+}

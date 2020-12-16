@@ -167,6 +167,7 @@
 
     //Gate
     <string name="gate_not_enough_money_to_buy_fuel">Not enough money to buy fuel!</string>
+    <string name="gate_mine_failed">Fail :( Try again. Total: %1$d</string>
     <string name="gate_cargo_capacity_is_full">Your cargo capacity is full! Sell your items on the market or drop them via inventory</string>
     <string name="gate_debris_is_empty">Debris is empty and is not available anymore</string>
     <string name="gate_you_got_item">You got %1$d iron. Total: %2$d</string>

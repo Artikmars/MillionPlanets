@@ -8,7 +8,9 @@ import com.artamonov.millionplanets.databinding.ActivityMarketBinding
 import com.artamonov.millionplanets.market.adapter.MarketPagerAdapter
 import com.artamonov.millionplanets.market.adapter.MarketYouAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MarketActivity : FragmentActivity(), MarketYouAdapter.DialogListener {
 
     lateinit var binding: ActivityMarketBinding

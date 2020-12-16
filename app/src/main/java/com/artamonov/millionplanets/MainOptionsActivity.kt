@@ -85,7 +85,7 @@ class MainOptionsActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
+        val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser.displayName!!)
         documentReference.get().addOnCompleteListener { task ->
             if (task.isSuccessful) { populateUI(task.result) }
         }

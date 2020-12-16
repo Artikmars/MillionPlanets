@@ -4,10 +4,9 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.PlanetActivity
 import com.artamonov.millionplanets.R
@@ -25,7 +24,8 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
     private var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
     private var scanResultAdapter: ScanResultAdapter? = null
-    private var scanResultViewModel: ScanResultViewModel? = null
+    private val scanResultViewModel: ScanResultViewModel by viewModels()
+
     lateinit var binding: ActivityScanResultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +34,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
         setContentView(binding.root)
         binding.scanResultList.layoutManager = LinearLayoutManager(this)
 
-        scanResultViewModel = ViewModelProviders.of(this).get(ScanResultViewModel::class.java)
-        scanResultViewModel?.getUser()?.observe(this, Observer { user ->
+        scanResultViewModel?.getUser()?.observe(this, { user ->
             userList = user
             binding.scanCoordinates.text = String.format(
                     resources.getString(R.string.current_coordinate),
@@ -50,7 +49,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             binding.scanMoney.text = userList.money.toString()
         })
 
-        scanResultViewModel?.getObject()?.observe(this, Observer { objectList ->
+        scanResultViewModel?.getObject()?.observe(this, { objectList ->
             objectModelList = objectList
             scanResultAdapter = ScanResultAdapter(
                     objectList,
@@ -59,7 +58,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             scanResultAdapter?.notifyDataSetChanged()
         })
 
-        scanResultViewModel?.getOpenPlanetLiveData()?.observe(this, Observer {
+        scanResultViewModel?.getOpenPlanetLiveData()?.observe(this, {
             val intent = Intent(this, PlanetActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent,
@@ -70,7 +69,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             finish()
         })
 
-        scanResultViewModel?.getOpenGateLiveData()?.observe(this, Observer { pos ->
+        scanResultViewModel?.getOpenGateLiveData()?.observe(this, { pos ->
             val intent2 = Intent(this, GateActivity::class.java)
             intent2.putExtra(ENEMY_USERNAME, objectModelList!![pos].name)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -82,7 +81,7 @@ class ScanResultActivity : BaseActivity(), ScanResultAdapter.ItemClickListener {
             }
         })
 
-        scanResultViewModel?.getOpenMoveLiveData()?.observe(this, Observer { pos ->
+        scanResultViewModel?.getOpenMoveLiveData()?.observe(this, { pos ->
             val intent = Intent(this, MoveActivity::class.java)
             // Show only the recycler view item which was clicked
             val objectModel = objectModelList!![pos]

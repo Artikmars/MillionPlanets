@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class InventoryActivityPresenterImpl(private var getView: InventoryActivityView) : InventoryActivityPresenter<InventoryActivityView> {
     internal var firebaseFirestore = FirebaseFirestore.getInstance()
-    private var firebaseUser: FirebaseUser? = null
+    private var firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
     private var userList: User = User()
     private var weaponList: List<Weapon> = listOf()
     private var cargoList: List<Item> = listOf()
@@ -22,7 +22,6 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
     private var userDocument: DocumentReference? = null
 
     override fun initFirebase() {
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         firebaseFirestore = FirebaseFirestore.getInstance()
     }
 
@@ -72,7 +71,7 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun initData() {
         userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser!!.displayName!!)
+                .document(firebaseUser.displayName!!)
     }
 
     override fun initUserList(doc: DocumentSnapshot) {

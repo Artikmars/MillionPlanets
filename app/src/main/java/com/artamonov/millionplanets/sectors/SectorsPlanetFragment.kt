@@ -10,15 +10,17 @@ import com.artamonov.millionplanets.model.Sector
 import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.showSnackbarError
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sectors.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SectorsPlanetFragment : Fragment(), SectorsPlanetAdapter.DialogListener {
     var firebaseFirestore: FirebaseFirestore? = FirebaseFirestore.getInstance()
-    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    @Inject lateinit var firebaseUser: FirebaseUser
     private var documentReferenceUser: DocumentReference? = null
     private var spaceObject: SpaceObject? = null
     private var user: User? = null

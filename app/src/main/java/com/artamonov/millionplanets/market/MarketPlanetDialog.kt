@@ -2,7 +2,6 @@ package com.artamonov.millionplanets.market
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,26 +14,23 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_market_you.*
 
+@AndroidEntryPoint
 class MarketPlanetDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     var userList = User()
-    private var firebaseUser: FirebaseUser? = null
+    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
     private val isPlanetTab = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
         documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)
         numberPicker?.apply {
             minValue = 1

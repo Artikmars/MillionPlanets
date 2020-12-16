@@ -10,20 +10,24 @@ import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.Price
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class NumberPickerDialog(private val listener: NumberPickerDialogListener) : DialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
-    var firebaseUser = FirebaseAuth.getInstance().currentUser
 
     private var currentAmount: Int? = null
     private var resourceId: Int? = null
     private var resourceIndex: Int? = null
     private var type: String? = null
     private var userDocument: DocumentReference? = null
+
+    @Inject lateinit var firebaseUser: FirebaseUser
 
     fun show(fragmentManager: FragmentManager?) {
         super.show(fragmentManager!!, TAG)
@@ -35,7 +39,7 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
         resourceId = arguments?.getInt(InventoryActivity.RESOURCE_ID)
         type = arguments?.getString(InventoryActivity.NUMBER_PICKER_DIALOG_TYPE)
         userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser?.displayName!!)
+                .document(firebaseUser.displayName!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

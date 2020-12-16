@@ -20,7 +20,7 @@ class MarketYouDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     private val userList: List<User>? = null
     private val spaceObjectList: List<SpaceObject>? = null
-    private var firebaseUser: FirebaseUser? = null
+    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private val documentReference: DocumentReference? = null
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
@@ -36,11 +36,10 @@ class MarketYouDialog : AppCompatDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
         documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)
         numberPicker?.apply {
             minValue = 1
