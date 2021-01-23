@@ -13,17 +13,18 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.dialog_market_you.*
+import javax.inject.Inject
 
 class SectorsPlanetDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     private var firebaseUser: FirebaseUser? = null
-    private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
+
+    @Inject lateinit var userDocument: DocumentReference
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         firebaseUser = FirebaseAuth.getInstance().currentUser
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
-        documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
         val inflater = activity!!.layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)
@@ -40,7 +41,7 @@ class SectorsPlanetDialog : AppCompatDialogFragment() {
                 ) { _, i ->
                     firebaseFirestore.runTransaction<Void> { transaction ->
                         val selectedValue = numberPicker?.value
-                        val documentSnapshot1 = transaction[documentReferenceUser!!]
+                        val documentSnapshot1 = transaction[userDocument]
                         val user = User()
                         user.locationName = documentSnapshot1.getString(
                                 "locationName")
@@ -62,7 +63,7 @@ class SectorsPlanetDialog : AppCompatDialogFragment() {
                                 user.locationName!!,
                                 selectedValue)
                         transaction.update(
-                                documentReferenceUser!!,
+                                userDocument,
                                 "money", user.money!! -
                                 spaceObject.planetSectorsPrice /
                                 selectedValue!!)

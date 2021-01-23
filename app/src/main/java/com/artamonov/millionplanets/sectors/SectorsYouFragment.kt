@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.model.SpaceObject
@@ -18,57 +19,33 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SectorsYouFragment : Fragment(), SectorsYouAdapter.DialogListener {
-    var firebaseFirestore: FirebaseFirestore? = null
+
+    @Inject lateinit var firebaseFirestore: FirebaseFirestore
     @Inject lateinit var firebaseUser: FirebaseUser
-    private var documentReferenceUser: DocumentReference? = null
-    private var documentReferenceObject: DocumentReference? = null
+    @Inject lateinit var userDocument: DocumentReference
+
     private var spaceObject: SpaceObject? = null
     private var user: User? = null
 
     private fun setButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
             sections_action_btn.isEnabled = true
-            sections_action_btn.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            context?.let { sections_action_btn.setBackgroundColor(ContextCompat.getColor(it, R.color.colorAccent)) }
         } else {
             sections_action_btn.isEnabled = false
-            sections_action_btn.setBackgroundColor(resources.getColor(R.color.grey))
+            context?.let { sections_action_btn.setBackgroundColor(ContextCompat.getColor(it, R.color.grey)) }
         }
     }
-
-//    override fun setMenuVisibility(menuVisible: Boolean) {
-//        super.setMenuVisibility(menuVisible)
-//        if (menuVisible) {
-//            sections_action_btn.text = resources.getString(R.string.sectors_action_sell)
-//            firebaseFirestore = FirebaseFirestore.getInstance()
-//            firebaseUser = FirebaseAuth.getInstance().currentUser
-//            documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
-//            firebaseFirestore?.runTransaction<Void> { transaction ->
-//                val documentReferenceUserSnapshot = transaction[documentReferenceUser!!]
-//                user = documentReferenceUserSnapshot.toObject(User::class.java)!!
-//                null
-//            }
-//                    ?.addOnSuccessListener {
-//                        sectors_amount.text = getString(R.string.sectors_amount,
-//                                user?.sectors?.size)
-//                        if (user?.sectors?.size!! > 0 ) {
-//                            setButtonEnabled(true)
-//                        } else {
-//                            setButtonEnabled(false)
-//                        }
-//                    }
-//        }
-//    }
 
     private fun init() {
         sections_action_btn.text = resources.getString(R.string.sectors_action_sell)
         firebaseFirestore = FirebaseFirestore.getInstance()
-        documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
-        firebaseFirestore?.runTransaction<Void> { transaction ->
-            val documentReferenceUserSnapshot = transaction[documentReferenceUser!!]
+        firebaseFirestore.runTransaction<Void> { transaction ->
+            val documentReferenceUserSnapshot = transaction[userDocument]
             user = documentReferenceUserSnapshot.toObject(User::class.java)!!
             null
         }
-                ?.addOnSuccessListener {
+                .addOnSuccessListener {
                     val userSectorObj = user?.sectors
                             ?.find { it.planetName == user?.moveToLocationName }
                     if (userSectorObj != null && userSectorObj.amount > 0) {
@@ -92,30 +69,30 @@ class SectorsYouFragment : Fragment(), SectorsYouAdapter.DialogListener {
         super.onViewCreated(view, savedInstanceState)
         init()
         sections_action_btn.setOnClickListener {
-            val documentReferencePlanet = firebaseFirestore!!
+            val documentReferencePlanet = firebaseFirestore
                     .collection("Objects").document(user?.locationName!!)
-            firebaseFirestore?.runTransaction<Void> { transaction ->
+            firebaseFirestore.runTransaction<Void> { transaction ->
                 val documentReferencePlanetSnapshot = transaction[documentReferencePlanet]
                 spaceObject = documentReferencePlanetSnapshot.toObject(SpaceObject::class.java)!!
                 transaction.update(
-                        documentReferenceUser!!,
+                        userDocument,
                         "money", user?.money!! +
                         spaceObject?.planetSectorsPrice!! / 2)
                 user?.sectors?.removeAll { it.planetName == user?.locationName }
                 // user?.sectors?.map { if (it.planetName == user?.locationName) it.amount -- }
                 transaction.update(
-                        documentReferenceUser!!,
+                        userDocument,
                         "sectors", user?.sectors)
                 transaction.update(
                         documentReferencePlanet,
                         "availableSectors", 2)
                 null
             }
-                    ?.addOnSuccessListener {
+                    .addOnSuccessListener {
                         activity?.showSnackbarError(getString(R.string.sectors_you_sold_sectors))
                         sections_action_btn.isEnabled = false
-                        sections_action_btn.setBackgroundColor(
-                                resources.getColor(R.color.grey))
+                        context?.let { sections_action_btn.setBackgroundColor(
+                                ContextCompat.getColor(it, R.color.grey)) }
                     }
         }
     }

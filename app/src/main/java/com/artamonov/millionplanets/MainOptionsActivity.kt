@@ -85,8 +85,7 @@ class MainOptionsActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        val documentReference = firebaseFirestore.collection("Objects").document(firebaseUser.displayName!!)
-        documentReference.get().addOnCompleteListener { task ->
+        userDocument.get().addOnCompleteListener { task ->
             if (task.isSuccessful) { populateUI(task.result) }
         }
     }
@@ -94,17 +93,19 @@ class MainOptionsActivity : BaseActivity() {
     private fun populateUI(doc: DocumentSnapshot?) {
         userList = doc?.toObject(User::class.java)!!
 
-        binding.coordinates.text = String.format(
-                resources.getString(R.string.current_coordinate),
-                userList.x,
-                userList.y)
-        binding.ship.text = userList.ship
-        binding.hp.text = userList.hp.toString()
-        binding.shield.text = userList.shield.toString()
-        binding.cargo.text = userList.cargoCapacity.toString()
-        binding.scannerCapacity.text = userList.scanner_capacity.toString()
-        binding.fuel.text = userList.fuel.toString()
-        binding.money.text = userList.money.toString()
+        with(binding) {
+            coordinates.text = String.format(
+                    resources.getString(R.string.current_coordinate),
+                    userList.x,
+                    userList.y)
+            ship.text = userList.ship
+            hp.text = userList.hp.toString()
+            shield.text = userList.shield.toString()
+            cargo.text = userList.cargoCapacity.toString()
+            scannerCapacity.text = userList.scanner_capacity.toString()
+            fuel.text = userList.fuel.toString()
+            money.text = userList.money.toString()
+        }
 
         FirebaseCrashlytics.getInstance().log(userList.toString())
     }

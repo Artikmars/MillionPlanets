@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
+import androidx.core.content.ContextCompat
 
 import com.google.firebase.firestore.DocumentReference
 
@@ -26,7 +27,6 @@ import com.artamonov.millionplanets.utils.getCurrentShipInfo
 import com.artamonov.millionplanets.utils.showSnackbarError
 
 class FightActivity : BaseActivity(), FightActivityView {
-    private var userDocument: DocumentReference? = null
     private var enemyDocument: DocumentReference? = null
     private var enemyUsername: String? = null
     private var countDownTimer: CountDownTimer? = null
@@ -67,9 +67,7 @@ class FightActivity : BaseActivity(), FightActivityView {
 
     override fun onStart() {
         super.onStart()
-        userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser!!.displayName!!)
-        userDocument!!.addSnapshotListener(this) { doc, _ ->
+        userDocument.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {
                 user = doc.toObject(User::class.java)!!
                 presenter.setUserList(doc)
@@ -85,29 +83,35 @@ class FightActivity : BaseActivity(), FightActivityView {
     }
 
     override fun setUserData(userList: User) {
-        binding.shipYou.text = userList.ship
-        binding.hpYou.text = userList.hp.toString()
-        binding.shieldYou.text = userList.shield.toString()
-        binding.weaponYou.text = userList.weapon?.size.toString() + "/3"
+        with(binding) {
+            shipYou.text = userList.ship
+            hpYou.text = userList.hp.toString()
+            shieldYou.text = userList.shield.toString()
+            weaponYou.text = userList.weapon?.size.toString() + "/3"
+        }
     }
 
     override fun setEnemyData(enemyList: User) {
-        binding.enemyLabel.text = enemyList.nickname
-        binding.shipEnemy.text = enemyList.ship
-        binding.hpEnemy.text = enemyList.hp.toString()
-        binding.shieldEnemy.text = enemyList.shield.toString()
-        binding.weaponEnemy.text = enemyList.weapon?.size.toString() + "/3"
+        with(binding) {
+            enemyLabel.text = enemyList.nickname
+            shipEnemy.text = enemyList.ship
+            hpEnemy.text = enemyList.hp.toString()
+            shieldEnemy.text = enemyList.shield.toString()
+            weaponEnemy.text = enemyList.weapon?.size.toString() + "/3"
+        }
     }
 
     override fun showYouWonMessage() {
-        binding.fightLog.text = "YOU WON!"
-        binding.fightLog.setTextColor(resources.getColor(R.color.colorAccent))
-        binding.fight.text = "Collect debris"
+        with(binding) {
+            fightLog.text = "YOU WON!"
+            fightLog.setTextColor(ContextCompat.getColor(this@FightActivity, R.color.colorAccent))
+            fight.text = "Collect debris"
+        }
     }
 
     override fun showEnemyWonMessage() {
         binding.fightLog.text = "YOU LOSE!"
-        binding.fightLog.setTextColor(resources.getColor(R.color.red))
+        binding.fightLog.setTextColor(ContextCompat.getColor(this@FightActivity, R.color.red))
         binding.fight.text = "Give your debris"
     }
 
@@ -156,7 +160,7 @@ class FightActivity : BaseActivity(), FightActivityView {
             lootIron(lootedIron)
 
             val batch = firebaseFirestore.batch()
-            batch.update(userDocument!!, "cargo", user.cargo)
+            batch.update(userDocument, "cargo", user.cargo)
             batch.update(enemyDocument!!, "cargo", enemy.cargo)
             batch.commit()
 

@@ -15,17 +15,16 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.dialog_market_you.*
+import javax.inject.Inject
 
 class MarketYouDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
-    private val userList: List<User>? = null
-    private val spaceObjectList: List<SpaceObject>? = null
     private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private val documentReference: DocumentReference? = null
-    private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
     private var dialogListener: MarketYouAdapter.DialogListener? = null
-    private val isPlanetTab = false
+
+    @Inject lateinit var userDocument: DocumentReference
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dialogListener = try {
@@ -37,10 +36,9 @@ class MarketYouDialog : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
-        documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
-        val inflater = requireActivity().layoutInflater
-        val view = inflater.inflate(R.layout.dialog_market_you, null)
+        val inflater = activity?.layoutInflater
+        val view = inflater?.inflate(R.layout.dialog_market_you, null)
         numberPicker?.apply {
             minValue = 1
             maxValue = 99999999
@@ -73,7 +71,7 @@ class MarketYouDialog : AppCompatDialogFragment() {
                         val user = User()
                         user.resource_iron = documentSnapshot
                                 .getLong("Iron")
-                        val documentSnapshot1 = transaction[documentReferenceUser!!]
+                        val documentSnapshot1 = transaction[userDocument]
                         user.locationName = documentSnapshot1.getString(
                                 "locationName")
                         user.money = documentSnapshot1
@@ -94,7 +92,7 @@ class MarketYouDialog : AppCompatDialogFragment() {
                             transaction.update(
                                     documentReferenceInventory!!, "Iron", 0)
                             transaction.update(
-                                    documentReferenceUser!!,
+                                    userDocument,
                                     "money", user.money!! +
                                     user.resource_iron!!
                                     * spaceObject.price_buy_iron)
@@ -117,7 +115,7 @@ class MarketYouDialog : AppCompatDialogFragment() {
                                     "Iron", user.resource_iron!! -
                                     selectedValue)
                             transaction.update(
-                                    documentReferenceUser!!,
+                                    userDocument,
                                     "money", user.money!! +
                                     selectedValue
                                     * spaceObject.price_buy_iron)

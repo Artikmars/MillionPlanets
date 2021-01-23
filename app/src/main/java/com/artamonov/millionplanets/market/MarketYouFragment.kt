@@ -12,9 +12,7 @@ import com.artamonov.millionplanets.inventory.NumberPickerDialog.Companion.newIn
 import com.artamonov.millionplanets.market.adapter.MarketYouAdapter
 import com.artamonov.millionplanets.model.Item
 import com.artamonov.millionplanets.model.NumberPickerDialogType
-import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,35 +22,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPickerDialog.NumberPickerDialogListener {
     private var firebaseFirestore: FirebaseFirestore? = null
-    private val userList: List<User>? = null
     private var cargoList: List<Item>? = ArrayList()
-    private val objectModelList: List<SpaceObject>? = null
-    private var documentReferenceUser: DocumentReference? = null
-    private val objectModel: SpaceObject? = null
     private var user: User? = null
     private var marketYouAdapter: MarketYouAdapter? = null
 
-    @Inject lateinit var firebaseUser: FirebaseUser
+    @Inject lateinit var userDocument: DocumentReference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebaseFirestore = FirebaseFirestore.getInstance()
-        documentReferenceUser = firebaseFirestore!!.collection("Objects").document(firebaseUser!!.displayName!!)
         updateList()
-
-        //  user = userSnapshot.toObject(User.class);
-
-        /*  documentReferenceInventory.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    User user = new User();
-                    user.setResource_iron(documentSnapshot.getLong("iron").intValue());
-                    userList = new ArrayList<>();
-                    userList.add(user);
-                    setAdapter();
-
-
-                }
-            });*/
     }
 
     override fun onResume() {
@@ -68,7 +46,7 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
     }
 
     private fun updateList() {
-        documentReferenceUser!!.get().addOnSuccessListener { doc ->
+        userDocument.get().addOnSuccessListener { doc ->
             if (doc.exists()) {
                 user = doc.toObject(User::class.java)
                 cargoList = user?.cargo
@@ -82,40 +60,10 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //        Button btnAction = view.findViewById(R.id.market_action_btn);
-//        btnAction.setVisibility(View.VISIBLE);
-//        btnAction.setText(getResources().getString(R.string.sectors_action_sell));
-//        btnAction.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        firebaseFirestore.runTransaction(
-//                                new Transaction.Function<Void>() {
-//                                    @Nullable
-//                                    @Override
-//                                    public Void apply(@NonNull Transaction transaction)
-//                                            throws FirebaseFirestoreException {
-//                                      //  transaction.update(documentReferenceInventory, "Iron", 0);
-//                                        user.getMoney() = user.getMoney()
-//                                                + cargoList.п
-//                                                * objectModel.getPrice_buy_iron()
-//                                        transaction.update(
-//                                                documentReferenceUser,
-//                                                "money",
-//                                                user.getMoney()
-//                                                        + cargoList.п
-//                                                                * objectModel.getPrice_buy_iron());
-//                                        return null;
-//                                    }
-//                                });
-//                    }
-//                });
         return inflater.inflate(R.layout.fragment_market_you, container, false)
     }
 
     override fun onDialogCreate(position: Int) {
-        //        MarketYouDialog marketYouDialog = new MarketYouDialog();
-        //        marketYouDialog.show(getFragmentManager(), "text");
         val fragment = newInstance(NumberPickerDialogType.MARKET_PLAYER_SELLS,
                 cargoList!![position].itemAmount!!.toInt(), cargoList?.get(position)?.itemId!!.toInt(), this)
         fragment.show(fragmentManager)
@@ -133,14 +81,6 @@ class MarketYouFragment : Fragment(), MarketYouAdapter.DialogListener, NumberPic
     }
 
     override fun onDismiss() {
-//        documentReferenceUser!!.get().addOnSuccessListener { doc ->
-//            if (doc.exists())  {
-//                user  = doc.toObject(User::class.java)
-//                cargoList = user?.cargo
-//                setAdapter()
-//                marketYouAdapter?.notifyDataSetChanged()
-//            }
-//        }
         updateList()
     }
 }

@@ -9,25 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.artamonov.millionplanets.R
 import com.artamonov.millionplanets.base.BaseActivity
 import com.artamonov.millionplanets.databinding.ActivityShipyardBinding
-import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
-import com.google.firebase.firestore.DocumentReference
 import java.util.ArrayList
 
 class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
     internal var userList = User()
-    internal var objectModelList = SpaceObject()
     private var figher = User()
     private var trader = User()
     private var rs = User()
     private var shipsList: MutableList<User> = ArrayList()
-    private var documentReference: DocumentReference? = null
     lateinit var binding: ActivityShipyardBinding
 
     override fun onStart() {
         super.onStart()
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
-        documentReference!!.addSnapshotListener(
+        userDocument.addSnapshotListener(
                 this
         ) { doc, _ ->
             if (doc!!.exists()) {
@@ -35,14 +30,6 @@ class ShipyardActivity : BaseActivity(), ShipyardAdapter.ItemClickListener {
                 userList.money = doc.getLong("money")!!
                 binding.shipyardUserCash.text = userList.money.toString()
                 binding.shipyardCurrentShip.text = "Current ship: " + userList.ship
-
-                // For larger amount of spaceships
-
-                /* Map<Integer, Object> shipsMap = new HashMap<>();
-                            shipsMap.put(1, shipFighter);
-                            shipsMap.put(2, shipTrader);
-                            shipsMap.put(3, shipRS);*/
-
                 val shipyardAdapter = ShipyardAdapter(shipsList, this@ShipyardActivity)
                 binding.rvShipyard.adapter = shipyardAdapter
             }

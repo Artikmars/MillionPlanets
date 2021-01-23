@@ -17,7 +17,7 @@ class ScanResultViewModel @ViewModelInject constructor(
     private val firebaseUser: FirebaseUser
 ) : ViewModel() {
 
-    internal var objectModelList: MutableList<SpaceObject>? = null
+    private var objectModelList: MutableList<SpaceObject>? = null
     internal var userList = User()
     private var userLiveData: MutableLiveData<User> = MutableLiveData()
     private var openPlanetLiveData: MutableLiveData<Boolean> = MutableLiveData()
@@ -93,7 +93,7 @@ class ScanResultViewModel @ViewModelInject constructor(
     }
 
     private fun loadUser() {
-        userRepository.getUserFromFirestore(userName = firebaseUser?.displayName!!).addOnSuccessListener { doc ->
+        userRepository.getUserFromFirestore(userName = firebaseUser.displayName!!).addOnSuccessListener { doc ->
             userLiveData.value = doc
             userList = doc
             loadData() }
@@ -103,7 +103,7 @@ class ScanResultViewModel @ViewModelInject constructor(
         userList.moveToLocationName = objectModelList!![pos].name
         userList.moveToLocationType = objectModelList!![pos].type
         userList.moveToObjectDistance = objectModelList!![pos].distance.toLong()
-        userCollection.document(firebaseUser?.displayName!!).set(userList)
+        userCollection.document(firebaseUser.displayName!!).set(userList)
 
         if (objectModelList!![pos].distance == 0L) {
             when (objectModelList!![pos].type) {

@@ -12,28 +12,24 @@ import com.artamonov.millionplanets.model.SpaceObjectType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.utils.RandomUtils
 import com.artamonov.millionplanets.utils.getShipFuelInfo
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Random
 
 class GateViewModel @ViewModelInject constructor(
-    private var firebaseUser: FirebaseUser,
-    private var firebaseFirestore: FirebaseFirestore
+    private var firebaseFirestore: FirebaseFirestore,
+    private var userDocument: DocumentReference
 )
     : BaseVM<GateViewState, GateAction, GateEvent>() {
 
     private var userList: User = User()
     private var objectModel: SpaceObject = SpaceObject()
-    private var userDocument: DocumentReference? = null
     private var planetDocument: DocumentReference? = null
 
     init { init() }
 
     private fun init() {
-        userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.displayName!!)
-        userDocument!!.get().addOnSuccessListener {
+        userDocument.get().addOnSuccessListener {
             doc ->
             userList = doc.toObject(User::class.java)!!
             viewState = GateViewState(fetchStatus = FetchGateStatus.DefaultState, user = userList,
@@ -50,7 +46,7 @@ class GateViewModel @ViewModelInject constructor(
     }
 
     private fun updateUserData() {
-        userDocument!!.get().addOnSuccessListener {
+        userDocument.get().addOnSuccessListener {
             doc ->
             userList = doc.toObject(User::class.java)!!
             viewState = GateViewState(fetchStatus = FetchGateStatus.DefaultState, user = userList,
@@ -78,13 +74,13 @@ class GateViewModel @ViewModelInject constructor(
                         batch.update(planetDocument!!, "ironAmount", objectModel.ironAmount -
                                 newAmount)
                     }
-                    batch.update(userDocument!!, "cargo", userList.cargo)
+                    batch.update(userDocument, "cargo", userList.cargo)
                     batch.commit()
                     viewAction = GateAction.ShowUpdateIronToast(newAmount, totalAmount!!)
                     return
                 }
         item.itemAmount = item.itemAmount!! + newAmount
-        batch.update(userDocument!!, "cargo", userList.cargo)
+        batch.update(userDocument, "cargo", userList.cargo)
         batch.commit()
                 viewAction = GateAction.ShowUpdateIronToast(newAmount, totalAmount!!)
                 return
@@ -92,7 +88,7 @@ class GateViewModel @ViewModelInject constructor(
 
         val iron = Item(4, newAmount.toLong())
         userList.cargo?.add(iron)
-        batch.update(userDocument!!, "cargo", userList.cargo)
+        batch.update(userDocument, "cargo", userList.cargo)
         batch.commit()
         viewAction = GateAction.ShowUpdateIronToast(newAmount, totalAmount ?: newAmount.toLong())
     }
@@ -121,8 +117,8 @@ class GateViewModel @ViewModelInject constructor(
         val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
         val price = fuelToFill * 1000
         if (userList.money!! >= price) {
-            userDocument!!.update("fuel", getShipFuelInfo(userList.ship!!))
-            userDocument!!.update("money", userList.money!! - price)
+            userDocument.update("fuel", getShipFuelInfo(userList.ship!!))
+            userDocument.update("money", userList.money!! - price)
             updateUserData()
         } else {
             viewState = viewState.copy(fetchStatus = FetchGateStatus.ShowNotEnoughMoneyToBuyFuelWarning)

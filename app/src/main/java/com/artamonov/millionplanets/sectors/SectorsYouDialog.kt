@@ -2,7 +2,6 @@ package com.artamonov.millionplanets.sectors
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDialogFragment
@@ -18,21 +17,15 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SectorsYouDialog : AppCompatDialogFragment() {
-    var firebaseFirestore = FirebaseFirestore.getInstance()
-    private val userList: List<User>? = null
-    private val spaceObjectList: List<SpaceObject>? = null
-    @Inject lateinit var firebaseUser: FirebaseUser
-    private val documentReference: DocumentReference? = null
     private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
-    private val isPlanetTab = false
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+
+    @Inject lateinit var firebaseUser: FirebaseUser
+    @Inject lateinit var firebaseFirestore: FirebaseFirestore
+    @Inject lateinit var userDocument: FirebaseUser
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
-        documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
+        documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser.displayName!!)
         val builder = AlertDialog.Builder(activity)
         val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.dialog_market_you, null)

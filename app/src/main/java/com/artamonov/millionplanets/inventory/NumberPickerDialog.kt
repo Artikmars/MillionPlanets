@@ -19,15 +19,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class NumberPickerDialog(private val listener: NumberPickerDialogListener) : DialogFragment() {
-    var firebaseFirestore = FirebaseFirestore.getInstance()
-
     private var currentAmount: Int? = null
     private var resourceId: Int? = null
     private var resourceIndex: Int? = null
     private var type: String? = null
-    private var userDocument: DocumentReference? = null
 
     @Inject lateinit var firebaseUser: FirebaseUser
+    @Inject lateinit var userDocument: DocumentReference
+    @Inject lateinit var firebaseFirestore: FirebaseFirestore
 
     fun show(fragmentManager: FragmentManager?) {
         super.show(fragmentManager!!, TAG)
@@ -38,8 +37,6 @@ class NumberPickerDialog(private val listener: NumberPickerDialogListener) : Dia
         currentAmount = arguments?.getInt(InventoryActivity.RESOURCE_AMOUNT)
         resourceId = arguments?.getInt(InventoryActivity.RESOURCE_ID)
         type = arguments?.getString(InventoryActivity.NUMBER_PICKER_DIALOG_TYPE)
-        userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.displayName!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

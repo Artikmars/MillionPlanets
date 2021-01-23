@@ -22,7 +22,6 @@ class PlanetActivity : BaseActivity() {
 
     internal var userList = User()
     private var objectModelList = SpaceObject()
-    private var documentReference: DocumentReference? = null
     private var planetDocumentReference: DocumentReference? = null
 
     lateinit var binding: ActivityPlanetBinding
@@ -31,7 +30,6 @@ class PlanetActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlanetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
 
         binding.planetMarket.setOnClickListener {
             val intent = Intent(this, MarketActivity::class.java)
@@ -45,8 +43,8 @@ class PlanetActivity : BaseActivity() {
             val fuelToFill = getShipFuelInfo(userList.ship!!) - userList.fuel!!
             val price = fuelToFill * 1000
             if (userList.money!! >= price) {
-                documentReference!!.update("fuel", getShipFuelInfo(userList.ship!!))
-                documentReference!!.update("money", userList.money!! - price)
+                userDocument.update("fuel", getShipFuelInfo(userList.ship!!))
+                userDocument.update("money", userList.money!! - price)
             }
         }
         binding.planetBtnSectors.setOnClickListener { val intent = Intent(this, SectorsActivity::class.java)
@@ -84,8 +82,7 @@ class PlanetActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
-        documentReference!!.addSnapshotListener(
+        userDocument.addSnapshotListener(
                 this
         ) { doc, _ ->
             if (doc!!.exists()) {

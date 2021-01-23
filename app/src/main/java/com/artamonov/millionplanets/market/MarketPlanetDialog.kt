@@ -16,22 +16,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_market_you.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MarketPlanetDialog : AppCompatDialogFragment() {
     var firebaseFirestore = FirebaseFirestore.getInstance()
     var userList = User()
     private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private var documentReferenceUser: DocumentReference? = null
     private var documentReferenceInventory: DocumentReference? = null
-    private val isPlanetTab = false
+
+    @Inject lateinit var userDocument: DocumentReference
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         documentReferenceInventory = firebaseFirestore.collection("Inventory").document(firebaseUser!!.displayName!!)
-        documentReferenceUser = firebaseFirestore.collection("Objects").document(firebaseUser!!.displayName!!)
         val builder = AlertDialog.Builder(activity)
-        val inflater = requireActivity().layoutInflater
-        val view = inflater.inflate(R.layout.dialog_market_you, null)
+        val inflater = activity?.layoutInflater
+        val view = inflater?.inflate(R.layout.dialog_market_you, null)
         numberPicker?.apply {
             minValue = 1
             maxValue = 99999999
@@ -52,7 +52,7 @@ class MarketPlanetDialog : AppCompatDialogFragment() {
                                 val user = User()
                                 user.resource_iron = documentSnapshot
                                         .getLong("Iron")
-                                val documentSnapshot1 = transaction[documentReferenceUser!!]
+                                val documentSnapshot1 = transaction[userDocument]
                                 user.locationName = documentSnapshot1.getString(
                                         "locationName")
                                 user.money = documentSnapshot1
@@ -83,7 +83,7 @@ class MarketPlanetDialog : AppCompatDialogFragment() {
                                             "Iron",
                                             user.resource_iron)
                                     transaction.update(
-                                            documentReferenceUser!!,
+                                            userDocument,
                                             "money",
                                             user.money)
                                     transaction.update(
@@ -101,7 +101,7 @@ class MarketPlanetDialog : AppCompatDialogFragment() {
                                             "Iron", user.resource_iron!! +
                                             selectedValue)
                                     transaction.update(
-                                            documentReferenceUser!!,
+                                            userDocument,
                                             "money", user.money!! -
                                             selectedValue
                                             * spaceObject.price_sell_iron)
@@ -118,7 +118,7 @@ class MarketPlanetDialog : AppCompatDialogFragment() {
                                             "Iron", user.resource_iron!! +
                                             resourceAmountToSell)
                                     transaction.update(
-                                            documentReferenceUser!!,
+                                            userDocument,
                                             "money", user.money!! -
                                             resourceAmountToSell
                                             * spaceObject.price_sell_iron)

@@ -13,16 +13,12 @@ import com.artamonov.millionplanets.model.NumberPickerDialogType
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.showSnackbarError
-import com.google.firebase.firestore.DocumentReference
 
 class InventoryActivity : BaseActivity(), InventoryActivityView, InventoryWeaponAdapter.ItemClickListener,
 InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogListener {
 
-    private var documentReference: DocumentReference? = null
     internal var userList: User? = User()
-
     lateinit var binding: ActivityInventoryBinding
-
     lateinit var presenter: InventoryActivityPresenter<InventoryActivityView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,11 +100,7 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
 
     override fun onStart() {
         super.onStart()
-        presenter.initFirebase()
-        documentReference = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.displayName!!)
-        presenter.initData()
-        documentReference!!.addSnapshotListener(this) { doc, _ ->
+        userDocument.addSnapshotListener(this) { doc, _ ->
             if (doc!!.exists()) {
                 presenter.initUserList(doc)
                 setUpWeaponsAdapter()
@@ -137,15 +129,15 @@ InventoryCargoAdapter.ItemClickListener, NumberPickerDialog.NumberPickerDialogLi
         val currentCargoCapacity = user.cargo?.sumBy { it.itemAmount!!.toInt() }
         binding.inventoryCapacityLabel.text = currentCargoCapacity.toString() + "/" + user.cargoCapacity
         if (currentCargoCapacity!! > user.cargoCapacity!!) {
-            binding.inventoryCapacityLabel.setTextColor(resources.getColor(R.color.red))
+            binding.inventoryCapacityLabel.setTextColor(ContextCompat.getColor(this, R.color.red))
         } else {
-            binding.inventoryCapacityLabel.setTextColor(resources.getColor(R.color.white))
+            binding.inventoryCapacityLabel.setTextColor(ContextCompat.getColor(this, R.color.white))
         }
     }
 
     override fun updateData() {
         val batch = firebaseFirestore.batch()
-        batch.update(documentReference!!, "weapon", presenter.getWeaponList())
+        batch.update(userDocument, "weapon", presenter.getWeaponList())
         batch.commit()
     }
 

@@ -52,10 +52,6 @@ class ModulesAdapter(
         fun bindItem() {
             itemView.modules_name.text = moduleList[adapterPosition].name
             itemView.modules_price.text = moduleList[adapterPosition].price.toString()
-//            if (existedItem.contains(adapterPosition.toLong())) {
-//                itemView.modules_name.setTextColor(context.resources.getColor(R.color.yellow))
-//                itemView.modules_price.setTextColor(context.resources.getColor(R.color.yellow))
-//            }
             itemView.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }

@@ -6,24 +6,13 @@ import com.artamonov.millionplanets.model.SpaceObject
 import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.getShipFuelInfo
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 
 class InventoryActivityPresenterImpl(private var getView: InventoryActivityView) : InventoryActivityPresenter<InventoryActivityView> {
-    internal var firebaseFirestore = FirebaseFirestore.getInstance()
-    private var firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
     private var userList: User = User()
     private var weaponList: List<Weapon> = listOf()
     private var cargoList: List<Item> = listOf()
     private var objectModel: SpaceObject = SpaceObject()
-    private var userDocument: DocumentReference? = null
-
-    override fun initFirebase() {
-        firebaseFirestore = FirebaseFirestore.getInstance()
-    }
 
     override fun getUserList(): User {
         return userList
@@ -67,11 +56,6 @@ class InventoryActivityPresenterImpl(private var getView: InventoryActivityView)
 
     override fun getObjectModel(): SpaceObject? {
         return objectModel
-    }
-
-    override fun initData() {
-        userDocument = firebaseFirestore.collection("Objects")
-                .document(firebaseUser.displayName!!)
     }
 
     override fun initUserList(doc: DocumentSnapshot) {

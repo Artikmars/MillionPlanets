@@ -29,10 +29,6 @@ interface InventoryActivityPresenter<V : InventoryActivityView> {
 
     fun getWeaponList(): List<Weapon>
 
-    fun initData()
-
-    fun initFirebase()
-
     fun initUserList(doc: DocumentSnapshot)
 
     fun isFuelFull(): Boolean

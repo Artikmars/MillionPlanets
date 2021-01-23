@@ -2,6 +2,7 @@ package com.artamonov.millionplanets.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,12 @@ class FirebaseModule {
     @Provides
     fun provideFirebaseAuthInstance(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserDocument(): DocumentReference {
+        return FirebaseFirestore.getInstance().collection("Objects")
+                .document(FirebaseAuth.getInstance().currentUser!!.displayName!!)
     }
 }

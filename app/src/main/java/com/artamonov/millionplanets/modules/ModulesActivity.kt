@@ -11,11 +11,9 @@ import com.artamonov.millionplanets.model.User
 import com.artamonov.millionplanets.model.Weapon
 import com.artamonov.millionplanets.utils.getAllWeapons
 import com.artamonov.millionplanets.utils.getCurrentModuleInfo
-import com.google.firebase.firestore.DocumentReference
 
 class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
 
-    internal var documentReference: DocumentReference? = null
     internal var userList = User()
     private var modules: MutableList<Module>? = null
     private lateinit var existedItem: List<Weapon>
@@ -25,15 +23,13 @@ class ModulesActivity : BaseActivity(), ModulesAdapter.ItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityModulesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
         binding.rvModules.layoutManager = LinearLayoutManager(this)
         modules = getAllWeapons()
     }
 
     override fun onStart() {
         super.onStart()
-        documentReference = firebaseFirestore.collection("Objects").document(firebaseUser?.displayName!!)
-        documentReference?.addSnapshotListener(
+        userDocument.addSnapshotListener(
                 this
         ) { doc, _ ->
             if (doc!!.exists()) {
